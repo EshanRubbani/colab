@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "collab-3e621",
+          "appId": "1:1009362295284:android:0b43f12c5ae8ceabe501a1",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "collab-3e621",
+          "configurations": {
+            "android": "1:1009362295284:android:0b43f12c5ae8ceabe501a1",
+            "ios": "1:1009362295284:ios:36256ab960272c61e501a1",
+            "macos": "1:1009362295284:ios:36256ab960272c61e501a1",
+            "web": "1:1009362295284:web:0905776db311e396e501a1",
+            "windows": "1:1009362295284:web:f38c968eb2bb6a28e501a1"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
