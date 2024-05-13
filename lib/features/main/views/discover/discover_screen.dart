@@ -2,6 +2,7 @@ import 'package:collab/features/main/views/home/home_screen.dart';
 import 'package:collab/utils/constant/colors.dart';
 import 'package:collab/utils/device/device_size.dart';
 import 'package:collab/utils/navbar.dart';
+import 'package:collab/utils/navbarm.dart';
 import 'package:collab/utils/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   }
 
   Widget _topbar() {
-    return Container();
+    return Container(
+      child: Column(
+        children: [
+          TextField(
+            controller: _searchController,
+            autofocus: false,
+            decoration: const InputDecoration(
+              hintText: 'Search...',
+              border: InputBorder.none,
+              hintStyle: TextStyle(color: Colors.white),
+            ),
+            style: const TextStyle(color: Colors.white, fontSize: 16.0),
+          )
+        ],
+      ),
+    );
   }
 
   _buildForMobile(Size size) {
@@ -212,7 +228,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         //custom floating dock
         const Align(
           alignment: Alignment.bottomCenter,
-          child: BottomNav(index: 1),
+          child: BottomNavm(index: 1),
         )
       ],
     );
@@ -328,7 +344,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             width: 10,
                           ),
                           const Text(
-                            'Home',
+                            'Olivia Dhye',
                             style: TextStyle(fontSize: 16),
                           ),
                         ],

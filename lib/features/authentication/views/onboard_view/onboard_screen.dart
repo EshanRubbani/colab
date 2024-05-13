@@ -19,28 +19,48 @@ class OnboardScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 40),
+        margin: const EdgeInsets.only(top: 25),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-          PageView(
-            controller: controller.pageController,
-            scrollBehavior: ScrollBehavior(),
-            onPageChanged: controller.updatePageIndicator,
-            children: [
-              OnBoardingWidget(size: size, title: 'Collab with others for collective funding goals', subtitle: 'By pooling together diverse skills, networks, and financial contributions, groups can tackle larger projects, spread financial risk, and increase overall impact.',image: 'onboard_one.png',),
-              OnBoardingWidget(size: size, title: 'Crowd fund to raise\nmoney', subtitle: ' This method has revolutionized fundraising by allowing individuals, startups, and nonprofits to reach a global audience.',image: 'onboard_two.png',),
-              OnBoardingWidget(size: size, title: 'Collab with others for collective funding goals', subtitle: 'Building together for common success is a principle that underscores the importance of collaboration and teamwork in achieving shared goals.',image: 'onboard_three.png',),
-            ],
-          ),
-          const OnBoardSkipp(),
-          const OnBoardingDots(),
-          const OnBoardElevatedButton()
-        ],),
+            PageView(
+              controller: controller.pageController,
+              scrollBehavior: ScrollBehavior(),
+              onPageChanged: controller.updatePageIndicator,
+              children: [
+                OnBoardingWidget(
+                  size: size,
+                  title: 'Collab with others for collective funding goals',
+                  subtitle:
+                      'By pooling together diverse skills, networks, and financial contributions, groups can tackle larger projects, spread financial risk, and increase overall impact.',
+                  image: 'onboard_one.png',
+                ),
+                OnBoardingWidget(
+                  size: size,
+                  title: 'Crowd fund to raise\nmoney',
+                  subtitle:
+                      ' This method has revolutionized fundraising by allowing individuals, startups, and nonprofits to reach a global audience.',
+                  image: 'onboard_two.png',
+                ),
+                OnBoardingWidget(
+                  size: size,
+                  title: 'Collab with others for collective funding goals',
+                  subtitle:
+                      'Building together for common success is a principle that underscores the importance of collaboration and teamwork in achieving shared goals.',
+                  image: 'onboard_three.png',
+                ),
+              ],
+            ),
+            const OnBoardSkipp(),
+            const OnBoardingDots(),
+            const OnBoardElevatedButton()
+          ],
+        ),
       ),
     );
   }
 }
+
 class OnBoardingWidget extends StatelessWidget {
   const OnBoardingWidget({
     super.key,
@@ -61,25 +81,34 @@ class OnBoardingWidget extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Image.asset(
-              'assets/images/onboard/onboard_container.png',
-              width: size.width * 0.8,
-              height: size.height * 0.7,
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Container(
+                //color: Colors.red,
+                width: size.width * 0.9,
+                height: size.height * 0.6,
+                child: Image.asset(
+                  'assets/images/onboard/onboard_container.png',
+                  width: size.width * 0.8,
+                  height: size.height * 0.6,
+                  //  fit: BoxFit.fitWidth,
+                ),
+              ),
             ),
             Positioned(
               top: 20,
               child: Container(
-                width: size.width * 0.8,
-                height: size.height * 0.6,
+                width: size.width * 0.9,
+                height: size.height * 0.58,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      KAppColors.kWhite.withOpacity(1.0),
-                      KAppColors.kWhite.withOpacity(.1),
-                      KAppColors.kWhite.withOpacity(.1),
+                      KAppColors.kWhite.withOpacity(0.1),
+                      KAppColors.kWhite.withOpacity(0.5),
+                      KAppColors.kWhite.withOpacity(0.9),
                       KAppColors.kWhite,
                     ],
                   ),
@@ -113,22 +142,22 @@ class OnBoardingWidget extends StatelessWidget {
           ],
         ),
         Positioned(
-          top: size.height * 0.55,
+          top: size.height * 0.63,
           left: 20,
           right: 20,
           child: Text(
             title,
-            style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
         ),
         Positioned(
-          top: size.height * 0.64,
+          top: size.height * 0.71,
           left: 20,
           right: 20,
           child: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             textAlign: TextAlign.center,
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:collab/features/main/views/discover/discover_screen.dart';
 import 'package:collab/utils/constant/colors.dart';
 import 'package:collab/utils/device/device_size.dart';
 import 'package:collab/utils/navbar.dart';
+import 'package:collab/utils/navbarm.dart';
 import 'package:collab/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -149,7 +150,7 @@ _buildForMobile(Size size) {
                         width: 10,
                       ),
                       const Text(
-                        'For Mobile',
+                        'Olivia Hastin',
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
@@ -210,7 +211,7 @@ _buildForMobile(Size size) {
 //custom floating dock
       const Align(
         alignment: Alignment.bottomCenter,
-        child: BottomNav(index: 1),
+        child: BottomNavm(index: 0),
       )
     ],
   );
@@ -323,7 +324,7 @@ _buildForDesktop(Size size) {
                           width: 10,
                         ),
                         const Text(
-                          'Home',
+                          'Olivia Hez',
                           style: TextStyle(fontSize: 16),
                         ),
                       ],

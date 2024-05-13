@@ -13,7 +13,7 @@ class OnBoardingDots extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = OnboardingController.instance;
     return Positioned(
-        bottom: 100,
+        bottom: 80,
         child: SmoothPageIndicator(
             effect: const ExpandingDotsEffect(
                 activeDotColor: KAppColors.kPrimary, dotHeight: 8),
