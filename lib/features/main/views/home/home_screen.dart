@@ -79,7 +79,8 @@ _buildForMobile(Size size) {
                   Container(
                     height: size.height * 0.2,
                     width: size.width,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.grey,
                       image: DecorationImage(
                         image: AssetImage('assets/images/home/piano.jpg'),
@@ -228,7 +229,8 @@ _buildForDesktop(Size size) {
             itemCount: 10,
             itemBuilder: (context, index) {
               return Container(
-                constraints: BoxConstraints(maxHeight: 500),
+                constraints: BoxConstraints(
+                    maxHeight: size.height * 0.7, minHeight: size.height * 0.5),
                 margin: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -244,12 +246,10 @@ _buildForDesktop(Size size) {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 10,
-                    ),
                     Container(
                       height: size.height * 0.4,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
                         color: Colors.grey,
                         image: DecorationImage(
                           image: AssetImage('assets/images/home/piano.jpg'),
@@ -344,7 +344,7 @@ _buildForDesktop(Size size) {
                         ),
                         Container(
                           height: 3.48,
-                          width: 350,
+                          width: 300,
                           child: const Center(
                             child: LinearProgressIndicator(
                               color: Colors.deepPurple,
@@ -357,7 +357,7 @@ _buildForDesktop(Size size) {
                         ),
                         Container(
                           height: 21,
-                          width: 350,
+                          width: 300,
                           child: const Row(
                             children: [
                               Icon(CupertinoIcons.gift),

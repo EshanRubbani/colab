@@ -48,6 +48,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   Widget _topbar() {
     return Container(
+      height: 200,
+      color: Colors.red,
       child: Column(
         children: [
           TextField(
@@ -68,10 +70,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   _buildForMobile(Size size) {
     return Stack(
       children: [
-        _topbar(),
-        const SizedBox(
-          height: 60,
-        ),
         ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
@@ -95,7 +93,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     Container(
                       height: size.height * 0.2,
                       width: size.width,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
                         color: Colors.grey,
                         image: DecorationImage(
                           image: AssetImage('assets/images/home/piano.jpg'),
@@ -240,14 +239,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       alignment: Alignment.center,
       children: [
         Container(
-          constraints: const BoxConstraints(maxWidth: 500),
+          constraints: BoxConstraints(maxWidth: 500),
           child: ListView.builder(
               itemCount: 10,
               itemBuilder: (context, index) {
                 return Container(
                   constraints: BoxConstraints(
-                    maxHeight: 500,
-                  ),
+                      maxHeight: size.height * 0.7,
+                      minHeight: size.height * 0.5),
                   margin: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -264,12 +263,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
                       Container(
                         height: size.height * 0.4,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
                           color: Colors.grey,
                           image: DecorationImage(
                             image: AssetImage('assets/images/home/piano.jpg'),
@@ -320,7 +317,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       ),
                       Row(
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             width: 5,
                           ),
                           Container(
@@ -344,7 +341,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             width: 10,
                           ),
                           const Text(
-                            'Olivia Dhye',
+                            'Olivia Hez',
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
@@ -364,7 +361,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           ),
                           Container(
                             height: 3.48,
-                            width: 350,
+                            width: 300,
                             child: const Center(
                               child: LinearProgressIndicator(
                                 color: Colors.deepPurple,
@@ -377,7 +374,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           ),
                           Container(
                             height: 21,
-                            width: 350,
+                            width: 300,
                             child: const Row(
                               children: [
                                 Icon(CupertinoIcons.gift),
