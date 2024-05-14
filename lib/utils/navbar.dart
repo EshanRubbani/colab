@@ -1,10 +1,11 @@
+import 'package:collab/features/main/views/chatselection/chatselection.dart';
 import 'package:collab/features/main/views/discover/discover_screen.dart';
 import 'package:collab/features/main/views/home/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class BottomNav extends StatelessWidget {
+class BottomNav extends StatefulWidget {
   final int index;
 
   const BottomNav({
@@ -12,6 +13,11 @@ class BottomNav extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
+  @override
+  State<BottomNav> createState() => _BottomNavState();
+}
+
+class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -83,13 +89,23 @@ class BottomNav extends StatelessWidget {
                   GButton(
                     icon: CupertinoIcons.chat_bubble,
                     text: 'Chat',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ChatSelectScreen();
+                          },
+                        ),
+                      );
+                    },
                   ),
                   GButton(
                     icon: CupertinoIcons.profile_circled,
                     text: 'Profile',
                   )
                 ],
-                selectedIndex: index,
+                selectedIndex: widget.index,
                 // onTabChange: (index) {
                 //   setState(() {
                 //     _selectedIndex = index;
