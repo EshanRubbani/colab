@@ -1,7 +1,5 @@
 import 'package:collab/features/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
-import 'package:collab/features/main/views/discover/discover_screen.dart';
 import 'package:collab/utils/constant/colors.dart';
-import 'package:collab/utils/device/device_size.dart';
 import 'package:collab/utils/navbar.dart';
 import 'package:collab/utils/navbarm.dart';
 import 'package:collab/utils/res.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
