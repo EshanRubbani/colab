@@ -59,7 +59,7 @@ _buildForMobile(Size size) {
               Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 40, bottom: 10),
-                  width: 360,
+                  width: 400,
                   height: 56,
                   padding: const EdgeInsets.all(16),
                   decoration: ShapeDecoration(
@@ -116,13 +116,13 @@ _buildForMobile(Size size) {
               Center(
                 child: Container(
                   // color: Colors.grey.shade500,
-                  width: 360,
+                  width: 400,
                   height: size.height / 1.25,
                   child: ListView.builder(
                     itemCount: 20,
                     itemBuilder: (context, index) {
                       return Container(
-                        width: 325,
+                        width: 400,
                         height: 80,
                         // color: Colors.black,
                         margin: const EdgeInsets.only(
@@ -182,7 +182,7 @@ _buildForMobile(Size size) {
                                       "Ahmed Jamal",
                                       style: TextStyle(
                                         fontFamily: "Inter",
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: KAppColors.kPrimary,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -196,7 +196,7 @@ _buildForMobile(Size size) {
                                       "Roll Number",
                                       style: TextStyle(
                                           color: Colors.grey.shade500,
-                                          fontSize: 10),
+                                          fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -205,8 +205,8 @@ _buildForMobile(Size size) {
                             const Spacer(),
                             Container(
                                 // decoration: BoxDecoration(shape: BoxShape.circle),
-                                width: 34,
-                                height: 34,
+                                width: 50,
+                                height: 50,
                                 margin: const EdgeInsets.only(right: 20),
                                 // color: Colors.black,
                                 child: MyCheckboxWidget())
