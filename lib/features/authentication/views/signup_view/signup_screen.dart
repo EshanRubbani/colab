@@ -19,7 +19,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
@@ -29,10 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
   bool isObs = true;
   // Sign Up Button Logic
 
-
   void signUserUp() async {
-    // show loading circle
-
     try {
       // check if both password and confirm pasword is same
 
@@ -41,12 +37,9 @@ class _SignupScreenState extends State<SignupScreen> {
         password: passwordController.text,
       );
 
-      //pop the loading circle
-      Navigator.pop(context);
       success();
     } on FirebaseAuthException catch (e) {
       //pop the loading circle
-      Navigator.pop(context);
 
       genericErrorMessage(e.code);
     }
@@ -57,12 +50,13 @@ class _SignupScreenState extends State<SignupScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Account Created Successfully! Please Login."),
+          title: Text(
+              "Account Created Successfully! Please Verify Your Account!."),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => const LoginScreen());
+                Get.to(() => const SignupVerificationScreen());
               },
               child: Text('OK'),
             ),
@@ -82,14 +76,6 @@ class _SignupScreenState extends State<SignupScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const LoginScreen();
-                    },
-                  ),
-                );
               },
               child: Text('OK'),
             ),
@@ -98,10 +84,6 @@ class _SignupScreenState extends State<SignupScreen> {
       },
     );
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Center(
           child: Container(
-            constraints: isDesktop ? const BoxConstraints(maxWidth: 400):null,
+            constraints: isDesktop ? const BoxConstraints(maxWidth: 400) : null,
             margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +135,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: size.height * 0.004,
                         ),
                         SizedBox(
-                          width: isDesktop ? size.width * 0.13: size.width / 2 - 40,
+                          width: isDesktop
+                              ? size.width * 0.13
+                              : size.width / 2 - 40,
                           child: const CommonTextField(
                             hintText: 'First Name',
                           ),
@@ -164,7 +148,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       width: size.width * 0.032,
                     ),
                     Column(
-
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const FieldText(
@@ -174,12 +157,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: size.height * 0.004,
                         ),
                         SizedBox(
-                            width: isDesktop ? size.width * 0.13 :size.width / 2 - 50,
+                            width: isDesktop
+                                ? size.width * 0.13
+                                : size.width / 2 - 50,
                             child: const CommonTextField(
-
                               hintText: 'Last Name',
-                            )
-                        ),
+                            )),
                       ],
                     ),
                   ],
@@ -189,27 +172,22 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const FieldText(
                   text: 'Email',
-
-
                 ),
                 SizedBox(
                   height: size.height * 0.004,
                 ),
-                 TextFormField(
-
-                   controller: emailController,
-                   keyboardType: TextInputType.emailAddress,
-                   textInputAction: TextInputAction.next,
-
-                   onSaved: (email) {},
-                   decoration: InputDecoration(
-                     hintText: "Email",
-                     hintStyle: TextStyle(color: Colors.grey[400]),
-                     border: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10.0),
-                     ),
-                   ),
-
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  onSaved: (email) {},
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -221,8 +199,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: size.height * 0.004,
                 ),
                 TextFormField(
-
-
                   controller: passwordController,
                   textInputAction: TextInputAction.next,
                   obscureText: isObscure,
@@ -257,7 +233,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: size.height * 0.004,
                 ),
                 TextFormField(
-
                   obscureText: isObs,
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
@@ -287,8 +262,16 @@ class _SignupScreenState extends State<SignupScreen> {
                     size: size,
                     color: KAppColors.kPrimary,
                     onTap: () {
-
-                        signUserUp();
+                      const snackBar = SnackBar(
+                        content: Text('Please Enter Valid Email and Password!'),
+                      );
+                      setState(() {
+                        if (emailController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          signUserUp();
+                        }
+                      });
 
                       //Get.to(() => const SignupVerificationScreen());
                     },
@@ -328,14 +311,12 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-  _buildForMobile(final size)
-  {
 
+  _buildForMobile(final size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
         child: Container(
-
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -396,11 +377,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         height: size.height * 0.004,
                       ),
                       SizedBox(
-                        width: size.width / 2 - 20,
-                        child: const CommonTextField(
-                          hintText: 'Last Name',
-                        )
-                      ),
+                          width: size.width / 2 - 20,
+                          child: const CommonTextField(
+                            hintText: 'Last Name',
+                          )),
                     ],
                   ),
                 ],
@@ -508,8 +488,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     },
                     child: Text(
                       'Sign in',
-                      style: Theme.of(context).textTheme.titleSmall!.apply(
-                          fontSizeDelta: 3, color: KAppColors.kPrimary),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
                     ),
                   ),
                 ],
@@ -522,16 +504,14 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-
   }
-  _buildForDesktop(final size)
-  {
 
+  _buildForDesktop(final size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
         child: Container(
-          constraints:  const BoxConstraints(maxWidth: 400), // Limit max width
+          constraints: const BoxConstraints(maxWidth: 400), // Limit max width
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -611,13 +591,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: size.height * 0.004,
               ),
               TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  cursorColor: KAppColors.kBorderPrimary,
-                  onSaved: (email) {},
-                  style: TextStyle(),
-
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                cursorColor: KAppColors.kBorderPrimary,
+                onSaved: (email) {},
+                style: TextStyle(),
               ),
               SizedBox(
                 height: size.height * 0.02,
@@ -629,7 +608,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: size.height * 0.004,
               ),
               TextFormField(
-
                 controller: passwordController,
                 textInputAction: TextInputAction.done,
                 obscureText: true,
@@ -694,10 +672,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   size: size,
                   color: KAppColors.kPrimary,
                   onTap: () {
-
-                     Get.to(() => const SignupVerificationScreen());
-
-
+                    Get.to(() => const SignupVerificationScreen());
                   },
                   text: 'Sign up'),
               SizedBox(
@@ -719,8 +694,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     },
                     child: Text(
                       'Sign in',
-                      style: Theme.of(context).textTheme.titleSmall!.apply(
-                          fontSizeDelta: 3, color: KAppColors.kPrimary),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
                     ),
                   ),
                 ],

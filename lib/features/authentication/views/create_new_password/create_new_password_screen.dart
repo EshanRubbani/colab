@@ -36,14 +36,14 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       //     },
       //   ),
       // ),
-      body:Responsive(
+      body: Responsive(
         mobile: _buildForMobile(size),
         desktop: _buildForDesktop(size),
       ),
     );
   }
-  _buildForMobile(Size size)
-  {
+
+  _buildForMobile(Size size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
@@ -166,8 +166,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
       ),
     );
   }
-  _buildForDesktop(Size size)
-  {
+
+  _buildForDesktop(Size size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(

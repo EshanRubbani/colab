@@ -34,6 +34,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          surfaceTintColor: Colors.white,
           automaticallyImplyLeading: false,
           actions: [],
         ),

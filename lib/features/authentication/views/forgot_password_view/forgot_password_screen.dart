@@ -1,14 +1,13 @@
 import 'package:collab/common/common_button.dart';
-import 'package:collab/features/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
+import 'package:collab/features/authentication/views/login_view/login_screen.dart';
 import 'package:collab/features/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/utils/constant/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/device/device_size.dart';
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -17,7 +16,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-
   final _emailcontroller = TextEditingController();
 
   @override
@@ -26,21 +24,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.dispose();
   }
 
- Future reset() async {
- try {
-   await FirebaseAuth.instance.sendPasswordResetEmail(
-       email: _emailcontroller.text);
-   Navigator.pop(context);
-   success();
- }on FirebaseAuthException catch (e){
-   print(e);
-   showDialog(context: context, builder: (context){
-  return AlertDialog(
-    content: Text(e.message.toString()),
-  );
-   });
- }
- }
+  Future reset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailcontroller.text);
+      Navigator.pop(context);
+      success();
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
+    }
+  }
 
   void success() {
     showDialog(
@@ -52,7 +52,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/newlogin');
+                Get.to(() => LoginScreen());
               },
               child: Text('OK'),
             ),
@@ -61,7 +61,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +72,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
-  _buildForMobile(Size size)
-  {
+
+  _buildForMobile(Size size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
@@ -83,38 +82,63 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:[
-              SizedBox(height: size.height * 0.1 ,),
-              const Text('Forgot Password',style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ) , textAlign: TextAlign.center,),
-              const Text('No worries! Enter your email address below and we will send you a code to reset password.',style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ) , textAlign: TextAlign.center,),
-              SizedBox(height: size.height * 0.03 ,),
-              const FieldText(text: 'Email',),
-              SizedBox(height: size.height * 0.004 ,),
+            children: [
+              SizedBox(
+                height: size.height * 0.1,
+              ),
+              const Text(
+                'Forgot Password',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Text(
+                'No worries! Enter your email address below and we will send you a code to reset password.',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              const FieldText(
+                text: 'Email',
+              ),
+              SizedBox(
+                height: size.height * 0.004,
+              ),
               TextField(
                 controller: _emailcontroller,
                 decoration: InputDecoration(
                   hintText: 'Email',
-
                   hintStyle: TextStyle(color: Colors.grey[400]),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
-              SizedBox(height: size.height * 0.01 ,),
-              SizedBox(height: size.height * 0.03 ,),
-              ButtonWidget(size: size, color: KAppColors.kPrimary, onTap: (){
-               reset();
-              }, text: 'Send Reset Instructions'),
-              SizedBox(height: size.height * 0.07 ,),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              ButtonWidget(
+                  size: size,
+                  color: KAppColors.kPrimary,
+                  onTap: () {
+                    reset();
+                  },
+                  text: 'Send Reset Instructions'),
+              SizedBox(
+                height: size.height * 0.07,
+              ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
@@ -124,15 +148,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               //         color: KAppColors.kPrimary),),
               //   ],
               // ),
-              SizedBox(height: size.height * 0.01 ,),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
             ],
           ),
         ),
       ),
     );
   }
-  _buildForDesktop(Size size)
-  {
+
+  _buildForDesktop(Size size) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
@@ -142,21 +168,37 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:[
-              SizedBox(height: size.height * 0.1 ,),
-              const Text('Forgot Password',style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ) , textAlign: TextAlign.center,),
-              const Text('No worries! Enter your email address below and we will send you a code to reset password.',style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ) , textAlign: TextAlign.center,),
-              SizedBox(height: size.height * 0.03 ,),
-              const FieldText(text: 'Email',),
-              SizedBox(height: size.height * 0.004 ,),
+            children: [
+              SizedBox(
+                height: size.height * 0.1,
+              ),
+              const Text(
+                'Forgot Password',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Text(
+                'No worries! Enter your email address below and we will send you a code to reset password.',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              const FieldText(
+                text: 'Email',
+              ),
+              SizedBox(
+                height: size.height * 0.004,
+              ),
               TextField(
                 decoration: InputDecoration(
                   hintText: 'Email',
@@ -166,12 +208,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height * 0.01 ,),
-              SizedBox(height: size.height * 0.03 ,),
-              ButtonWidget(size: size, color: KAppColors.kPrimary, onTap: (){
-                Get.to(()=> const SignupVerificationScreen());
-              }, text: 'Send Reset Instructions'),
-              SizedBox(height: size.height * 0.07 ,),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              ButtonWidget(
+                  size: size,
+                  color: KAppColors.kPrimary,
+                  onTap: () {
+                    Get.to(() => const SignupVerificationScreen());
+                  },
+                  text: 'Send Reset Instructions'),
+              SizedBox(
+                height: size.height * 0.07,
+              ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
@@ -181,7 +233,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               //         color: KAppColors.kPrimary),),
               //   ],
               // ),
-              SizedBox(height: size.height * 0.01 ,),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
             ],
           ),
         ),
@@ -200,14 +254,15 @@ class FieldText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(text, style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-        ),),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
       ],
     );
   }
 }
-
-

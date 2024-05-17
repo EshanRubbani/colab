@@ -1,6 +1,7 @@
 import 'package:collab/features/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:collab/features/authentication/views/splash_view/splash_screen.dart';
 import 'package:collab/features/main/views/discover/discover_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DiscoverScreen(),
+      home: const SplashScreen(),
     );
   }
 }
