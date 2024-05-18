@@ -5,6 +5,7 @@ import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/common/common_textfield.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:collab/extras/utils/device/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,76 +99,85 @@ Widget _buildForMobile(BuildContext context) {
 
   return Padding(
     padding: const EdgeInsets.all(19.0),
-    child: Column(
-      children: [
-        SizedBox(height: 30),
-        TextFormField(
-          controller: itemNameController,
-          decoration: InputDecoration(
-            hintText: "Enter Item Name",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+    child: Expanded(
+      child: Column(
+        children: [
+          SizedBox(height: 30),
+          TextFormField(
+            controller: itemNameController,
+            decoration: InputDecoration(
+              hintText: "Enter Item Name",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 30),
-        TextFormField(
-          controller: backedController,
-          decoration: InputDecoration(
-            hintText: "Backed",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          SizedBox(height: 30),
+          TextFormField(
+            controller: backedController,
+            decoration: InputDecoration(
+              hintText: "Backed",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 30),
-        TextFormField(
-          controller: itemPercentController,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            hintText: "Item Percent",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          SizedBox(height: 30),
+          TextFormField(
+            controller: itemPercentController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              hintText: "Item Percent",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 30),
-        TextFormField(
-          controller: itemImgController,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            hintText: "Item Image URL",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          SizedBox(height: 30),
+          TextFormField(
+            controller: itemImgController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              hintText: "Item Image URL",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 30),
-        TextFormField(
-          controller: ownerImgController,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            hintText: "Owner Image URL",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
+          SizedBox(height: 30),
+          TextFormField(
+            controller: ownerImgController,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              hintText: "Owner Image URL",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 50),
-        Center(
-          child: ButtonWidget(
-            size: size,
-            color: KAppColors.kButtonPrimary,
-            onTap: postItem,
-            text: "Post Item",
+          SizedBox(height: 50),
+          Center(
+            child: ButtonWidget(
+              size: size,
+              color: KAppColors.kButtonPrimary,
+              onTap: postItem,
+              text: "Post Item",
+            ),
           ),
-        )
-      ],
+          SizedBox(
+            height: 240,
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: BottomNavm(index: 2),
+          )
+        ],
+      ),
     ),
   );
 }

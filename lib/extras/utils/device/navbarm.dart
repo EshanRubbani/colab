@@ -1,3 +1,4 @@
+import 'package:collab/pages/main/views/add/add.dart';
 import 'package:collab/pages/main/views/chatselection/chatselection.dart';
 import 'package:collab/pages/main/views/discover/discover_screen.dart';
 import 'package:collab/pages/main/views/home/home_screen.dart';
@@ -88,6 +89,16 @@ class _BottomNavmState extends State<BottomNavm> {
                     GButton(
                       icon: CupertinoIcons.add,
                       text: 'New',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const Add();
+                            },
+                          ),
+                        );
+                      },
                     ),
                     GButton(
                       icon: CupertinoIcons.chat_bubble,
