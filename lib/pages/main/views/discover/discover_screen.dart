@@ -1,4 +1,4 @@
-import 'package:collab/extras/models/homeitems.dart';
+import 'package:collab/extras/utils/Helper/homeitems.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/device/navbar.dart';
 import 'package:collab/extras/utils/device/navbarm.dart';

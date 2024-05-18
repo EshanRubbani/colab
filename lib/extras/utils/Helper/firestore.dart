@@ -1,21 +1,16 @@
-import 'dart:ffi';
-
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireStore {
-//get current useer
+  // Get current user
   User? user = FirebaseAuth.instance.currentUser;
 
-//read data
-//get collections of posts document
-
+  // Collection reference
   final CollectionReference posts =
       FirebaseFirestore.instance.collection("Posts");
 
-//write data
-//add post
-
+  // Add post
   Future<void> addPost(
     String itemName,
     String ownerName,
@@ -35,14 +30,8 @@ class FireStore {
     });
   }
 
-  //read post from posts document
-
+  // Get posts stream
   Stream<QuerySnapshot> getPostsStream() {
-    final postsStream = FirebaseFirestore.instance
-        .collection("Posts")
-        .orderBy('timestamp', descending: true)
-        .snapshots();
-
-    return postsStream;
+    return posts.orderBy('timestamp', descending: true).snapshots();
   }
 }
