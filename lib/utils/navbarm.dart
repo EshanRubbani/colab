@@ -79,7 +79,7 @@ class _BottomNavmState extends State<BottomNavm> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return const DiscoverScreen();
+                              return DiscoverScreen();
                             },
                           ),
                         );

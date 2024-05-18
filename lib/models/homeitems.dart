@@ -56,11 +56,11 @@ class Item {
 }
 
 class FirebaseService {
+  List<Item> _items = [];
   final DatabaseReference _itemsRef =
       FirebaseDatabase.instance.ref().child('items');
 
   // Store fetched items for efficient access
-  List<Item> _items = [];
 
   // Fetch all items and store them
   Future<void> initialize() async {
@@ -80,4 +80,6 @@ class FirebaseService {
 
   // Get the total number of items
   int get length => _items.length;
+
+  List<Item> get items => _items; // Public getter for _items
 }
