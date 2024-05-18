@@ -2,6 +2,7 @@ import 'package:collab/pages/main/views/add/add.dart';
 import 'package:collab/pages/main/views/chatselection/chatselection.dart';
 import 'package:collab/pages/main/views/discover/discover_screen.dart';
 import 'package:collab/pages/main/views/home/home_screen.dart';
+import 'package:collab/pages/main/views/profile/profilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -117,6 +118,16 @@ class _BottomNavmState extends State<BottomNavm> {
                     GButton(
                       icon: CupertinoIcons.profile_circled,
                       text: 'Profile',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const ProfilePage();
+                            },
+                          ),
+                        );
+                      },
                     )
                   ],
                   selectedIndex: widget.index,
