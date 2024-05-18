@@ -18,6 +18,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   String selectedFilter = 'All'; // Initial filter is 'All'
   List<Item> filteredItems = [];
   FirebaseService firebaseService = FirebaseService();
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -26,6 +27,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       setState(() {
         filteredItems = firebaseService.items; // Initialize with all items
       });
+    });
+  }
+
+  void applyFilter(String filter) {
+    setState(() {
+      selectedFilter = filter;
+      filteredItems = firebaseService.items.where((item) {
+        bool matchesFilter = filter == 'All' ||
+            (filter == 'Nearby' && item.backed > 0) ||
+            (filter == 'Trending' && item.itemPercent > 75) ||
+            (filter == '50 \$ +' && item.backed > 50);
+        bool matchesSearch = item.itemName
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase());
+        return matchesFilter && matchesSearch;
+      }).toList();
     });
   }
 
@@ -47,31 +64,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   _buildForMobile() {
     final size = MediaQuery.of(context).size;
-    final searchController = TextEditingController();
 
-    void applyFilter(String filter) {
-      setState(() {
-        selectedFilter = filter;
-        filteredItems = filter == 'All'
-            ? firebaseService.items
-            : firebaseService.items.where((item) {
-                // Implement filtering logic for 'Nearby,' 'Trending,' etc. here
-                if (filter == 'Nearby') {
-                  // Filter logic for 'Nearby' items (e.g., based on location)
-                  return item.backed > 0; // Replace with your actual logic
-                } else if (filter == 'Trending') {
-                  // Filter logic for 'Trending' items
-                  return item.itemPercent >
-                      75; // Example: Trending if progress > 75%
-                } else if (filter == '50 \$ +') {
-                  // Filter logic for '50$+' items
-                  return item.backed > 50;
-                } else {
-                  return false;
-                }
-              }).toList();
-      });
-    }
+    searchController.addListener(() {
+      applyFilter(selectedFilter);
+    });
 
     return Column(
       children: [
