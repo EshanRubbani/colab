@@ -5,6 +5,7 @@ import 'package:collab/utils/navbarm.dart';
 import 'package:collab/utils/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -19,7 +20,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   List<Item> filteredItems = [];
   FirebaseService firebaseService = FirebaseService();
   TextEditingController searchController = TextEditingController();
-
+  final ScrollController _scrollcontroller = ScrollController();
+  bool _isVisible = true;
   @override
   void initState() {
     super.initState();
@@ -28,6 +30,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         filteredItems = firebaseService.items; // Initialize with all items
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollcontroller.dispose();
+    super.dispose();
   }
 
   void applyFilter(String filter) {
@@ -48,6 +56,20 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    @override
+    void initState() {
+      super.initState();
+      // ... (firebase initialization)
+      _scrollcontroller.addListener(() {
+        if (_scrollcontroller.position.pixels > 0 && !_isVisible) {
+          setState(
+              () => _isVisible = true); // Show when scrolling down from top
+        } else if (_scrollcontroller.position.pixels == 0 && _isVisible) {
+          setState(() => _isVisible = false); // Hide when at the top
+        }
+      });
+    }
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -205,6 +227,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 child: Stack(
                   children: [
                     ListView.builder(
+                      controller: _scrollcontroller,
                       itemCount: filteredItems.length,
                       itemBuilder: (context, index) {
                         return Container(
@@ -367,9 +390,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       },
                     ),
                     //custom floating dock
-                    const Align(
+                    Align(
                       alignment: Alignment.bottomCenter,
-                      child: BottomNavm(index: 1),
+                      child: AnimatedContainer(
+                        duration: Duration(seconds: 5),
+                        height: _isVisible
+                            ? 130
+                            : 0, // Increased height for visibility
+                        child: _isVisible
+                            ? BottomNavm(index: 1)
+                            : null, // Use null when hidden
+                      ),
                     )
                   ],
                 ),
