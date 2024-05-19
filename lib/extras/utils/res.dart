@@ -12,10 +12,10 @@ class ResponsiveNess extends StatelessWidget {
   final Widget desktop;
 
   const ResponsiveNess({
-    Key? key,
+    super.key,
     required this.mobile,
     required this.desktop,
-  }) : super(key: key);
+  });
 
   // // This isMobile, isTablet, isDesktop helep us later
   // static bool isMobile(BuildContext context) =>

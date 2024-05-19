@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 
 class Item {
-  String id; // To store the unique Firebase key (-NwWMdjhBQunuiqICdJ4, etc.)
+  // String id; // To store the unique Firebase key (-NwWMdjhBQunuiqICdJ4, etc.)
   int backed;
   String itemImg;
   String itemName;
@@ -10,7 +10,7 @@ class Item {
   String ownerName;
 
   Item({
-    required this.id,
+    //  required this.id,
     required this.backed,
     required this.itemImg,
     required this.itemName,
@@ -32,7 +32,7 @@ class Item {
       });
     }
     return Item(
-      id: snapshot.key!,
+      // id: snapshot.key!,
       backed: data!['backed'] ?? 0,
       itemImg: data['item_img'] ?? '',
       itemName: data['item_name'] ?? '',

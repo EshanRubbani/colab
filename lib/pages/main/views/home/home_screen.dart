@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
@@ -12,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:collab/extras/utils/Helper/homeitems.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,7 +65,7 @@ Widget _buildForMobile(Size size) {
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}')); // Error
       } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return Center(child: Text('No posts available')); // No Data
+        return const Center(child: Text('No posts available')); // No Data
       } else {
         var posts = snapshot.data!.docs;
         return Stack(
@@ -234,7 +231,7 @@ _buildForDesktop(Size size) {
     alignment: Alignment.center,
     children: [
       Container(
-        constraints: BoxConstraints(maxWidth: 500),
+        constraints: const BoxConstraints(maxWidth: 500),
         child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
@@ -261,7 +258,7 @@ _buildForDesktop(Size size) {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey,
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/home/piano.jpg'),
                           fit: BoxFit.cover,
                         ),
@@ -310,7 +307,7 @@ _buildForDesktop(Size size) {
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(

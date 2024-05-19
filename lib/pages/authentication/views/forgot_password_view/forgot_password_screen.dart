@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
@@ -47,14 +49,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Reset Password Link Sent! Please check your email!"),
+          title:
+              const Text("Reset Password Link Sent! Please check your email!"),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => LoginScreen());
+                Get.to(() => const LoginScreen());
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -256,7 +259,7 @@ class FieldText extends StatelessWidget {
       children: [
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Colors.black,

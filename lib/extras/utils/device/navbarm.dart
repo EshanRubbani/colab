@@ -11,9 +11,9 @@ class BottomNavm extends StatefulWidget {
   final int index;
 
   const BottomNavm({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<BottomNavm> createState() => _BottomNavmState();
@@ -31,7 +31,7 @@ class _BottomNavmState extends State<BottomNavm> {
           padding: const EdgeInsets.all(16.0),
           child: Container(
             //width: 380,
-            constraints: BoxConstraints(minWidth: 200.0),
+            constraints: const BoxConstraints(minWidth: 200.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(75),
               color: Colors.white,
@@ -40,12 +40,13 @@ class _BottomNavmState extends State<BottomNavm> {
                   color: Colors.grey.withOpacity(0.3), // Adjust shadow color
                   spreadRadius: 3, // Adjust spread
                   blurRadius: 5, // Adjust blur
-                  offset: Offset(0, 3), // Adjust offset for direction
+                  offset: const Offset(0, 3), // Adjust offset for direction
                 ),
               ],
             ),
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 15.0, vertical: 15.0),
                 child: GNav(
                   tabActiveBorder:
                       Border.all(color: Colors.deepPurple, width: 2.5),
@@ -81,7 +82,7 @@ class _BottomNavmState extends State<BottomNavm> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DiscoverScreen();
+                              return const DiscoverScreen();
                             },
                           ),
                         );

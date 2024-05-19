@@ -9,9 +9,9 @@ class BottomNav extends StatefulWidget {
   final int index;
 
   const BottomNav({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -27,7 +27,7 @@ class _BottomNavState extends State<BottomNav> {
       children: [
         Container(
           //width: 380,
-          constraints: BoxConstraints(minWidth: 350.0),
+          constraints: const BoxConstraints(minWidth: 350.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(75),
             color: Colors.white,
@@ -36,12 +36,13 @@ class _BottomNavState extends State<BottomNav> {
                 color: Colors.grey.withOpacity(0.3), // Adjust shadow color
                 spreadRadius: 3, // Adjust spread
                 blurRadius: 5, // Adjust blur
-                offset: Offset(0, 3), // Adjust offset for direction
+                offset: const Offset(0, 3), // Adjust offset for direction
               ),
             ],
           ),
           child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
               child: GNav(
                 tabActiveBorder: Border.all(color: Colors.deepPurple, width: 1),
                 style: GnavStyle.google,
@@ -76,13 +77,13 @@ class _BottomNavState extends State<BottomNav> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return DiscoverScreen();
+                            return const DiscoverScreen();
                           },
                         ),
                       );
                     },
                   ),
-                  GButton(
+                  const GButton(
                     icon: CupertinoIcons.add,
                     text: 'New',
                   ),
@@ -100,7 +101,7 @@ class _BottomNavState extends State<BottomNav> {
                       );
                     },
                   ),
-                  GButton(
+                  const GButton(
                     icon: CupertinoIcons.profile_circled,
                     text: 'Profile',
                   )

@@ -1,9 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
+
 import 'package:collab/pages/main/views/home/home_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ChatSelectScreen extends StatefulWidget {
@@ -98,14 +99,12 @@ _buildForMobile(Size size) {
                       ),
                       Container(
                         padding: const EdgeInsets.all(2),
-                        child: Row(
+                        child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              child: const Icon(CupertinoIcons.search),
-                            ),
+                            Icon(CupertinoIcons.search),
                           ],
                         ),
                       ),
@@ -209,7 +208,7 @@ _buildForMobile(Size size) {
                                 height: 50,
                                 margin: const EdgeInsets.only(right: 20),
                                 // color: Colors.black,
-                                child: MyCheckboxWidget())
+                                child: const MyCheckboxWidget())
                           ],
                         ),
                       );
@@ -393,7 +392,7 @@ _buildForDesktop(Size size) {
                                 height: 34,
                                 margin: const EdgeInsets.only(right: 20),
                                 // color: Colors.black,
-                                child: MyCheckboxWidget())
+                                child: const MyCheckboxWidget())
                           ],
                         ),
                       );
@@ -561,8 +560,11 @@ menubar() {
 }
 
 class MyCheckboxWidget extends StatefulWidget {
+  const MyCheckboxWidget({super.key});
+
   // Changed to StatefulWidget
   @override
+  // ignore: library_private_types_in_public_api
   _MyCheckboxWidgetState createState() => _MyCheckboxWidgetState();
 }
 
@@ -590,17 +592,17 @@ class MyButton extends StatefulWidget {
   final bool index;
 
   const MyButton({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<MyButton> createState() => _MyButtonState();
 }
 
 class _MyButtonState extends State<MyButton> {
-  @override
   bool showContainer = true;
+  @override
   Widget build(BuildContext context) {
     return showContainer
         ? Padding(
