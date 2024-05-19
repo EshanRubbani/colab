@@ -2,8 +2,8 @@
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/Helper/homeitems.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/device/navbar.dart';
-import 'package:collab/extras/utils/device/navbarm.dart';
+import 'package:collab/extras/utils/constant/navbar.dart';
+import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

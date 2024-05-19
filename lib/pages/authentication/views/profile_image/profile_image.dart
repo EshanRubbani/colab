@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/homeitems.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/pages/main/views/home/home_screen.dart';
+import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,12 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class ProfilePage extends StatefulWidget {
+class ProfileImage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfileImageState createState() => _ProfileImageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfileImageState extends State<ProfileImage> {
   FirebaseService firebaseService = FirebaseService();
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -63,6 +64,15 @@ class _ProfilePageState extends State<ProfilePage> {
         navigator!.pop(context);
         AlertDialog(
           content: Text("Image Uploaded Successfully"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Get.to(() => const LoginScreen());
+              },
+              child: Text('OK'),
+            ),
+          ],
         );
       } catch (e) {
         navigator!.pop(context);

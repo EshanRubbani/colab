@@ -1,6 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
 
-import 'package:collab/pages/main/views/home/home_screen.dart';
+import 'package:collab/pages/home/home_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:flutter/cupertino.dart';

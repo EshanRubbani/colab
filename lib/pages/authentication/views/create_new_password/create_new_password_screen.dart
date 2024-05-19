@@ -1,6 +1,6 @@
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/device/device_size.dart';
+import 'package:collab/extras/utils/constant/device_size.dart';
 import 'package:flutter/material.dart';
 
 class CreateNewPasswordScreen extends StatefulWidget {

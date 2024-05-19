@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../../../../extras/utils/device/device_size.dart';
+import '../../../../extras/utils/constant/device_size.dart';
 
 class ForgotVerificationScreen extends StatefulWidget {
   const ForgotVerificationScreen({super.key});

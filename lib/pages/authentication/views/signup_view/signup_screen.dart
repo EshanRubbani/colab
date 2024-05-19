@@ -3,13 +3,14 @@ import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/s
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:collab/pages/authentication/views/profile_image/profile_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../extras/common/common_textfield.dart';
-import '../../../../extras/utils/device/device_size.dart';
+import '../../../../extras/utils/constant/device_size.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -97,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => const LoginScreen());
+                Get.to(() => ProfileImage());
               },
               child: Text('OK'),
             ),

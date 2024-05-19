@@ -1,10 +1,10 @@
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
-import 'package:collab/pages/main/views/add/add.dart';
+import 'package:collab/pages/add/add.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'extras/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

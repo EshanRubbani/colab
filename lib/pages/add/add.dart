@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/device/navbarm.dart';
+import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
