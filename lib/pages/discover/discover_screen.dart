@@ -22,7 +22,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   final ScrollController _scrollController = ScrollController();
   String selectedFilter = 'All';
   List<Item> filteredItems = [];
-  final FireStore fireStore = FireStore();
+  final FirestoreService fireStore = FirestoreService();
+
   bool _isVisible = true;
 
   @override

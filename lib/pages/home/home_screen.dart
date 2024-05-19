@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Widget _buildForMobile(Size size) {
-  final FireStore fireStore = FireStore();
+  final FirestoreService fireStore = FirestoreService();
   final Color kPrimary = Colors.blue; // Replace with your actual color
 
   return StreamBuilder<QuerySnapshot>(

@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
+import 'package:collab/extras/utils/Helper/post_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
@@ -15,6 +18,7 @@ class Add extends StatefulWidget {
 }
 
 class _AddState extends State<Add> {
+  FirestoreService FireStoreService = FirestoreService();
   final TextEditingController itemNameController = TextEditingController();
   final TextEditingController backedController = TextEditingController();
   final TextEditingController itemPercentController = TextEditingController();
@@ -56,8 +60,16 @@ class _AddState extends State<Add> {
       ;
 
       try {
-        FireStore().addPost(itemName, ownerName, backed, itemPercent, itemImg,
-            ownerDp, owneremail);
+        FireStoreService.setPost(
+          itemName as Post,
+          backed,
+          itemPercent,
+          itemImg,
+          ownerName,
+          ownerDp,
+          owneremail,
+        );
+        Navigator.pop(context);
       } on FirebaseException catch (e) {
         genericErrorMessage(e.code);
       }
