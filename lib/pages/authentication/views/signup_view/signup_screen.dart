@@ -66,9 +66,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   //create document name with email and save additional data
   Future<void> createUserDocument(UserCredential userCredential) async {
-    if (userCredential != null && userCredential.user != null) {
+    if (userCredential.user != null) {
       try {
-        print("inside looop");
+        print("inside user details looop");
         await FirebaseFirestore.instance
             .collection("Users")
             .doc(userCredential.user!.email.toString())
@@ -76,9 +76,10 @@ class _SignupScreenState extends State<SignupScreen> {
           'email': userCredential.user!.email.toString(),
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
-          'timestamp': Timestamp.now()
+          'timestamp': Timestamp.now(),
+          'userIMG': "",
         });
-        print("Firestore doone");
+        print("Firestore user details doone");
       } catch (e) {
         genericErrorMessage(e.toString());
       }
