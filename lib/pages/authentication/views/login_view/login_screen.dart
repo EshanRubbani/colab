@@ -1,13 +1,9 @@
 import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/extras/common/common_textfield.dart';
-import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
 import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/device_size.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -396,7 +392,7 @@ class FieldText extends StatelessWidget {
       children: [
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Colors.black,

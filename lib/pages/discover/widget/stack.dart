@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Stackmobile extends StatelessWidget {
+  const Stackmobile({super.key});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -37,7 +39,7 @@ class Stackmobile extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey,
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/home/piano.jpg'),
                           fit: BoxFit.cover,
                         ),
@@ -115,34 +117,34 @@ class Stackmobile extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Vintage Piano',
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w800),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 30,
                         ),
-                        Container(
+                        SizedBox(
                           height: 3.48,
                           width: 358,
-                          child: const Center(
+                          child: Center(
                             child: LinearProgressIndicator(
                               color: Colors.deepPurple,
                               value: 0.7,
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
-                        Container(
+                        SizedBox(
                           height: 21,
                           width: 358.18,
-                          child: const Row(
+                          child: Row(
                             children: [
                               Icon(CupertinoIcons.gift),
                               SizedBox(
@@ -176,6 +178,8 @@ class Stackmobile extends StatelessWidget {
 }
 
 class StackDesktop extends StatelessWidget {
+  const StackDesktop({super.key});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -184,7 +188,7 @@ class StackDesktop extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          constraints: BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 500),
           child: ListView.builder(
               itemCount: 10,
               itemBuilder: (context, index) {
@@ -213,7 +217,7 @@ class StackDesktop extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.grey,
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage('assets/images/home/piano.jpg'),
                             fit: BoxFit.cover,
                           ),
@@ -262,7 +266,7 @@ class StackDesktop extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Container(
@@ -294,33 +298,33 @@ class StackDesktop extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      Column(
+                      const Column(
                         children: [
-                          const Text(
+                          Text(
                             'Vintage Piano',
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w800),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 30,
                           ),
-                          Container(
+                          SizedBox(
                             height: 3.48,
                             width: 300,
-                            child: const Center(
+                            child: Center(
                               child: LinearProgressIndicator(
                                 color: Colors.deepPurple,
                                 value: 0.7,
                               ),
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 20,
                           ),
-                          Container(
+                          SizedBox(
                             height: 21,
                             width: 300,
-                            child: const Row(
+                            child: Row(
                               children: [
                                 Icon(CupertinoIcons.gift),
                                 SizedBox(
@@ -345,11 +349,11 @@ class StackDesktop extends StatelessWidget {
               }),
         ),
         //custom floating dock
-        Align(
+        const Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
+          child: SizedBox(
             width: 400,
-            child: const BottomNav(index: 1),
+            child: BottomNav(index: 1),
           ),
         )
       ],

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:collab/pages/authentication/controllers/controller.onboarding/onboarding_controller.dart';
 import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_dots.dart';
@@ -6,8 +5,6 @@ import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_e
 import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_skip_button_widget.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class OnboardScreen extends StatelessWidget {
@@ -25,7 +22,7 @@ class OnboardScreen extends StatelessWidget {
           children: [
             PageView(
               controller: controller.pageController,
-              scrollBehavior: ScrollBehavior(),
+              scrollBehavior: const ScrollBehavior(),
               onPageChanged: controller.updatePageIndicator,
               children: [
                 OnBoardingWidget(
@@ -83,7 +80,7 @@ class OnBoardingWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 15),
-              child: Container(
+              child: SizedBox(
                 //color: Colors.red,
                 width: size.width * 0.9,
                 height: size.height * 0.6,
@@ -147,7 +144,7 @@ class OnBoardingWidget extends StatelessWidget {
           right: 20,
           child: Text(
             title,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
         ),
@@ -157,7 +154,7 @@ class OnBoardingWidget extends StatelessWidget {
           right: 20,
           child: Text(
             subtitle,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             textAlign: TextAlign.center,
           ),
         ),

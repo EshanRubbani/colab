@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/extras/utils/Helper/homeitems.dart';
+import 'package:collab/extras/utils/Helper/all_post_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
@@ -8,11 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ProfileImage extends StatefulWidget {
+  const ProfileImage({super.key});
+
   @override
   _ProfileImageState createState() => _ProfileImageState();
 }
@@ -61,16 +61,17 @@ class _ProfileImageState extends State<ProfileImage> {
           'userIMG': url,
         });
         print("Firestore doone");
-        navigator!.pop(context);
+       Get.to(() => const LoginScreen());
         AlertDialog(
-          content: Text("Image Uploaded Successfully"),
+          content: const Text("Image Uploaded Successfully"),
           actions: [
             TextButton(
               onPressed: () {
+
                 Navigator.pop(context);
                 Get.to(() => const LoginScreen());
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -86,14 +87,14 @@ class _ProfileImageState extends State<ProfileImage> {
   }
 
   Future<void> skip() async {
-    return Get.to(HomeScreen());
+    return Get.to(const LoginScreen());
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: Text('Add Profile Image')),
+      appBar: AppBar(title: const Text('Add Profile Image')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -101,23 +102,23 @@ class _ProfileImageState extends State<ProfileImage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                constraints: BoxConstraints(maxHeight: 400),
+                constraints: const BoxConstraints(maxHeight: 400),
                 child: _image == null
-                    ? Text('No image selected.')
+                    ? const Text('No image selected.')
                     : Image.file(_image!),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _pickImage,
-              child: Text('Pick Image'),
+              child: const Text('Pick Image'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _uploadImage,
-              child: Text('Upload Image'),
+              child: const Text('Upload And Continue'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: KAppColors.kButtonPrimary,
@@ -127,7 +128,7 @@ class _ProfileImageState extends State<ProfileImage> {
                 ),
               ),
               onPressed: skip,
-              child: Text(
+              child: const Text(
                 "Skip",
                 style: TextStyle(color: Colors.white),
               ),

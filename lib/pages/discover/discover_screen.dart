@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, unused_local_variable
 import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/Helper/homeitems.dart';
+
+import 'package:collab/extras/utils/Helper/all_post_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbar.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
 
@@ -21,6 +21,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   final TextEditingController searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   String selectedFilter = 'All';
+  List<Item> allItems = [];
   List<Item> filteredItems = [];
   final FirestoreService fireStore = FirestoreService();
 
@@ -31,11 +32,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     super.initState();
     fetchItems();
     searchController.addListener(() {
-      if (searchController.text.isEmpty) {
-        applyFilter('All');
-      } else {
-        applyFilter(selectedFilter);
-      }
+      applyFilter(selectedFilter);
     });
   }
 
@@ -48,7 +45,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   void applyFilter(String filter) {
     setState(() {
       selectedFilter = filter;
-      filteredItems = filteredItems.where((item) {
+      filteredItems = allItems.where((item) {
         bool matchesFilter = filter == 'All' ||
             (filter == 'Nearby' && item.backed > 0) ||
             (filter == 'Trending' && item.itemPercent > 75) ||
@@ -76,7 +73,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       }).toList();
 
       setState(() {
-        filteredItems = items;
+        allItems = items;
         applyFilter(selectedFilter);
       });
     });
@@ -94,14 +91,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       ),
       body: ResponsiveNess(
         mobile: _buildForMobile(size),
-        desktop: _buildForDesktop(),
+        desktop: _buildForDesktop(size),
       ),
     );
   }
 
-  Widget _buildForDesktop() {
-    return const Column();
-  }
 
   Widget _buildForMobile(Size size) {
     return Column(

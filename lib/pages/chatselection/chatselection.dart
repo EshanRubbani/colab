@@ -633,7 +633,7 @@ class _MyButtonState extends State<MyButton> {
                   child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(KAppColors.kPrimary),
+                            WidgetStateProperty.all(KAppColors.kPrimary),
                       ),
                       onPressed: () {},
                       child: const Text(

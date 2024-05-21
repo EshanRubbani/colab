@@ -1,4 +1,3 @@
-import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:collab/pages/authentication/views/onboard_view/onboard_screen.dart';
 import 'package:flutter/material.dart';
 

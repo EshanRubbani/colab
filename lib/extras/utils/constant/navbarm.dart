@@ -2,7 +2,6 @@ import 'package:collab/pages/add/add.dart';
 import 'package:collab/pages/chatselection/chatselection.dart';
 import 'package:collab/pages/discover/discover_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
-import 'package:collab/pages/authentication/views/profile_image/profile_image.dart';
 import 'package:collab/pages/profile/profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +124,7 @@ class _BottomNavmState extends State<BottomNavm> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return ProfilePage();
+                              return const ProfilePage();
                             },
                           ),
                         );

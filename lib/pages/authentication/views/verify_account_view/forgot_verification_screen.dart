@@ -1,11 +1,7 @@
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/pages/authentication/views/create_new_password/create_new_password_screen.dart';
-import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
-import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../extras/utils/constant/device_size.dart';
@@ -32,7 +28,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
 
   _buildForMobile(Size size) {
     return SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       child: Center(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
@@ -171,7 +167,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
               SizedBox(
                 height: size.height * 0.2,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -195,7 +191,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -215,7 +211,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                   size: size,
                   color: KAppColors.kPrimary,
                   onTap: () {
-                    Get.to(() => CreateNewPasswordScreen());
+                    Get.to(() => const CreateNewPasswordScreen());
                   },
                   text: 'Verify Account'),
               SizedBox(
@@ -388,7 +384,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
               SizedBox(
                 height: size.height * 0.2,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -412,7 +408,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -432,7 +428,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                   size: size,
                   color: KAppColors.kPrimary,
                   onTap: () {
-                    Get.to(() => CreateNewPasswordScreen());
+                    Get.to(() => const CreateNewPasswordScreen());
                   },
                   text: 'Verify Account'),
               SizedBox(
@@ -476,7 +472,7 @@ class FieldText extends StatelessWidget {
       children: [
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
             color: Colors.black,

@@ -8,7 +8,6 @@ import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _buildForMobile(Size size) {
   final FirestoreService fireStore = FirestoreService();
-  final Color kPrimary = Colors.blue; // Replace with your actual color
+  const Color kPrimary = Colors.blue; // Replace with your actual color
 
   return StreamBuilder<QuerySnapshot>(
     stream: fireStore.getPostsStream(),
@@ -179,7 +178,7 @@ Widget _buildForMobile(Size size) {
                                 fontSize: 22, fontWeight: FontWeight.w800),
                           ),
                           const SizedBox(height: 30),
-                          Container(
+                          SizedBox(
                             height: 3.48,
                             width: 358,
                             child: Center(
@@ -190,7 +189,7 @@ Widget _buildForMobile(Size size) {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Container(
+                          SizedBox(
                             height: 21,
                             width: 358.18,
                             child: Row(
@@ -339,33 +338,33 @@ _buildForDesktop(Size size) {
                     const SizedBox(
                       height: 15,
                     ),
-                    Column(
+                    const Column(
                       children: [
-                        const Text(
+                        Text(
                           'Vintage Piano',
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w800),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 30,
                         ),
-                        Container(
+                        SizedBox(
                           height: 3.48,
                           width: 300,
-                          child: const Center(
+                          child: Center(
                             child: LinearProgressIndicator(
                               color: Colors.deepPurple,
                               value: 0.7,
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
-                        Container(
+                        SizedBox(
                           height: 21,
                           width: 300,
-                          child: const Row(
+                          child: Row(
                             children: [
                               Icon(CupertinoIcons.gift),
                               SizedBox(
@@ -390,11 +389,11 @@ _buildForDesktop(Size size) {
             }),
       ),
       //custom floating dock
-      Align(
+      const Align(
         alignment: Alignment.bottomCenter,
-        child: Container(
+        child: SizedBox(
           width: 400,
-          child: const BottomNav(index: 0),
+          child: BottomNav(index: 0),
         ),
       )
     ],

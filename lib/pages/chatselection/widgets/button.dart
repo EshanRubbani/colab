@@ -1,14 +1,13 @@
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
   final bool index;
 
   const MyButton({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<MyButton> createState() => _MyButtonState();
@@ -17,6 +16,7 @@ class MyButton extends StatefulWidget {
 class _MyButtonState extends State<MyButton> {
   @override
   bool showContainer = true;
+  @override
   Widget build(BuildContext context) {
     return showContainer
         ? Padding(
@@ -47,7 +47,7 @@ class _MyButtonState extends State<MyButton> {
                   child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(KAppColors.kPrimary),
+                            WidgetStateProperty.all(KAppColors.kPrimary),
                       ),
                       onPressed: () {},
                       child: const Text(

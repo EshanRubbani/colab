@@ -1,5 +1,4 @@
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
-import 'package:collab/pages/add/add.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

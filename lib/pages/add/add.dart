@@ -1,6 +1,4 @@
-import 'dart:html';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/Helper/post_model.dart';
@@ -57,7 +55,6 @@ class _AddState extends State<Add> {
       String itemImg = itemImgController.text;
       String ownerDp = ownerImgController.text;
       String owneremail = FirebaseAuth.instance.currentUser!.email!;
-      ;
 
       try {
         FireStoreService.setPost(

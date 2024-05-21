@@ -1,12 +1,9 @@
 import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/profile_image/profile_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../extras/common/common_textfield.dart';
@@ -92,15 +89,15 @@ class _SignupScreenState extends State<SignupScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
               "Account Created Successfully! Please Verify Your Account!."),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => ProfileImage());
+                Get.to(() => const ProfileImage());
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -119,7 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -655,7 +652,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 textInputAction: TextInputAction.next,
                 cursorColor: KAppColors.kBorderPrimary,
                 onSaved: (email) {},
-                style: TextStyle(),
+                style: const TextStyle(),
               ),
               SizedBox(
                 height: size.height * 0.02,

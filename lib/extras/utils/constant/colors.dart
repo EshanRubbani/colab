@@ -15,7 +15,7 @@ class KAppColors{
   static const Color kPrimaryBackground= Color(0xff4b68ff);
 
   static const Color kLightContainer= Color(0xff4b68ff);
-  static Color kDarkContainer= Color(0xff4b68ff);
+  static Color kDarkContainer= const Color(0xff4b68ff);
 
   static const Color kButtonPrimary= Color(0xff4b68ff);
   static const Color kButtonSecondary= Color(0xff4b68ff);
