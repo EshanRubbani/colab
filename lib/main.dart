@@ -1,3 +1,5 @@
+import 'package:collab/pages/authentication/views/profile_image/profile_image.dart';
+import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const SignupScreen(),
     );
   }
 }

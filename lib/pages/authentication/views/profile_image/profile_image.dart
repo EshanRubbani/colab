@@ -5,6 +5,7 @@ import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +30,7 @@ class _ProfileImageState extends State<ProfileImage> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        _uploadImage();
       } else {
         print('No image selected.');
       }
@@ -64,6 +66,7 @@ class _ProfileImageState extends State<ProfileImage> {
        Get.to(() => const LoginScreen());
         AlertDialog(
           content: const Text("Image Uploaded Successfully"),
+          
           actions: [
             TextButton(
               onPressed: () {
@@ -103,26 +106,32 @@ class _ProfileImageState extends State<ProfileImage> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 constraints: const BoxConstraints(maxHeight: 400),
-                child: _image == null
-                    ? const Text('No image selected.')
-                    : Image.file(_image!),
+                child: kIsWeb ? Text("Please Select Profile Image") : Image.file(_image!),
               ),
             ),
+          
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: const Text('Pick Image'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _uploadImage,
-              child: const Text('Upload And Continue'),
-            ),
-            const SizedBox(height: 20),
+            
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: KAppColors.kButtonPrimary,
-                minimumSize: Size(size.width / 2, 55),
+                minimumSize: Size(size.width / 2.9, 55),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              onPressed: _pickImage,
+              child: const Text(
+                "Select Image and Upload",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+               const SizedBox(height: 20),
+            
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: KAppColors.kButtonPrimary,
+                minimumSize: Size(size.width / 2.9, 55),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
