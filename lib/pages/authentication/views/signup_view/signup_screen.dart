@@ -1,8 +1,10 @@
 import 'package:collab/extras/common/common_button.dart';
+import 'package:collab/extras/utils/res.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:collab/pages/authentication/views/profile_image/profile_imageD.dart';
 import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/pages/authentication/views/profile_image/profile_image.dart';
+import 'package:collab/pages/authentication/views/profile_image/profile_imageM.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -90,12 +92,12 @@ class _SignupScreenState extends State<SignupScreen> {
       builder: (context) {
         return AlertDialog(
           title: const Text(
-              "Account Created Successfully! Please Verify Your Account!."),
+              "Account Created Successfully! \nPlease Upload Profile Image!."),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => const ProfileImage());
+                Get.to(() => const ResponsiveNess(desktop: ProfileImageD(),mobile: ProfileImageM(),));
               },
               child: const Text('OK'),
             ),

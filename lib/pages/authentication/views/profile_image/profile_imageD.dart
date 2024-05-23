@@ -11,83 +11,69 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class ProfileImage extends StatefulWidget {
-  const ProfileImage({super.key});
+class ProfileImageD extends StatefulWidget {
+  const ProfileImageD({super.key});
 
   @override
-  _ProfileImageState createState() => _ProfileImageState();
+  _ProfileImageDState createState() => _ProfileImageDState();
 }
 
-class _ProfileImageState extends State<ProfileImage> {
+class _ProfileImageDState extends State<ProfileImageD> {
   FirebaseService firebaseService = FirebaseService();
   File? _image;
-  final ImagePicker _picker = ImagePicker();
+
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  Uint8List? _imageBytes; // Use Uint8List for web image representation
+  final ImagePicker _picker = ImagePicker();
 
-  Future<void> _pickImage() async {
+   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    print("pickedFile: $pickedFile");
+    if (pickedFile != null) {
+      if (kIsWeb) {
+        _imageBytes = await pickedFile.readAsBytes();
+         print("bytess: $_imageBytes");
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        _uploadImage();
       } else {
-        print('No image selected.');
+        _imageBytes = await File(pickedFile.path).readAsBytes();
       }
-    });
+      setState(() { _uploadImage();}); // Trigger rebuild after image selection
+     
+    }
   }
 
   Future<void> _uploadImage() async {
-    if (_image == null) return;
-    // show loading circle
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    if (_imageBytes == null) return;
+
+    Get.dialog(const Center(child: CircularProgressIndicator())); // Use Get.dialog for better overlay
+
     try {
-      final ref = _storage.ref().child(
-          'users/${FirebaseAuth.instance.currentUser!.email.toString()}.jpg');
-      await ref.putFile(_image!);
+      final ref = _storage.ref().child('users/${FirebaseAuth.instance.currentUser!.email}.jpg');
+      print("upload task beggining");
+      // Upload task: Handles both web and mobile scenarios
+      UploadTask uploadTask = 
+          kIsWeb 
+              ? ref.putData(_imageBytes!) 
+              : ref.putFile(File(await _picker.pickImage(source: ImageSource.gallery).then((value) => value!.path)));
+
+      await uploadTask;
+      print("upload task finished");
       final url = await ref.getDownloadURL();
-      print('Image uploaded: $url');
 
-      try {
-        print("inside looop");
-        await FirebaseFirestore.instance
-            .collection("Users")
-            .doc(FirebaseAuth.instance.currentUser!.email.toString())
-            .update({
-          'userIMG': url,
-        });
-        print("Firestore doone");
-       Get.to(() => const LoginScreen());
-        AlertDialog(
-          content: const Text("Image Uploaded Successfully"),
-          
-          actions: [
-            TextButton(
-              onPressed: () {
+      print("url : $url");
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .update({'userIMG': url});
 
-                Navigator.pop(context);
-                Get.to(() => const LoginScreen());
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      } catch (e) {
-        navigator!.pop(context);
-        AlertDialog(
-          content: Text(e.toString()),
-        );
-      }
+      Get.back(); // Close the loading dialog
+      Get.offAll(() => const LoginScreen()); // Navigate to LoginScreen
     } catch (e) {
-      print('Error uploading image: $e');
+      Get.back(); // Close dialog in case of error
+      Get.snackbar("Error", e.toString()); // Show error using Get.snackbar
     }
   }
+
 
   Future<void> skip() async {
     return Get.to(const LoginScreen());
@@ -97,7 +83,7 @@ class _ProfileImageState extends State<ProfileImage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Profile Image')),
+      appBar: AppBar(title: const Text('Add Profile Image WEB')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
