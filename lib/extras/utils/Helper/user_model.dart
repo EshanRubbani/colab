@@ -41,3 +41,32 @@ class User {
     };
   }
 }
+
+
+
+class UserImageHelper {
+  
+ Future<String> getUserImage(String userEmail) async {
+  try {
+    // Fetch user document
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmail)
+        .get();
+
+    if (userDoc.exists) {
+      // Extract userImg field
+      String userImgUrl = userDoc.get('userIMG');
+     
+      return userImgUrl;
+    } else {
+      return ''; // Or a default image URL if user not found
+    }
+  } catch (e) {
+    print('Error fetching user image: $e');
+    return '';
+  }
+}
+
+  
+}

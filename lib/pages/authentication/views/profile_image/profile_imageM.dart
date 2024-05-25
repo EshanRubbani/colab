@@ -19,7 +19,6 @@ class ProfileImageM extends StatefulWidget {
 }
 
 class _ProfileImageMState extends State<ProfileImageM> {
-  FirebaseService firebaseService = FirebaseService();
   File? _image;
   final ImagePicker _picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -63,21 +62,22 @@ class _ProfileImageMState extends State<ProfileImageM> {
           'userIMG': url,
         });
         print("Firestore doone");
-       Get.to(() => const LoginScreen());
-        AlertDialog(
-          content: const Text("Image Uploaded Successfully"),
+     navigator!.pop(context);
+      Get.to(() => const LoginScreen());
+        // AlertDialog(
+        //   content: const Text("Image Uploaded Successfully"),
           
-          actions: [
-            TextButton(
-              onPressed: () {
+        //   actions: [
+        //     TextButton(
+        //       onPressed: () {
 
-                Navigator.pop(context);
-                Get.to(() => const LoginScreen());
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
+        //         Navigator.pop(context);
+        //         Get.to(() => const LoginScreen());
+        //       },
+        //       child: const Text('OK'),
+        //     ),
+        //   ],
+        // );
       } catch (e) {
         navigator!.pop(context);
         AlertDialog(
@@ -106,7 +106,7 @@ class _ProfileImageMState extends State<ProfileImageM> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 constraints: const BoxConstraints(maxHeight: 400),
-                child: kIsWeb ? Text("Please Select Profile Image") : Image.file(_image!),
+                child: Text("Please Select Profile Image"),
               ),
             ),
           

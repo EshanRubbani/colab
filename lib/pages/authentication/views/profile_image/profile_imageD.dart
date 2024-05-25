@@ -19,7 +19,7 @@ class ProfileImageD extends StatefulWidget {
 }
 
 class _ProfileImageDState extends State<ProfileImageD> {
-  FirebaseService firebaseService = FirebaseService();
+  
   File? _image;
 
   final FirebaseStorage _storage = FirebaseStorage.instance;

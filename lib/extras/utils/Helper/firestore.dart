@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/post_model.dart';
 import 'package:collab/extras/utils/Helper/user_model.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+
 
 class FirestoreService {
+  
+
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Posts collection reference
@@ -12,9 +17,28 @@ class FirestoreService {
   CollectionReference get _usersCollection => _db.collection('Users');
 
   // Create or Update Post
-  Future<void> setPost(Post post, int backed, int itemPercent, String itemImg,
-      String ownerName, String ownerDp, String owneremail) async {
-    await _postsCollection.doc(post.id).set(post.toDocument());
+  Future<void> setPost(int backed, int itemPercent, String itemImg, String itemName,
+      String ownerName, String ownerDp, Timestamp timestamp) async {
+
+    try{
+      print("arrived at set post");
+       await _postsCollection.doc().set(
+      {
+        'itemName': itemName,
+        'backed': backed,
+        'itemPercent': itemPercent,
+        'itemImg': itemImg,
+        'ownerName': ownerName,
+        'ownerDp': ownerDp,
+      
+        'timestamp': timestamp
+
+    });}
+    catch(e){
+      print("at firestore create post");
+      print(e);
+    }
+    
   }
 
   // Get Post by ID
@@ -54,21 +78,32 @@ class FirestoreService {
   Future<void> deleteUser(String id) async {
     await _usersCollection.doc(id).delete();
   }
+
+
+   // Get users stream
+  Stream<QuerySnapshot> getUsersStream() {
+    return _usersCollection.orderBy('timestamp', descending: true).snapshots();
+  }
+
+// Get User profile image by current user email
+Future<String?> getUserProfileImage(String email) async {
+  try {
+    QuerySnapshot snapshot = await _usersCollection.where('email', isEqualTo: email).get();
+    if (snapshot.docs.isNotEmpty) {
+      User user = User.fromDocument(snapshot.docs.first);
+      return user.userImg;
+    }
+    return null;
+  } catch (e) {
+    print("Error getting user profile image: $e");
+    return null;
+  }
 }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+}
 
 
 

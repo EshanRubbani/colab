@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  String id;
+
   int backed;
   String itemImg;
   String itemName;
@@ -11,7 +11,6 @@ class Post {
   Timestamp timestamp;
 
   Post({
-    required this.id,
     required this.backed,
     required this.itemImg,
     required this.itemName,
@@ -25,7 +24,7 @@ class Post {
   factory Post.fromDocument(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Post(
-      id: doc.id,
+
       backed: data['backed'],
       itemImg: data['itemImg'],
       itemName: data['itemName'],

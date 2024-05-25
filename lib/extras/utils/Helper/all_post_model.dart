@@ -54,32 +54,3 @@ class Item {
     };
   }
 }
-
-class FirebaseService {
-  List<Item> _items = [];
-  final DatabaseReference _itemsRef =
-      FirebaseDatabase.instance.ref().child('items');
-
-  // Store fetched items for efficient access
-
-  // Fetch all items and store them
-  Future<void> initialize() async {
-    DataSnapshot snapshot = await _itemsRef.get();
-    _items = [];
-    if (snapshot.exists) {
-      for (var child in snapshot.children) {
-        _items.add(Item.fromSnapshot(child));
-      }
-    }
-  }
-
-  // Access items directly by index
-  Item operator [](int index) {
-    return _items[index];
-  }
-
-  // Get the total number of items
-  int get length => _items.length;
-
-  List<Item> get items => _items; // Public getter for _items
-}
