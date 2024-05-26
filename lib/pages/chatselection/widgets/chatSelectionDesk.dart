@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:collab/pages/chatselection/widgets/menu_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:popover/popover.dart';
 
 
 class ChatSelectionDesk extends StatefulWidget {
-  const ChatSelectionDesk({ Key? key }) : super(key: key);
+  const ChatSelectionDesk({ super.key });
 
   @override
   _ChatSelectionDeskState createState() => _ChatSelectionDeskState();
@@ -70,25 +72,48 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                        Expanded(
-                        child: SizedBox(
-                          child: TextField(
-                            controller: searchController,
-                            showCursor: true,
-                            cursorColor: KAppColors.kPrimary,
-                            
+                        child: Builder(
+                          builder: (context) {
+                            return GestureDetector(
+                              onDoubleTap: (){
+                                showPopover(
+                                    context: context,
+                                    bodyBuilder: (context) => const Padding(
+                                      padding: EdgeInsets.all(8.0), // Add padding here
+                                      child: MenuItem(),
+                                    ),
+                                    width: 360,
+                                    height: 300,
+                                    direction: PopoverDirection.bottom,
+                                    arrowHeight: 0,
+                                    arrowWidth: 0,
+                                    backgroundColor: Colors.white,
 
-                            decoration: const InputDecoration(
-                                hintText: 'Select Users to Send Message',
-                                border: InputBorder.none),
-                            style: const TextStyle(
-                              color: Color(0xFF64748B),
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: 0.09,
-                            ),
-                            enableInteractiveSelection: true,
-                          ),
+                                  );
+                                
+                              },
+                              child: SizedBox(
+                                child: TextField(
+                                  controller: searchController,
+                                  showCursor: true,
+                                  cursorColor: KAppColors.kPrimary,
+                                  
+                              
+                                  decoration: const InputDecoration(
+                                      hintText: 'Select Users to Send Message',
+                                      border: InputBorder.none),
+                                  style: const TextStyle(
+                                    color: Color(0xFF64748B),
+                                    fontSize: 16,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    height: 0.09,
+                                  ),
+                                  enableInteractiveSelection: true,
+                                ),
+                              ),
+                            );
+                          }
                         ),
                       ),
                       Container(
@@ -109,7 +134,7 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                 ),
               ),
               Center(
-                child: Container(
+                child: SizedBox(
                   // color: Colors.grey.shade500,
                   width: 360,
                   height: size.height / 1.34,
@@ -180,7 +205,7 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                             const SizedBox(
                               width: 15,
                             ),
-                            Container(
+                            SizedBox(
                               width: 170,
                               height: 60,
                               // color: Colors.black,
@@ -189,7 +214,7 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     // color: Colors.black,
                                     width: 170,
                                     height: 25,
@@ -203,7 +228,7 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                                       ),
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 25,
                                     width: 170,
                                     // color: Colors.black,
@@ -279,7 +304,7 @@ menubar() {
             onPressed: () {},
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   height: 40,
                   width: 40,
                   //color: Colors.red,
@@ -293,7 +318,7 @@ menubar() {
                   style: TextStyle(color: KAppColors.kPrimary),
                 ),
                 const Spacer(),
-                Container(
+                SizedBox(
                     height: 20,
                     width: 20,
                     //color: Colors.red,
@@ -323,7 +348,7 @@ menubar() {
             onPressed: () {},
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   height: 40,
                   width: 40,
                   //color: Colors.red,
@@ -337,7 +362,7 @@ menubar() {
                   style: TextStyle(color: KAppColors.kPrimary),
                 ),
                 const Spacer(),
-                Container(
+                SizedBox(
                     height: 20,
                     width: 20,
                     //color: Colors.red,
@@ -367,7 +392,7 @@ menubar() {
             onPressed: () {},
             child: Row(
               children: [
-                Container(
+                SizedBox(
                   height: 40,
                   width: 40,
                   //color: Colors.red,
@@ -381,7 +406,7 @@ menubar() {
                   style: TextStyle(color: KAppColors.kPrimary),
                 ),
                 const Spacer(),
-                Container(
+                SizedBox(
                     height: 20,
                     width: 20,
                     //color: Colors.red,

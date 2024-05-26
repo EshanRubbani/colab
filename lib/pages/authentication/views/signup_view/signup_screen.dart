@@ -2,13 +2,11 @@ import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/pages/authentication/views/profile_image/profile_imageD.dart';
-import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/profile_image/profile_imageM.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../../extras/common/common_textfield.dart';
 import '../../../../extras/utils/constant/device_size.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -78,6 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
           'lastName': lastNameController.text,
           'timestamp': Timestamp.now(),
           'userIMG': "",
+          'userUID': userCredential.user!.uid,
         });
         print("Firestore user details doone");
       } catch (e) {

@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:collab/pages/chatpage/chatpage.dart';
+import 'package:collab/pages/chatselection/widgets/menu_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:popover/popover.dart';
 
 class ChatSelectionMobile extends StatefulWidget {
-  const ChatSelectionMobile({Key? key}) : super(key: key);
+  const ChatSelectionMobile({super.key});
 
   @override
   _ChatSelectionMobileState createState() => _ChatSelectionMobileState();
@@ -15,6 +18,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
   List<DocumentSnapshot> selectedUsers = [];
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -68,32 +72,49 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: TextField(
-                              controller: searchController,
-                              showCursor: true,
-                              decoration: const InputDecoration(
-                                hintText: 'Select Users to Send Message',
-                                border: InputBorder.none,
-                              ),
-                              style: const TextStyle(
-                                color: Color(0xFF64748B),
-                                fontSize: 16,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w400,
-                              ),
-                              enableInteractiveSelection: true,
+                            child: Builder(
+                              builder: (context) {
+                                return GestureDetector(
+                                  onDoubleTap: () {
+                                    showPopover(
+                                      context: context,
+                                      bodyBuilder: (context) => const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: MenuItem(),
+                                      ),
+                                      width: 360,
+                                      height: 300,
+                                      direction: PopoverDirection.bottom,
+                                      arrowHeight: 0,
+                                      arrowWidth: 0,
+                                      backgroundColor: Colors.white,
+                                    );
+                                  },
+                                  child: TextField(
+                                    controller: searchController,
+                                    showCursor: true,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Select Users to Send Message',
+                                      border: InputBorder.none,
+                                    ),
+                                    style: const TextStyle(
+                                      color: Color(0xFF64748B),
+                                      fontSize: 16,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    enableInteractiveSelection: true,
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(2),
-                            child: const Icon(CupertinoIcons.search),
                           ),
                         ],
                       ),
                     ),
                   ),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: 400,
                       height: size.height / 1.25,
                       child: StreamBuilder<QuerySnapshot>(
@@ -120,104 +141,14 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                                 bool isSelected = selectedUsers.contains(filteredUsers[index]);
                                 return GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      if (isSelected) {
-                                        selectedUsers.remove(filteredUsers[index]);
-                                      } else {
-                                        selectedUsers.add(filteredUsers[index]);
-                                      }
-                                    });
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => Chatpage(
+                                        receiverEmail: user['email'],
+                                        receiverID: user['userUID'],
+                                        ),
+                                    ));
                                   },
-                                  child: Container(
-                                    width: 400,
-                                    height: 80,
-                                    margin: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 5),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: isSelected ? KAppColors.kPrimary : Colors.grey.shade300, width: 2),
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: isSelected ? KAppColors.kPrimary.withOpacity(0.1) : Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.1),
-                                          spreadRadius: 2,
-                                          blurRadius: 0.2,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(width: 10),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50),
-                                            image: DecorationImage(
-                                              image: user['userIMG']?.isNotEmpty ?? false
-                                                  ? NetworkImage(user['userIMG']) as ImageProvider
-                                                  : const AssetImage('assets/images/profile.png'),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          height: 60,
-                                          width: 60,
-                                        ),
-                                        const SizedBox(width: 15),
-                                        Container(
-                                          width: 170,
-                                          height: 60,
-                                          child: Column(
-                                            children: [
-                                              const SizedBox(height: 5),
-                                              Container(
-                                                width: 170,
-                                                height: 25,
-                                                child: Text(
-                                                  '${user['firstName'] ?? 'First Name'} ${user['lastName'] ?? 'Last Name'}',
-                                                  style: const TextStyle(
-                                                    fontFamily: "Inter",
-                                                    fontSize: 16,
-                                                    color: KAppColors.kPrimary,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 25,
-                                                width: 170,
-                                                child: Text(
-                                                  user['email'] ?? 'Email',
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade500,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        Container(
-                                          width: 50,
-                                          height: 50,
-                                          margin: const EdgeInsets.only(right: 20),
-                                          child: Checkbox(
-                                            activeColor: Colors.green,
-                                            shape: const CircleBorder(),
-                                            value: isSelected,
-                                            onChanged: (bool? newValue) {
-                                              setState(() {
-                                                if (newValue == true) {
-                                                  selectedUsers.add(filteredUsers[index]);
-                                                } else {
-                                                  selectedUsers.remove(filteredUsers[index]);
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  child: _buildUserList(user, isSelected, filteredUsers[index]),
                                 );
                               },
                             );
@@ -239,30 +170,102 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
       ),
     );
   }
-}
 
-class MyCheckboxWidget extends StatefulWidget {
-  const MyCheckboxWidget({Key? key}) : super(key: key);
-
-  @override
-  _MyCheckboxWidgetState createState() => _MyCheckboxWidgetState();
-}
-
-class _MyCheckboxWidgetState extends State<MyCheckboxWidget> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: Colors.green,
-      shape: const CircleBorder(),
-      value: isChecked,
-      onChanged: (bool? newValue) {
-        setState(() {
-          isChecked = newValue ?? false;
-        });
-      },
+  Widget _buildUserList(Map<String, dynamic> user, bool isSelected, DocumentSnapshot userDoc) {
+   if(user["email"] != FirebaseAuth.instance.currentUser!.email){
+     return Container(
+      width: 400,
+      height: 80,
+      margin: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 5),
+      decoration: BoxDecoration(
+        border: Border.all(color: isSelected ? KAppColors.kPrimary : Colors.grey.shade300, width: 2),
+        borderRadius: BorderRadius.circular(10),
+        color: isSelected ? KAppColors.kPrimary.withOpacity(0.1) : Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 0.2,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              image: DecorationImage(
+                image: user['userIMG']?.isNotEmpty ?? false
+                    ? NetworkImage(user['userIMG']) as ImageProvider
+                    : const AssetImage('assets/images/profile.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            height: 60,
+            width: 60,
+          ),
+          const SizedBox(width: 15),
+          SizedBox(
+            width: 170,
+            height: 60,
+            child: Column(
+              children: [
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: 170,
+                  height: 25,
+                  child: Text(
+                    '${user['firstName'] ?? 'First Name'} ${user['lastName'] ?? 'Last Name'}',
+                    style: const TextStyle(
+                      fontFamily: "Inter",
+                      fontSize: 16,
+                      color: KAppColors.kPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                  width: 170,
+                  child: Text(
+                    user['email'] ?? 'Email',
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          Container(
+            width: 50,
+            height: 50,
+            margin: const EdgeInsets.only(right: 20),
+            child: Checkbox(
+              activeColor: Colors.green,
+              shape: const CircleBorder(),
+              value: isSelected,
+              onChanged: (bool? newValue) {
+                setState(() {
+                  if (newValue == true) {
+                    selectedUsers.add(userDoc);
+                  } else {
+                    selectedUsers.remove(userDoc);
+                  }
+                });
+              },
+            ),
+          ),
+        ],
+      ),
     );
+   }else{
+     return Container();
+   }
   }
 }
 
@@ -270,9 +273,9 @@ class MyButton extends StatefulWidget {
   final bool index;
 
   const MyButton({
-    Key? key,
+    super.key,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<MyButton> createState() => _MyButtonState();
@@ -305,7 +308,7 @@ class _MyButtonState extends State<MyButton> {
                   ),
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(KAppColors.kPrimary),
+                      backgroundColor: WidgetStateProperty.all(KAppColors.kPrimary),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -322,79 +325,4 @@ class _MyButtonState extends State<MyButton> {
           )
         : const SizedBox.shrink();
   }
-}
-
-Container menubar() {
-  return Container(
-    decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade500)),
-    height: 250,
-    width: 360,
-    child: Column(
-      children: [
-        const SizedBox(height: 10),
-        _menuButton(
-          title: "All Group Members",
-          iconPath: 'assets/images/hat.png',
-          onPressed: () {},
-        ),
-        const SizedBox(height: 10),
-        _menuButton(
-          title: "Male",
-          iconPath: 'assets/images/hat.png',
-          onPressed: () {},
-        ),
-        const SizedBox(height: 10),
-        _menuButton(
-          title: "Female",
-          iconPath: 'assets/images/hat.png',
-          onPressed: () {},
-        ),
-      ],
-    ),
-  );
-}
-
-Padding _menuButton({
-  required String title,
-  required String iconPath,
-  required VoidCallback onPressed,
-}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8),
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        minimumSize: const Size(345, 55),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(color: Colors.grey.shade500),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-      onPressed: onPressed,
-      child: Row(
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            child: Image.asset(iconPath),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(color: KAppColors.kPrimary),
-          ),
-          const Spacer(),
-          Container(
-            height: 20,
-            width: 20,
-            child: GestureDetector(
-              child: const Icon(CupertinoIcons.forward),
-              onTap: () {},
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }

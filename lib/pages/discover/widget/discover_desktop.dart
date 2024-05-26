@@ -7,7 +7,7 @@ import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
 
 class DiscoverDesktop extends StatefulWidget {
-  const DiscoverDesktop({Key? key}) : super(key: key);
+  const DiscoverDesktop({super.key});
 
   @override
   _DiscoverDesktopState createState() => _DiscoverDesktopState();
@@ -351,7 +351,7 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
             children: [
               Row(
                 children: [
-                  SizedBox(width: 60,),
+                  const SizedBox(width: 60,),
                   Text(
                     item.itemName,
                     style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800,),

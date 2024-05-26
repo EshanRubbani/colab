@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/post_model.dart';
 import 'package:collab/extras/utils/Helper/user_model.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
+import 'package:firebase_auth/firebase_auth.dart' as auth_user;
 
 
 class FirestoreService {
   
-
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Posts collection reference
+ 
+  /* -----------------------------POSTS---------------------------------*/
+
+  
+   // Posts collection reference
   CollectionReference get _postsCollection => _db.collection('Posts');
 
-  // Users collection reference
-  CollectionReference get _usersCollection => _db.collection('Users');
 
   // Create or Update Post
   Future<void> setPost(int backed, int itemPercent, String itemImg, String itemName,
@@ -55,6 +55,24 @@ class FirestoreService {
     await _postsCollection.doc(id).delete();
   }
 
+
+  // Get posts stream
+  Stream<QuerySnapshot> getPostsStream() {
+    return _postsCollection.orderBy('timestamp', descending: true).snapshots();
+  }
+
+  /* -----------------------------USERS---------------------------------*/
+
+
+  // Get current user
+  auth_user.User? user = auth_user.FirebaseAuth.instance.currentUser;
+  String? currentemail = auth_user.FirebaseAuth.instance.currentUser!.email.toString();
+
+
+  // Users collection reference
+  CollectionReference get _usersCollection => _db.collection('Users');
+
+
   // Create or Update User
   Future<void> setUser(User user) async {
     await _usersCollection.doc(user.id).set(user.toDocument());
@@ -69,10 +87,6 @@ class FirestoreService {
     return null;
   }
 
-  // Get posts stream
-  Stream<QuerySnapshot> getPostsStream() {
-    return _postsCollection.orderBy('timestamp', descending: true).snapshots();
-  }
 
   // Delete User
   Future<void> deleteUser(String id) async {
@@ -99,6 +113,22 @@ Future<String?> getUserProfileImage(String email) async {
     return null;
   }
 }
+
+
+
+  //  // Get Single  users Data Form Users Stream
+  // Stream<Map<String, dynamic>> getUserInfo() {
+
+  //   return _usersCollection.snapshots().map((snapshot){
+  //           return snapshot.docs.map((doc) {
+  //             final user = doc.data();
+              
+  //             return user;
+  //           }).toList();
+  //   });
+  // }
+
+
 
 
 

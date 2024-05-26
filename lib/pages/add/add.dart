@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/Helper/post_model.dart';
 import 'package:collab/extras/utils/Helper/user_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
@@ -12,7 +11,6 @@ import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Add extends StatefulWidget {
@@ -30,7 +28,7 @@ class _AddState extends State<Add> {
   final TextEditingController itemPercentController = TextEditingController();
    TextEditingController itemImgController = TextEditingController();
   // Inside your widget
-  UserImageHelper _userImageHelper = UserImageHelper(); 
+  final UserImageHelper _userImageHelper = UserImageHelper(); 
 
   File? _image;
   final ImagePicker _picker = ImagePicker();
@@ -178,7 +176,7 @@ class _AddState extends State<Add> {
   }
 
   Widget _buildForDesktop(BuildContext context) {
-     final size = MediaQuery.of(context).size;
+      final size = MediaQuery.of(context).size;
 
   
     return SingleChildScrollView(

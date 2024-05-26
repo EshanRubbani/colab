@@ -1,9 +1,4 @@
-import 'package:collab/extras/utils/res.dart';
-import 'package:collab/pages/authentication/views/profile_image/profile_imageD.dart';
-import 'package:collab/pages/authentication/views/profile_image/profile_imageM.dart';
-import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
-import 'package:collab/pages/home/home_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,12 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CrowdFunding',
+      title: 'CrowdFunding Web',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 }

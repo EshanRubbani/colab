@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   bool isObscure = true;
 
+
   void signUserIn() async {
     // show loading circle
     showDialog(
@@ -33,7 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
         });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //sign in the user
+     UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );

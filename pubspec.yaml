@@ -48,6 +48,8 @@ dependencies:
   firebase_storage_web: ^3.9.6
   file_picker: ^8.0.3
   image_picker_for_web: ^3.0.4
+  popover: ^0.3.0+1
+  intl: ^0.17.0
 
 
 dev_dependencies:

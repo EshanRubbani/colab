@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/navbar.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -162,7 +161,7 @@ Widget _buildForMobile(Size size) {
                                 post['ownerDp'],
                                 width: 20,
                                 height: 20,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -356,7 +355,7 @@ _buildForDesktop(Size size) {
                                       height: 20,
                                       fit: BoxFit.fill,
                                       errorBuilder: (context, error, stackTrace) {
-                                        return Icon(Icons.error, color: KAppColors.kPrimary);
+                                        return const Icon(Icons.error, color: KAppColors.kPrimary);
                                       },
                                     ),
                                   ),
@@ -364,7 +363,7 @@ _buildForDesktop(Size size) {
                                 const SizedBox(width: 10),
                                 Text(
                                   post['ownerName'],
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
@@ -373,10 +372,10 @@ _buildForDesktop(Size size) {
                               children: [
                                 Row(
                                   children: [
-                                    SizedBox(width: 60,),
+                                    const SizedBox(width: 60,),
                                     Text(
                                       post['itemName'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 22, 
                                         fontWeight: FontWeight.w800,
                                       ),

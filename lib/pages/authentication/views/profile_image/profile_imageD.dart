@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/all_post_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
-import 'package:collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -92,7 +90,7 @@ class _ProfileImageDState extends State<ProfileImageD> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 constraints: const BoxConstraints(maxHeight: 400),
-                child: kIsWeb ? Text("Please Select Profile Image") : Image.file(_image!),
+                child: kIsWeb ? const Text("Please Select Profile Image") : Image.file(_image!),
               ),
             ),
           

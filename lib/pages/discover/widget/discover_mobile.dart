@@ -5,8 +5,9 @@ import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class DiscoverMobile extends StatefulWidget {
-  const DiscoverMobile({Key? key}) : super(key: key);
+  const DiscoverMobile({super.key});
 
   @override
   _DiscoverMobileState createState() => _DiscoverMobileState();
@@ -88,7 +89,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22),
-          child: Container(
+          child: SizedBox(
             height: 50,
             width: size.width,
             child: SearchBar(
@@ -113,7 +114,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
             ),
           ),
         ),
-        Container(
+        SizedBox(
           width: size.width,
           height: 50,
           child: Padding(
@@ -336,7 +337,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
                 style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 30),
-              Container(
+              SizedBox(
                 height: 3.48,
                 width: 358,
                 child: Center(
@@ -347,7 +348,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
+              SizedBox(
                 height: 21,
                 width: 358.18,
                 child: Row(
