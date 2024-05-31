@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/chat/bubble.dart';
 import 'package:collab/extras/utils/Helper/chat/chat_service.dart';
+import 'package:collab/extras/utils/Helper/chat/profileavator.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -157,11 +158,28 @@ class _ChatpageState extends State<Chatpage> {
       child: Column(
         crossAxisAlignment: isCurrentUser ?  CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
+          FutureBuilder<String?>(
+        future: isCurrentUser 
+            ? _firestore.getUserProfileImage(_firestore.user!.email.toString()) 
+            : _firestore.getUserProfileImage(data["senderEmail"]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // or any placeholder widget
+          } else if (snapshot.hasError) {
+            return Icon(Icons.error); // or any error widget
+          } else {
+            return Profileavator(
+              profileUrl: snapshot.data ?? '',
+            );
+          }
+        },
+      ),
           ChatBubble(
             isCurrentUser: isCurrentUser,
             message: data["message"],
             timestamp: data["timestamp"]
           ), 
+         
 
         ],
       ),
