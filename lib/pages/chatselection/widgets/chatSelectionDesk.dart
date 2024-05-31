@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:collab/pages/chatpage/chatpage.dart';
 import 'package:collab/pages/chatselection/widgets/menu_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
@@ -17,7 +19,8 @@ class ChatSelectionDesk extends StatefulWidget {
 class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
    TextEditingController searchController = TextEditingController();
   String searchQuery = '';
-
+  List<DocumentSnapshot> selectedUsers = [];
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 
   @override
@@ -159,99 +162,19 @@ class _ChatSelectionDeskState extends State<ChatSelectionDesk> {
                             return ListView.builder(
                     itemCount: filteredUsers.length,
                     itemBuilder: (context, index) {
+                       
                        var user = filteredUsers[index].data() as Map<String, dynamic>;
-                      return Container(
-                        width: 325,
-                        height: 80,
-                        // color: Colors.black,
-                        margin: const EdgeInsets.only(
-                          top: 15,
-                          left: 5,
-                          right: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.grey.shade300, width: 2),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 0.2,
-                              offset: const Offset(
-                                  0, 2), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                image:  DecorationImage(
-                                   image: user['userIMG']?.isNotEmpty ?? false
-                                                ? NetworkImage(user['userIMG']) as ImageProvider
-                                                : const AssetImage('assets/images/profile.png'),
-                                    fit: BoxFit.cover),
-                              ),
-                              height: 60,
-                              width: 60,
-                              // color: Colors.black,
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            SizedBox(
-                              width: 170,
-                              height: 60,
-                              // color: Colors.black,
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  SizedBox(
-                                    // color: Colors.black,
-                                    width: 170,
-                                    height: 25,
-                                    child:  Text(
-                                     '${user['firstName'] ?? 'First Name'} ${user['lastName'] ?? 'Last Name'}',
-                                      style: const TextStyle(
-                                        fontFamily: "Inter",
-                                        fontSize: 14,
-                                        color: KAppColors.kPrimary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                    width: 170,
-                                    // color: Colors.black,
-                                    child: Text(
-                                      user['email'] ?? 'Email',
-                                      style: TextStyle(
-                                          color: Colors.grey.shade500,
-                                          fontSize: 10),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                                // decoration: BoxDecoration(shape: BoxShape.circle),
-                                width: 34,
-                                height: 34,
-                                margin: const EdgeInsets.only(right: 20),
-                                // color: Colors.black,
-                                child: const MyCheckboxWidget())
-                          ],
-                        ),
+                       bool isSelected = selectedUsers.contains(filteredUsers[index]);
+                      return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => Chatpage(
+                                        receiverEmail: user['email'],
+                                        receiverID: user['userUID'],
+                                        ),
+                                    ));
+                                  },
+                                  child: _buildUserList(user, isSelected, filteredUsers[index]), 
                       );
                     },
                   );
@@ -516,3 +439,104 @@ class _MyButtonState extends State<MyButton> {
 }
 
 
+Widget _buildUserList(Map<String, dynamic> user, bool isSelected, DocumentSnapshot userDoc) {
+   if(user["email"] != FirebaseAuth.instance.currentUser!.email){
+    return Container(
+                          width: 325,
+                          height: 80,
+                          // color: Colors.black,
+                          margin: const EdgeInsets.only(
+                            top: 15,
+                            left: 5,
+                            right: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.grey.shade300, width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.1),
+                                spreadRadius: 2,
+                                blurRadius: 0.2,
+                                offset: const Offset(
+                                    0, 2), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  image:  DecorationImage(
+                                     image: user['userIMG']?.isNotEmpty ?? false
+                                                  ? NetworkImage(user['userIMG']) as ImageProvider
+                                                  : const AssetImage('assets/images/profile.png'),
+                                      fit: BoxFit.cover),
+                                ),
+                                height: 60,
+                                width: 60,
+                                // color: Colors.black,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              SizedBox(
+                                width: 170,
+                                height: 60,
+                                // color: Colors.black,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    SizedBox(
+                                      // color: Colors.black,
+                                      width: 170,
+                                      height: 25,
+                                      child:  Text(
+                                       '${user['firstName'] ?? 'First Name'} ${user['lastName'] ?? 'Last Name'}',
+                                        style: const TextStyle(
+                                          fontFamily: "Inter",
+                                          fontSize: 14,
+                                          color: KAppColors.kPrimary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                      width: 170,
+                                      // color: Colors.black,
+                                      child: Text(
+                                        user['email'] ?? 'Email',
+                                        style: TextStyle(
+                                            color: Colors.grey.shade500,
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                  // decoration: BoxDecoration(shape: BoxShape.circle),
+                                  width: 34,
+                                  height: 34,
+                                  margin: const EdgeInsets.only(right: 20),
+                                  // color: Colors.black,
+                                  child: const MyCheckboxWidget())
+                            ],
+                          ),
+                        );
+   }else{
+     return Container();
+   }
+
+
+}

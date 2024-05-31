@@ -8,27 +8,72 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class Chatpage extends StatelessWidget {
+class Chatpage extends StatefulWidget {
   final String receiverEmail;
   final String receiverID;
  Chatpage({ super.key, required this.receiverEmail, required this.receiverID });
+
+  @override
+  State<Chatpage> createState() => _ChatpageState();
+}
+
+class _ChatpageState extends State<Chatpage> {
   //text controller
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   //chat and auth servoces
   final ChatService _chatService = ChatService();
   final FirestoreService _firestore = FirestoreService();
 
 
+  //focus node for textfieldfocus
+  FocusNode myfocusnode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    //add listner to focus node
+    myfocusnode.addListener((){
+      if(myfocusnode.hasFocus){
+        //cause a delay in opening keyboard and scrool down
+        Future.delayed(Duration(milliseconds: 500),
+        
+        () => scrolldown() );
+      }
+    });
+
+
+    Future.delayed(const  Duration(milliseconds: 500),
+    () => scrolldown(),
+    );
+  }
+
+  @override
+  void dispose() {
+    myfocusnode.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  void scrolldown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent, 
+      duration: const Duration(seconds: 1), 
+      curve: Curves.fastOutSlowIn
+      );
+  }
+
   //send message
   void sendMessage() async {
     if(_messageController.text.isNotEmpty){
       await _chatService.sendMessage(
-        receiverID, 
+        widget.receiverID, 
         _messageController.text,
         );
     }
     //after sending clear controller
     _messageController.clear();
+    scrolldown();
   }
 
   @override
@@ -39,7 +84,7 @@ class Chatpage extends StatelessWidget {
         foregroundColor: Colors.grey,
         centerTitle: true
         ,
-        title: Text(receiverEmail,style: TextStyle(color: Colors.black),),
+        title: Text(widget.receiverEmail,style: TextStyle(color: Colors.black),),
     ),
     body: Column(
       children: [
@@ -55,12 +100,11 @@ class Chatpage extends StatelessWidget {
   }
 
     //build message list
-
   Widget _buildMessageList(){
 
     String senderId = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder(
-      stream: _chatService.getMessages(senderId, receiverID),
+      stream: _chatService.getMessages(senderId, widget.receiverID),
       builder: (context, snapshot){
         //errors
         if(snapshot.hasError){
@@ -78,6 +122,7 @@ class Chatpage extends StatelessWidget {
         //return List Veiw Builder
 
         return ListView(
+            controller: _scrollController,
             children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
         );
 
@@ -120,10 +165,7 @@ class Chatpage extends StatelessWidget {
       );
   }
 
-
-
   //build user Input
-
   Widget _buildUserInput(){
     return Padding(
       padding: const EdgeInsets.only(bottom: 20,left: 20,right: 15,top: 20),
@@ -141,10 +183,14 @@ class Chatpage extends StatelessWidget {
 
               ),
               child: TextField(
-               
+              focusNode: myfocusnode,
+              onEditingComplete: () {
+                sendMessage();
+              },
                 controller: _messageController,
                 textAlign: TextAlign.start,
                 decoration:  InputDecoration(
+
                   hintText: "Write Your Message",
                   suffixIcon: IconButton(onPressed: sendMessage, icon: const Icon(Icons.send,color: KAppColors.kPrimary,)),
                  
@@ -176,5 +222,4 @@ class Chatpage extends StatelessWidget {
       ),
     );
   }
-
 }
