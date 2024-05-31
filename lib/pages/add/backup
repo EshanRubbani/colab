@@ -1,0 +1,61 @@
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile == null) {
+        print('No image selected.');
+      } else {
+        _image = File(pickedFile.path);
+        print("Image selected: $_image");
+        kIsWeb ? uploadImage():_uploadImage();
+      }
+    });
+  }
+
+  Future<void> _uploadImage() async {
+    if (_image == null) return;
+    try {
+      final ref = _storage.ref().child('posts/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      await ref.putFile(_image!);
+      final url = await ref.getDownloadURL();
+      print('Image uploaded: $url');
+
+      setState(() {
+        posturl = url;
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(e.toString()),
+          );
+        },
+      );
+    }
+  }
+
+
+  Future<void> uploadImage() async {
+    if (_image == null) return;
+    try {
+      final ref = _storage.ref().child('posts/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      await ref.putFile(_image!);
+      final url = await ref.getDownloadURL();
+      print('Image uploaded: $url');
+
+      setState(() {
+        posturl = url;
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(e.toString()),
+          );
+        },
+      );
+    }
+  }
