@@ -31,13 +31,33 @@ class _AddState extends State<Add> {
   final TextEditingController itemImgController = TextEditingController();
   final UserImageHelper _userImageHelper = UserImageHelper();
  final FirebaseStorageWeb _storageWeb = FirebaseStorageWeb(bucket: 'collab-3e621.appspot.com');
-  final List<DropdownMenuItem<dynamic>> _dropdownMenuItems = [ "Product" ,];
   File? _image;
   final ImagePicker _picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
   var posturl = "Select Item Image";
     Uint8List? _imageBytes; // Use Uint8List for web image representation
+    String itemType = 'Product';
 
+
+  Widget _buildRadioButtons() { // Helper function for radio buttons
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Radio<String>(
+          value: 'Product',
+          groupValue: itemType,
+          onChanged: (value) => setState(() => itemType = value!),
+        ),
+        const Text('Product'),
+        Radio<String>(
+          value: 'Service',
+          groupValue: itemType,
+          onChanged: (value) => setState(() => itemType = value!),
+        ),
+        const Text('Service'),
+      ],
+    );
+  }
 
    Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -115,6 +135,7 @@ class _AddState extends State<Add> {
   
 
   Future<void> postItem() async {
+     String selectedItemType = itemType; 
     if (itemNameController.text.isNotEmpty &&
         backedController.text.isNotEmpty &&
         itemPercentController.text.isNotEmpty &&
@@ -136,10 +157,11 @@ class _AddState extends State<Add> {
         print(ownerName);
         print(ownerDp);
         print(timestamp);
+        print(selectedItemType);
         print("Calling set post");
 
         fireStoreService.setPost(
-          backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp
+          backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp, selectedItemType
         );
 
         genericErrorMessage("Successfully Posted");
@@ -170,84 +192,86 @@ class _AddState extends State<Add> {
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(19.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: itemNameController,
-                  decoration: InputDecoration(
-                    hintText: "Enter Item Name",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+  child: Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(19.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: itemNameController,
+              decoration: InputDecoration(
+                hintText: "Enter Item Name",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: backedController,
-                  decoration: InputDecoration(
-                    hintText: "Backed",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: itemPercentController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "Item Percent",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                GestureDetector(
-                  onTap: () async {
-                    await _pickImage();
-                  },
-                  child: TextFormField(
-                    controller: itemImgController,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      hintText: posturl,
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-                DropdownButton(items: , onChanged: onChanged)
-                const SizedBox(height: 30),
-                Center(
-                  child: ButtonWidget(
-                    size: size,
-                    color: KAppColors.kButtonPrimary,
-                    onTap: postItem,
-                    text: "Post Item",
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: BottomNavm(index: 2),
-          ),
-        ],
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: backedController,
+              decoration: InputDecoration(
+                hintText: "Backed",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: itemPercentController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Item Percent",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            GestureDetector(
+              onTap: () async {
+                await _pickImage();
+              },
+              child: TextFormField(
+                controller: itemImgController,
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: posturl,
+                  hintStyle: TextStyle(color: Colors.grey[400]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            _buildRadioButtons(),
+            const SizedBox(height: 30),
+            Center(
+              child: ButtonWidget(
+                size: size,
+                color: KAppColors.kButtonPrimary,
+                onTap: postItem,
+                text: "Post Item",
+              ),
+            ),
+          ],
+        ),
       ),
-    );
+      const Align(
+        alignment: Alignment.bottomCenter,
+        child: BottomNavm(index: 2),
+      ),
+    ],
+  ),
+);
+
   }
 
   Widget _buildForMobile(BuildContext context) {
