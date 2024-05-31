@@ -113,7 +113,9 @@ class _ChatpageState extends State<Chatpage> {
 
         //loading
         if(snapshot.connectionState == ConnectionState.waiting){
+          scrolldown();
           return const CircularProgressIndicator(
+            
             color: KAppColors.kPrimary,
           );
         }
@@ -122,6 +124,7 @@ class _ChatpageState extends State<Chatpage> {
         //return List Veiw Builder
 
         return ListView(
+            
             controller: _scrollController,
             children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
         );
