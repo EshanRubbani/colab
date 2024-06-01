@@ -8,6 +8,7 @@ class Item {
   int itemPercent;
   String ownerDp;
   String ownerName;
+  String selectedItemType;
 
   Item({
     //  required this.id,
@@ -17,6 +18,7 @@ class Item {
     required this.itemPercent,
     required this.ownerDp,
     required this.ownerName,
+    required this.selectedItemType,
   });
 
   // Factory constructor to create an Item from a Firebase snapshot
@@ -39,6 +41,7 @@ class Item {
       itemPercent: data['item_percent'] ?? 0,
       ownerDp: data['owner_dp'] ?? '',
       ownerName: data['owner_name'] ?? '',
+      selectedItemType: data['selected_item_type'] ?? '',
     );
   }
 
