@@ -9,7 +9,6 @@ import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import 'package:firebase_storage_web/firebase_storage_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,8 +29,7 @@ class _AddState extends State<Add> {
   final TextEditingController itemPercentController = TextEditingController();
   final TextEditingController itemImgController = TextEditingController();
   final UserImageHelper _userImageHelper = UserImageHelper();
- final FirebaseStorageWeb _storageWeb = FirebaseStorageWeb(bucket: 'collab-3e621.appspot.com');
-  File? _image;
+
   final ImagePicker _picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
   var posturl = "Select Item Image";
