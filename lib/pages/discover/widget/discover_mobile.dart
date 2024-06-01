@@ -51,6 +51,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
             itemPercent: data['itemPercent'],
             itemImg: data['itemImg'],
             ownerDp: data['ownerDp'],
+            selectedItemType: data['selectedItemType'],
           );
         }).toList();
 
@@ -326,6 +327,14 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
                 item.ownerName,
                 style: const TextStyle(fontSize: 16),
               ),
+              const Text(
+                                 "  ",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  item.selectedItemType,
+                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                ),
             ],
           ),
           const SizedBox(height: 15),
