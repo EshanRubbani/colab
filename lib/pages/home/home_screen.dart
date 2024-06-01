@@ -170,6 +170,14 @@ Widget _buildForMobile(Size size) {
                             post['ownerName'],
                             style: const TextStyle(fontSize: 16),
                           ),
+                          const Text(
+                                 "  ",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  post['selectedItemType'],
+                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                ),
                         ],
                       ),
                       const SizedBox(height: 15),
