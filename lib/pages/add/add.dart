@@ -278,74 +278,76 @@ class _AddState extends State<Add> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(19.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: itemNameController,
-                  decoration: InputDecoration(
-                    hintText: "Enter Item Name",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+                Padding(
+        padding: const EdgeInsets.all(19.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: itemNameController,
+              decoration: InputDecoration(
+                hintText: "Enter Item Name",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: backedController,
-                  decoration: InputDecoration(
-                    hintText: "Backed",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: itemPercentController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "Item Percent",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                GestureDetector(
-                  onTap: () async {
-                    await _pickImage();
-                  },
-                  child: TextFormField(
-                    controller: itemImgController,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      hintText: posturl,
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: ButtonWidget(
-                    size: size,
-                    color: KAppColors.kButtonPrimary,
-                    onTap: postItem,
-                    text: "Post Item",
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: backedController,
+              decoration: InputDecoration(
+                hintText: "Backed",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            TextFormField(
+              controller: itemPercentController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Item Percent",
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            GestureDetector(
+              onTap: () async {
+                await _pickImage();
+              },
+              child: TextFormField(
+                controller: itemImgController,
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: posturl,
+                  hintStyle: TextStyle(color: Colors.grey[400]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            _buildRadioButtons(),
+            const SizedBox(height: 30),
+            Center(
+              child: ButtonWidget(
+                size: size,
+                color: KAppColors.kButtonPrimary,
+                onTap: postItem,
+                text: "Post Item",
+              ),
+            ),
+          ],
+        ),
+      ),
           const Align(
             alignment: Alignment.bottomCenter,
             child: BottomNavm(index: 2),
