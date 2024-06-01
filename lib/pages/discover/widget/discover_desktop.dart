@@ -65,6 +65,7 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
           itemPercent: data['itemPercent'],
           itemImg: data['itemImg'],
           ownerDp: data['ownerDp'],
+          selectedItemType: data['selectedItemType'],
         );
       }).toList();
 
@@ -343,6 +344,14 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
                 item.ownerName,
                 style: const TextStyle(fontSize: 16),
               ),
+              const Text(
+                                 "  ",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  item.selectedItemType,
+                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                ),
             ],
           ),
           const SizedBox(height: 15),
