@@ -8,7 +8,7 @@ import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,13 +29,18 @@ class _AddState extends State<Add> {
   final TextEditingController itemPercentController = TextEditingController();
   final TextEditingController itemImgController = TextEditingController();
   final UserImageHelper _userImageHelper = UserImageHelper();
-
+final List<String> items = [
+  'Local Deal',
+  'State-Wide Deal',
+  'Country-Wide Deal',
+  'Global Deal',
+];
   final ImagePicker _picker = ImagePicker();
   final FirebaseStorage _storage = FirebaseStorage.instance;
   var posturl = "Select Item Image";
     Uint8List? _imageBytes; // Use Uint8List for web image representation
     String itemType = 'Product';
-
+  String? selectedValue;
 
   Widget _buildRadioButtons() { // Helper function for radio buttons
     return Row(
@@ -56,6 +61,57 @@ class _AddState extends State<Add> {
       ],
     );
   }
+
+  Widget _scope() {
+
+    return Container(
+      width: 300,
+
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2<String>(
+          isExpanded: true,
+          hint: Text(
+            'Select Scope',
+            style: TextStyle(
+              fontSize: 14,
+              color: Theme.of(context).hintColor,
+            ),
+          ),
+          items: items
+              .map((String item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ))
+              .toList(),
+          value: selectedValue,
+          onChanged: (String? value) {
+            setState(() {
+              selectedValue = value;
+            });
+          },
+          buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            height: 40,
+            width: 140,
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+          ),
+        ),
+      ),
+
+
+
+
+
+    );
+  }
+
 
    Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -137,6 +193,7 @@ class _AddState extends State<Add> {
     if (itemNameController.text.isNotEmpty &&
         backedController.text.isNotEmpty &&
         itemPercentController.text.isNotEmpty &&
+        selectedValue != null &&
         posturl != "Select Item Image") {
       String itemName = itemNameController.text;
       int backed = int.parse(backedController.text);
@@ -146,6 +203,8 @@ class _AddState extends State<Add> {
       String owneremail = FirebaseAuth.instance.currentUser!.email!;
       String ownerDp = await _userImageHelper.getUserImage(owneremail);
       Timestamp timestamp = Timestamp.now();
+      String Scope = selectedValue!;
+
 
       try {
         print(itemName);
@@ -159,10 +218,16 @@ class _AddState extends State<Add> {
         print("Calling set post");
 
         fireStoreService.setPost(
-          backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp, selectedItemType
+          backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp, selectedItemType, selectedValue!,
         );
 
         genericErrorMessage("Successfully Posted");
+        setState(() {
+          itemNameController.clear();
+          backedController.clear();
+          itemPercentController.clear();
+          posturl = "Select Item Image";
+        });
       } on FirebaseException catch (e) {
         genericErrorMessage(e.code);
       }
@@ -189,86 +254,93 @@ class _AddState extends State<Add> {
   Widget _buildForDesktop(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
-  child: Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(19.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(height: 30),
-            TextFormField(
-              controller: itemNameController,
-              decoration: InputDecoration(
-                hintText: "Enter Item Name",
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            TextFormField(
-              controller: backedController,
-              decoration: InputDecoration(
-                hintText: "Backed",
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            TextFormField(
-              controller: itemPercentController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: "Item Percent",
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            GestureDetector(
-              onTap: () async {
-                await _pickImage();
-              },
-              child: TextFormField(
-                controller: itemImgController,
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: posturl,
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+    return Center(
+      child: Container(
+        width: size.width / 2,
+         
+        child: SingleChildScrollView(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(19.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: itemNameController,
+                  decoration: InputDecoration(
+                    hintText: "Enter Item Name",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: backedController,
+                  decoration: InputDecoration(
+                    hintText: "Backed",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: itemPercentController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: "Item Percent",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                GestureDetector(
+                  onTap: () async {
+                    await _pickImage();
+                  },
+                  child: TextFormField(
+                    controller: itemImgController,
+                    enabled: false,
+                    decoration: InputDecoration(
+                      hintText: posturl,
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                _buildRadioButtons(),
+                _scope(),
+                const SizedBox(height: 30),
+                Center(
+                  child: ButtonWidget(
+                    size: size,
+                    color: KAppColors.kButtonPrimary,
+                    onTap: postItem,
+                    text: "Post Item",
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 30),
-            _buildRadioButtons(),
-            const SizedBox(height: 30),
-            Center(
-              child: ButtonWidget(
-                size: size,
-                color: KAppColors.kButtonPrimary,
-                onTap: postItem,
-                text: "Post Item",
-              ),
-            ),
-          ],
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: BottomNavm(index: 2),
+          ),
+        ],
+          ),
         ),
       ),
-      const Align(
-        alignment: Alignment.bottomCenter,
-        child: BottomNavm(index: 2),
-      ),
-    ],
-  ),
-);
+    );
 
   }
 
@@ -336,6 +408,7 @@ class _AddState extends State<Add> {
             ),
             const SizedBox(height: 30),
             _buildRadioButtons(),
+              _scope(),
             const SizedBox(height: 30),
             Center(
               child: ButtonWidget(

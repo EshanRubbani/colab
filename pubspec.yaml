@@ -50,7 +50,7 @@ dependencies:
   image_picker_for_web: ^3.0.4
   popover: ^0.3.0+1
   intl: ^0.17.0
-
+  dropdown_button2: ^2.3.8
 
 dev_dependencies:
   flutter_test:

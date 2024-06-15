@@ -73,7 +73,6 @@ Widget _buildForMobile(Size size) {
               itemCount: posts.length,
               itemBuilder: (context, index) {
                 var post = posts[index].data() as Map<String, dynamic>;
-                print(post["itemIMG"]);
                 return Container(
                   height: size.height * 0.4,
                   margin: const EdgeInsets.all(20),
@@ -178,6 +177,14 @@ Widget _buildForMobile(Size size) {
                                   post['selectedItemType'],
                                   style: const TextStyle(fontSize: 10,color: Colors.grey  ),
                                 ),
+                          const Text(
+                                 "  ",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  post['scope'],
+                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                ),      
                         ],
                       ),
                       const SizedBox(height: 15),
@@ -379,6 +386,14 @@ _buildForDesktop(Size size) {
                                 ),
                                 Text(
                                   post['selectedItemType'],
+                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                ),
+                                const Text(
+                                 "  ",
+                                  style: TextStyle(fontSize: 22),
+                                ),
+                                Text(
+                                  post['scope'],
                                   style: const TextStyle(fontSize: 10,color: Colors.grey  ),
                                 ),
                               ],

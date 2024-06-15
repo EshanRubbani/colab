@@ -18,7 +18,7 @@ class FirestoreService {
 
   // Create or Update Post
   Future<void> setPost(int backed, int itemPercent, String itemImg, String itemName,
-      String ownerName, String ownerDp, Timestamp timestamp, String selectedItemType) async {
+      String ownerName, String ownerDp, Timestamp timestamp, String selectedItemType, String scope) async {
 
     try{
       print("arrived at set post");
@@ -31,7 +31,9 @@ class FirestoreService {
         'ownerName': ownerName,
         'ownerDp': ownerDp,
         'selectedItemType': selectedItemType,
+        'scope': scope,
         'timestamp': timestamp
+
 
     });}
     catch(e){
