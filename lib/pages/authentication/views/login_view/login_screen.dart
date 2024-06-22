@@ -1,4 +1,5 @@
 import 'package:collab/extras/common/common_button.dart';
+import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
 import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
@@ -225,6 +226,30 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.01,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'SignIn Using',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .apply(color: Colors.grey[800]),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const PhoneLogin());
+                    },
+                    child: Text(
+                      'Phone No.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -373,6 +398,30 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(
                 height: size.height * 0.01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Sign In Using...',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .apply(color: Colors.grey[800]),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const PhoneLogin());
+                    },
+                    child: Text(
+                      'Phone No.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall!
+                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
