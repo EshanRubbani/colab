@@ -221,7 +221,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   size: size,
                   color: KAppColors.kPrimary,
                   onTap: () {
-                    Get.to(() => const SignupVerificationScreen());
+                    // Get.to(() => const SignupVerificationScreen());
                   },
                   text: 'Send Reset Instructions'),
               SizedBox(

@@ -1,5 +1,9 @@
+import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:collab/pages/authentication/views/phone_signup/phone_signup.dart';
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
+import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   runApp(const MyApp());
 }
 
@@ -23,12 +28,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CrowdFunding Chat profile',
+      title: 'CrowdFunding Phone',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home:  FirebaseAuth.instance.currentUser == null ? const SplashScreen() : const HomeScreen(),
+      // home: SignupVerificationScreen(firstName: "eaf",lastName: "eaf",phoneNumber: "eaf",verificationId: "eaf",),
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const SplashScreen(),
+      //   '/home': (context) => const HomeScreen(),
+      
+      // },
+      
     );
   }
 }
