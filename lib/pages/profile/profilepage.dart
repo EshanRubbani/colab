@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -15,8 +14,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    if (user.email == null && user.phoneNumber == null) {
+      return const Center(child: Text('No user data found.'));
+    }
 
+    final userIdentifier = user.email ?? user.phoneNumber;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -24,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Users')
-            .doc(user.email)
+            .doc(userIdentifier)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -39,9 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Center(
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 250,
-                    ),
+                    const SizedBox(height: 250),
+
                     // Profile Picture
                     CircleAvatar(
                       radius: 50,
@@ -58,9 +60,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 10),
 
-                    // Email
+                    // Email or Phone Number
                     Text(
-                      user.email!,
+                      user.email ?? user.phoneNumber!,
                       style: const TextStyle(fontSize: 18),
                     ),
                   ],
