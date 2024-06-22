@@ -1,6 +1,7 @@
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/res.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:collab/pages/authentication/views/phone_signup/phone_signup.dart';
 import 'package:collab/pages/authentication/views/profile_image/profile_imageD.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/profile_image/profile_imageM.dart';
@@ -359,6 +360,31 @@ class _SignupScreenState extends State<SignupScreen> {
                   ],
                 ),
                 SizedBox(
+                  height: size.height * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Sign Up Using....',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .apply(color: Colors.grey[800]),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const PhoneSignup());
+                      },
+                      child: Text(
+                        'Phone no.',
+                        style: Theme.of(context).textTheme.titleSmall!.apply(
+                            fontSizeDelta: 3, color: KAppColors.kPrimary),
+                      ),
+                    ),
+                  ],
+                ),
+                 SizedBox(
                   height: size.height * 0.02,
                 ),
               ],
