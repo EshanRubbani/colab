@@ -3,6 +3,7 @@ import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/s
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/device_size.dart';
+import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -113,6 +114,16 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
                       'Google Login', 'Google login is not implemented yet');
                 },
               ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              SocailLoginWidget(
+                size: size,
+                path: 'phone.png',
+                onTap: () {
+                 Get.to(const PhoneLogin());
+                },
+              ),
             ],
           ),
         ),
@@ -124,7 +135,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
     return SingleChildScrollView(
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 400, minWidth: 400),
           margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -206,6 +217,16 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
                     path: 'google.png',
                     onTap: () {},
                   )),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              SocailLoginWidget(
+                size: size,
+                path: 'phone.png',
+                onTap: () {
+                 Get.to(const PhoneLogin());
+                },
+              ),
               SizedBox(
                 height: size.height * 0.03,
               ),
