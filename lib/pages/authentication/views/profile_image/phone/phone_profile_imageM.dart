@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _PhoneProfileImageMState extends State<PhoneProfileImageM> {
         });
     try {
       final ref = _storage.ref().child(
-          'users/${FirebaseAuth.instance.currentUser!.email.toString()}.jpg');
+          'users/${widget.phoneNumber}.jpg');
       await ref.putFile(_image!);
       final url = await ref.getDownloadURL();
       print('Image uploaded: $url');
@@ -55,13 +56,13 @@ class _PhoneProfileImageMState extends State<PhoneProfileImageM> {
         print("inside looop");
         await FirebaseFirestore.instance
             .collection("Users")
-            .doc(FirebaseAuth.instance.currentUser!.email.toString())
+            .doc(widget.phoneNumber)
             .update({
           'userIMG': url,
         });
         print("Firestore doone");
      navigator!.pop(context);
-      Get.to(() => const LoginScreen());
+      Get.to(() => const PhoneLogin());
         // AlertDialog(
         //   content: const Text("Image Uploaded Successfully"),
           

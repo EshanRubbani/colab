@@ -13,8 +13,11 @@ class PhoneLogin extends StatefulWidget {
   @override
   _PhoneLoginState createState() => _PhoneLoginState();
 }
+     final TextEditingController phoneController = TextEditingController();
 
 class _PhoneLoginState extends State<PhoneLogin> {
+
+
  
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,14 @@ class _PhoneLoginState extends State<PhoneLogin> {
 }
 
 Widget buildFormobile(context) {
-   TextEditingController phoneController = TextEditingController();
 
   return Container(
         color: Colors.white,
         child: Column(
           children: [
+            SizedBox(height: 20,),
             SizedBox(
-              height: 500,
-              width: double.infinity,
+          
               child: Center(
                 child: Image.asset("assets/logo/collab_logo.png"),
               ),
@@ -70,6 +72,13 @@ Widget buildFormobile(context) {
                       ),
                     ),
                     onPressed: () async {
+                       showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         
                         phoneNumber: phoneController.text.trim(),
@@ -79,10 +88,12 @@ Widget buildFormobile(context) {
                           // Handle automatic verification
                         },
                         verificationFailed: (FirebaseAuthException ex) {
+                           navigator!.pop(context);
                           // Handle verification failure
                           Get.snackbar('Error', ex.message ?? 'Verification failed');
                         },
                         codeSent: (String verificationId, int? resendToken) {
+                           navigator!.pop(context);
                           Get.to(SigninVerificationScreen(verificationId: verificationId, phoneNumber: phoneController.text));
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {
@@ -135,7 +146,7 @@ Widget buildFormobile(context) {
 
 
 Widget buildForDesktop(context) {
-   TextEditingController phoneController = TextEditingController();
+
 
   return Center(
     child: Container(

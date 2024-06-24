@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/main.dart';
 import 'package:collab/pages/authentication/views/create_new_password/create_new_password_screen.dart';
@@ -25,6 +27,35 @@ class SigninVerificationScreen extends StatefulWidget {
 
 class _SigninVerificationScreenState extends State<SigninVerificationScreen> {
   final TextEditingController codeController = TextEditingController();
+
+  int _start = 59;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_start == 0) {
+        setState(() {
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+    });
+  }
+  
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,45 +117,54 @@ class _SigninVerificationScreenState extends State<SigninVerificationScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height * 0.2),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Didn\'t receive code?  ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: KAppColors.kBlack,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _resendCode,
-                    child: const Text(
-                      'Resend Code',
+             SizedBox(height: size.height * 0.05),
+              if (_start > 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Resend code in ',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: KAppColors.kAccent,
+                        color: KAppColors.kBlack,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.01),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Resend code in 00:59',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: KAppColors.kBlack,
+                    Text(
+                      '00:$_start',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: KAppColors.kBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              if (_start == 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Didn\'t receive code? ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: KAppColors.kBlack,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _resendCode,
+                      child: const Text(
+                        'Resend Code',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: KAppColors.kAccent,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               SizedBox(height: size.height * 0.03),
               ButtonWidget(
                 size: size,

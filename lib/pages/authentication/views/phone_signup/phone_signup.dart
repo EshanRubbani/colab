@@ -11,10 +11,14 @@ class PhoneSignup extends StatefulWidget {
   const PhoneSignup({super.key});
 
   @override
-  _PhoneSignupState createState() => _PhoneSignupState();
+  State<PhoneSignup> createState() => _PhoneSignupState();
 }
+ final TextEditingController phoneController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
 
 class _PhoneSignupState extends State<PhoneSignup> {
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,160 +28,157 @@ class _PhoneSignupState extends State<PhoneSignup> {
   }
 }
 
-Widget buildFormobile(context) {
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+Widget buildFormobile(BuildContext context) {
 
-  return Container(
-    color: Colors.white,
-    child: Column(
-      children: [
-        SizedBox(
-          height: 500,
-          width: double.infinity,
-          child: Center(
-            child: Image.asset("assets/logo/collab_logo.png"),
-          ),
-        ),
-        SizedBox(
-          height: 300,
-          child: Column(
-            children: [
-              Text("Phone No Sign Up"),
-              Row(
+
+    return SingleChildScrollView(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: SizedBox(
+          
+                child: Center(
+                  child: Image.asset("assets/logo/collab_logo.png"),
+                ),
+              ),
+            ),
+            SizedBox(
+              
+            
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Text(
+                    "Phone No Sign Up",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: KAppColors.kPrimary,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text("First Name"),
-                      SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.004,
-                      ),
-                      SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 2 - 40,
-                          child: TextFormField(
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
                             controller: firstNameController,
                             textInputAction: TextInputAction.next,
-                            onSaved: (firstname) {},
                             decoration: InputDecoration(
+                              labelText: 'First Name',
                               hintText: "First Name",
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.032,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Last Name"),
-                      SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.004,
+                          ),
+                        ),
                       ),
-                      SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 2 - 50,
-                          child: TextFormField(
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
                             controller: lastNameController,
                             textInputAction: TextInputAction.next,
-                            onSaved: (lastname) {},
                             decoration: InputDecoration(
+                              labelText: 'Last Name',
                               hintText: "Last Name",
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.02,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    labelText: "Phone Number",
-                    hintText: "+92 3xxxxxxxxx",
-                    suffixIcon: Icon(Icons.phone),
-                    focusColor: KAppColors.kPrimary,
-                    fillColor: KAppColors.kPrimary,
-                    suffixIconColor: KAppColors.kPrimary,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    child: TextField(
+                      controller: phoneController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        labelText: 'Phone Number',
+                        hintText: "+92 3xxxxxxxxx",
+                        suffixIcon: Icon(Icons.phone),
+                        focusColor: KAppColors.kPrimary,
+                        fillColor: KAppColors.kPrimary,
+                        suffixIconColor: KAppColors.kPrimary,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: KAppColors.kPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: KAppColors.kPrimary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () async {
+                       showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: phoneController.text.trim(),
+                        timeout: const Duration(seconds: 60),
+                        verificationCompleted: (PhoneAuthCredential credential) async {
+                          await FirebaseAuth.instance.signInWithCredential(credential);
+                          // Handle automatic verification
+                        },
+                        verificationFailed: (FirebaseAuthException ex) {
+                           navigator!.pop(context);
+                          // Handle verification failure
+                          Get.snackbar('Error', ex.message ?? 'Verification failed');
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+                           navigator!.pop(context);
+                          Get.to(SignupVerificationScreen(
+                            verificationId: verificationId,
+                            phoneNumber: phoneController.text,
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                          ));
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {
+                          // Auto retrieval timeout
+                        },
+                        forceResendingToken: null,
+                      );
+                    },
+                    child: const Text(
+                      'Register',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                onPressed: () async {
-                  await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: phoneController.text.trim(),
-                    timeout: const Duration(seconds: 60),
-                    verificationCompleted:
-                        (PhoneAuthCredential credential) async {
-                      await FirebaseAuth.instance
-                          .signInWithCredential(credential);
-                      // Handle automatic verification
-                    },
-                    verificationFailed: (FirebaseAuthException ex) {
-                      // Handle verification failure
-                      Get.snackbar(
-                          'Error', ex.message ?? 'Verification failed');
-                    },
-                    codeSent: (String verificationId, int? resendToken) {
-                      Get.to(SignupVerificationScreen(
-                        verificationId: verificationId,
-                        phoneNumber: phoneController.text,
-                        firstName: firstNameController.text.toString(),
-                        lastName: lastNameController.text.toString(),
-                      ));
-                    },
-                    codeAutoRetrievalTimeout: (String verificationId) {
-                      // Auto retrieval timeout
-                    },
-                    forceResendingToken: null,
-                  );
-                },
-                child: const Text(
-                  'Register',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                'OR',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .apply(color: Colors.grey[800]),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    'OR',
+                    style: Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.grey[800]),
+                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const SignupScreen());
+                      Get.to(() => SignupScreen());
                     },
                     child: Text(
                       'Sign Up Using Email....',
@@ -189,17 +190,15 @@ Widget buildFormobile(context) {
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
-}
+      ),
+    );
+  }
+
 Widget buildForDesktop(BuildContext context) {
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+
 
   return Container(
 
@@ -311,9 +310,9 @@ Widget buildForDesktop(BuildContext context) {
                       codeSent: (String verificationId, int? resendToken) {
                         Get.to(SignupVerificationScreen(
                           verificationId: verificationId,
-                          phoneNumber: phoneController.text,
-                          firstName: firstNameController.text,
-                          lastName: lastNameController.text,
+                          phoneNumber: phoneController.text.toString(),
+                          firstName: firstNameController.text.toString(),
+                          lastName: lastNameController.text.toString(),
                         ));
                       },
                       codeAutoRetrievalTimeout: (String verificationId) {
@@ -338,10 +337,10 @@ Widget buildForDesktop(BuildContext context) {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => const LoginScreen());
+                    Get.to(() => const SignupScreen());
                   },
                   child: Text(
-                    'Login Using Email....',
+                    'Sign Up Using Email....',
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
