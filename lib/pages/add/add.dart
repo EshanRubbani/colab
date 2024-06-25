@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/common/common_button.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
+import 'package:collab/extras/utils/Helper/groupchat/group.dart';
 import 'package:collab/extras/utils/Helper/user_model.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
@@ -186,55 +187,60 @@ final List<String> items = [
     );
   }
 
-  
+ Future<void> postItem() async {
+  String selectedItemType = itemType; 
+  if (itemNameController.text.isNotEmpty &&
+      backedController.text.isNotEmpty &&
+      itemPercentController.text.isNotEmpty &&
+      selectedValue != null &&
+      posturl != "Select Item Image") {
+    String itemName = itemNameController.text;
+    int backed = int.parse(backedController.text);
+    int itemPercent = int.parse(itemPercentController.text);
+    String ownerName = FirebaseAuth.instance.currentUser?.email ?? 'Unknown';
+    String itemImg = posturl;
+    String owneremail = FirebaseAuth.instance.currentUser!.email!;
+    String ownerDp = await _userImageHelper.getUserImage(owneremail);
+    Timestamp timestamp = Timestamp.now();
+    String scope = selectedValue!;
 
-  Future<void> postItem() async {
-     String selectedItemType = itemType; 
-    if (itemNameController.text.isNotEmpty &&
-        backedController.text.isNotEmpty &&
-        itemPercentController.text.isNotEmpty &&
-        selectedValue != null &&
-        posturl != "Select Item Image") {
-      String itemName = itemNameController.text;
-      int backed = int.parse(backedController.text);
-      int itemPercent = int.parse(itemPercentController.text);
-      String ownerName = FirebaseAuth.instance.currentUser?.email ?? 'Unknown';
-      String itemImg = posturl;
-      String owneremail = FirebaseAuth.instance.currentUser!.email!;
-      String ownerDp = await _userImageHelper.getUserImage(owneremail);
-      Timestamp timestamp = Timestamp.now();
-      String Scope = selectedValue!;
+    try {
+      print(itemName);
+      print(backed);
+      print(itemPercent);
+      print(posturl);
+      print(ownerName);
+      print(ownerDp);
+      print(timestamp);
+      print(selectedItemType);
+     
+
+      // Create group first and get the groupId
+      String groupId = await GroupFunctions().createGroup(itemName, [FirebaseAuth.instance.currentUser!.uid]);
+     print(groupId);
+      print("Calling set post");
 
 
-      try {
-        print(itemName);
-        print(backed);
-        print(itemPercent);
-        print(posturl);
-        print(ownerName);
-        print(ownerDp);
-        print(timestamp);
-        print(selectedItemType);
-        print("Calling set post");
+      // Set post with groupId
+      await fireStoreService.setPost(
+        backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp, selectedItemType, scope, groupId
+      );
 
-        fireStoreService.setPost(
-          backed, itemPercent, itemImg, itemName, ownerName, ownerDp, timestamp, selectedItemType, selectedValue!,
-        );
-
-        genericErrorMessage("Successfully Posted");
-        setState(() {
-          itemNameController.clear();
-          backedController.clear();
-          itemPercentController.clear();
-          posturl = "Select Item Image";
-        });
-      } on FirebaseException catch (e) {
-        genericErrorMessage(e.code);
-      }
-    } else {
-      genericErrorMessage("Please fill all fields");
+      genericErrorMessage("Successfully Posted");
+      setState(() {
+        itemNameController.clear();
+        backedController.clear();
+        itemPercentController.clear();
+        posturl = "Select Item Image";
+      });
+    } on FirebaseException catch (e) {
+      genericErrorMessage(e.code);
     }
+  } else {
+    genericErrorMessage("Please fill all fields");
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
