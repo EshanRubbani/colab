@@ -18,7 +18,7 @@ class FirestoreService {
 
   // Create or Update Post
   Future<void> setPost(int backed, int itemPercent, String itemImg, String itemName,
-      String ownerName, String ownerDp, Timestamp timestamp, String selectedItemType, String scope) async {
+      String ownerName, String ownerDp, Timestamp timestamp, String selectedItemType, String scope,String groupId) async {
 
     try{
       print("arrived at set post");
@@ -32,7 +32,9 @@ class FirestoreService {
         'ownerDp': ownerDp,
         'selectedItemType': selectedItemType,
         'scope': scope,
-        'timestamp': timestamp
+        'timestamp': timestamp,
+        'groupId': groupId,
+        
 
 
     });}
@@ -131,6 +133,36 @@ Future<String?> getUserProfileImage(String email) async {
   // }
 
 
+
+  /* -----------------------------Groups---------------------------------*/
+  Future<Map<String, dynamic>?> fetchGroupDetails(String groupId) async {
+  try {
+    DocumentSnapshot groupSnapshot = await FirebaseFirestore.instance
+        .collection('groups')
+        .doc(groupId)
+        .get();
+
+    if (groupSnapshot.exists) {
+      return groupSnapshot.data() as Map<String, dynamic>?;
+    } else {
+      print('Group not found');
+      return null;
+    }
+  } catch (e) {
+    print('Error fetching group details: $e');
+    return null;
+  }
+}
+
+
+  //Joined Group Collection reference
+  CollectionReference get _joinedGroupCollection => _db.collection('groups');
+
+
+   // Get Joined Group stream
+  Stream<QuerySnapshot> getGroupStream() {
+    return _joinedGroupCollection.orderBy('timestamp', descending: true).snapshots();
+  }
 
 
 
