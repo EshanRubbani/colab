@@ -41,22 +41,37 @@ await firestore.collection('Users').doc(currentUser).set({
 }
 
 
-
 Future<void> addMemberToGroup(String groupId, String memberId) async {
-  try {
-    // Reference to the specific group document
-    DocumentReference groupRef = FirebaseFirestore.instance.collection('groups').doc(groupId);
+  print('Starting add process');
+  print('Group ID: $groupId');
+  print('Member ID: $memberId');
 
-    // Add the new member to the 'members' array field
-    await groupRef.update({
+  try {
+    // Check if groupId or memberId contains slashes
+    if (groupId.contains('/') || memberId.contains('/')) {
+      throw Exception('Document ID must not contain slashes ("/").');
+    }
+
+    print('Adding Member to Group');
+
+    // Update the 'members' field in the 'groups' collection to include the new member
+    await FirebaseFirestore.instance.collection('groups').doc(groupId).update({
       'members': FieldValue.arrayUnion([memberId])
     });
+    
+    print('Updating User Document');
+
+    // Update the 'joinedGroups' field in the 'Users' collection to include the group ID
+    await FirebaseFirestore.instance.collection('Users').doc(currentUser).set({
+      'joinedGroups': FieldValue.arrayUnion([groupId])
+    }, SetOptions(merge: true));
 
     print("Member added successfully");
   } catch (e) {
     print("Failed to add member: $e");
   }
 }
+
 Future<void> deleteGroup(String groupId) async {
   DocumentSnapshot groupDoc = await firestore.collection('groups').doc(groupId).get();
   List<dynamic> members = groupDoc['members'];

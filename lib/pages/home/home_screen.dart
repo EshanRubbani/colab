@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
+import 'package:collab/extras/utils/Helper/groupchat/group.dart';
 import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
@@ -34,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
           elevation: 0,
           actions: [
             IconButton(
-              
               onPressed: () {},
               icon: const Icon(Icons.notifications_none_outlined),
               color: KAppColors.kPrimary,
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _buildForMobile(Size size) {
   final FirestoreService fireStore = FirestoreService();
- 
+
   return StreamBuilder<QuerySnapshot>(
     stream: fireStore.getPostsStream(),
     builder: (context, snapshot) {
@@ -98,10 +98,7 @@ Widget _buildForMobile(Size size) {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.grey,
                           image: DecorationImage(
-                            
-                            image: NetworkImage(
-                              post['itemImg']
-                            ),
+                            image: NetworkImage(post['itemImg']),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -118,7 +115,14 @@ Widget _buildForMobile(Size size) {
                                   color: Colors.white,
                                 ),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                   
+                                    GroupFunctions().addMemberToGroup(
+                                      post['groupId'],
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                    );
+                                   Get.snackbar('Success', 'Joined Successfully', colorText: Colors.green);
+                                  },
                                   icon: const Icon(Icons.ios_share),
                                   color: KAppColors.kPrimary,
                                 ),
@@ -170,21 +174,23 @@ Widget _buildForMobile(Size size) {
                             style: const TextStyle(fontSize: 16),
                           ),
                           const Text(
-                                 "  ",
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                Text(
-                                  post['selectedItemType'],
-                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
-                                ),
+                            "  ",
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          Text(
+                            post['selectedItemType'],
+                            style: const TextStyle(
+                                fontSize: 10, color: Colors.grey),
+                          ),
                           const Text(
-                                 "  ",
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                Text(
-                                  post['scope'],
-                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
-                                ),      
+                            "  ",
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          Text(
+                            post['scope'],
+                            style: const TextStyle(
+                                fontSize: 10, color: Colors.grey),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 15),
@@ -242,14 +248,16 @@ Widget _buildForMobile(Size size) {
     },
   );
 }
+
 _buildForDesktop(Size size) {
   final FirestoreService fireStore = FirestoreService();
- 
 
   return Center(
     child: Container(
-      constraints: const BoxConstraints(  maxWidth: 500,
-                        minWidth: 360,),
+      constraints: const BoxConstraints(
+        maxWidth: 500,
+        minWidth: 360,
+      ),
       child: Stack(
         clipBehavior: Clip.antiAlias,
         alignment: Alignment.center,
@@ -260,11 +268,14 @@ _buildForDesktop(Size size) {
               stream: fireStore.getPostsStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator()); // Loading
+                  return const Center(
+                      child: CircularProgressIndicator()); // Loading
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}')); // Error
+                  return Center(
+                      child: Text('Error: ${snapshot.error}')); // Error
                 } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(child: Text('No posts available')); // No Data
+                  return const Center(
+                      child: Text('No posts available')); // No Data
                 } else {
                   var posts = snapshot.data!.docs;
                   return ListView.builder(
@@ -272,14 +283,14 @@ _buildForDesktop(Size size) {
                     itemBuilder: (context, index) {
                       var post = posts[index].data() as Map<String, dynamic>;
                       print('Image URL: ${post['itemImg']}');
-      
+
                       return Container(
-                       constraints: const BoxConstraints(
-                    maxHeight: 420,
-                    minHeight: 400,
-                    maxWidth: 500,
-                    minWidth: 360,
-      ),
+                        constraints: const BoxConstraints(
+                          maxHeight: 420,
+                          minHeight: 400,
+                          maxWidth: 500,
+                          minWidth: 360,
+                        ),
                         margin: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -289,7 +300,8 @@ _buildForDesktop(Size size) {
                               color: Colors.grey.withOpacity(0.1),
                               spreadRadius: 1,
                               blurRadius: 0.1,
-                              offset: const Offset(0, 2), // changes position of shadow
+                              offset: const Offset(
+                                  0, 2), // changes position of shadow
                             ),
                           ],
                         ),
@@ -297,10 +309,9 @@ _buildForDesktop(Size size) {
                           children: [
                             Container(
                               constraints: const BoxConstraints(
-                    maxHeight: 230,
-                    minHeight: 230,
-                   
-      ),
+                                maxHeight: 230,
+                                minHeight: 230,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey,
@@ -340,11 +351,10 @@ _buildForDesktop(Size size) {
                                         color: Colors.white,
                                       ),
                                       child: IconButton(
-                                        onPressed: () {
-                                          
-                                        },
-                                        icon: const Icon(Icons.favorite_border_outlined),
-                                        color:  KAppColors.kPrimary,
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                            Icons.favorite_border_outlined),
+                                        color: KAppColors.kPrimary,
                                       ),
                                     ),
                                   ),
@@ -369,8 +379,10 @@ _buildForDesktop(Size size) {
                                       width: 20,
                                       height: 20,
                                       fit: BoxFit.fill,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(Icons.error, color: KAppColors.kPrimary);
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Icon(Icons.error,
+                                            color: KAppColors.kPrimary);
                                       },
                                     ),
                                   ),
@@ -381,20 +393,22 @@ _buildForDesktop(Size size) {
                                   style: const TextStyle(fontSize: 16),
                                 ),
                                 const Text(
-                                 "  ",
+                                  "  ",
                                   style: TextStyle(fontSize: 22),
                                 ),
                                 Text(
                                   post['selectedItemType'],
-                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.grey),
                                 ),
                                 const Text(
-                                 "  ",
+                                  "  ",
                                   style: TextStyle(fontSize: 22),
                                 ),
                                 Text(
                                   post['scope'],
-                                  style: const TextStyle(fontSize: 10,color: Colors.grey  ),
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -403,11 +417,13 @@ _buildForDesktop(Size size) {
                               children: [
                                 Row(
                                   children: [
-                                    const SizedBox(width: 60,),
+                                    const SizedBox(
+                                      width: 60,
+                                    ),
                                     Text(
                                       post['itemName'],
                                       style: const TextStyle(
-                                        fontSize: 22, 
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
@@ -454,15 +470,14 @@ _buildForDesktop(Size size) {
             ),
           ),
           // Custom floating dock
-          Align(  
-                                alignment: Alignment.bottomCenter,
-                                child: AnimatedContainer(
-                                  duration: const Duration(seconds: 5),
-                                
-                                  width: 400,
-                                  child: const BottomNavm(index: 0),
-                                ),
-                              ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 5),
+              width: 400,
+              child: const BottomNavm(index: 0),
+            ),
+          ),
         ],
       ),
     ),
