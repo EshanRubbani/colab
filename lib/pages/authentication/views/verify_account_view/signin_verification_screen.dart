@@ -230,46 +230,57 @@ class _SigninVerificationScreenState extends State<SigninVerificationScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height * 0.2),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Didn\'t receive code?  ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: KAppColors.kBlack,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _resendCode,
-                    child: const Text(
-                      'Resend Code',
+              SizedBox(height: size.height * 0.07 ),
+               if (_start > 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Resend code in ',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: KAppColors.kAccent,
+                        color: KAppColors.kBlack,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.01),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Resend code in 00:59',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: KAppColors.kBlack,
+                    Text(
+                      '00:$_start',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: KAppColors.kBlack,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height * 0.03),
+                  ],
+                ),
+              if (_start == 0)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Didn\'t receive code? ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: KAppColors.kBlack,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _resendCode,
+                      child: const Text(
+                        'Resend Code',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: KAppColors.kAccent,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              SizedBox(height: size.height * 0.01),
+             
+            
               ButtonWidget(
                 size: size,
                 color: KAppColors.kPrimary,
