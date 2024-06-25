@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: size.height * 0.002,
               ),
               const Text(
-                'Welcome. Let\'s start by creating your account or sign in if you already have one.',
+                'Welcome. Let\'s start by sign in if you already have one.',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
