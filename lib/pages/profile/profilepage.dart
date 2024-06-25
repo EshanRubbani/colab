@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
+  FirestoreService firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     final userIdentifier = user.email ?? user.phoneNumber;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -65,6 +67,56 @@ class _ProfilePageState extends State<ProfilePage> {
                       user.email ?? user.phoneNumber!,
                       style: const TextStyle(fontSize: 18),
                     ),
+                    const SizedBox(height: 20),
+
+                    // Joined Groups
+                    const Text(
+                      "Joined Groups",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Display Joined Groups
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: data['joinedGroups']?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final groupId = data['joinedGroups'][index];
+                          return FutureBuilder<Map<String, dynamic>?>(
+                            future: firestoreService.fetchGroupDetails(groupId),
+                            builder: (context, groupSnapshot) {
+                              if (groupSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const ListTile(
+                                  title: Text('Loading...'),
+                                );
+                              } else if (groupSnapshot.hasError) {
+                                return ListTile(
+                                  title: Text('Error: ${groupSnapshot.error}'),
+                                );
+                              } else if (!groupSnapshot.hasData ||
+                                  groupSnapshot.data == null) {
+                                return const ListTile(
+                                  title: Text('Group not found'),
+                                );
+                              } else {
+                                final groupDetails = groupSnapshot.data!;
+                                return ListTile(
+                                  title: Text(
+                                    '${index + 1}. ${groupDetails['groupName']}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
