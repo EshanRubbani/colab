@@ -55,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget _buildForMobile(Size size) {
   final FirestoreService fireStore = FirestoreService();
+  final user = FirebaseAuth.instance.currentUser!;
+  final userIdentifier = user.email ?? user.phoneNumber;
 
   return StreamBuilder<QuerySnapshot>(
     stream: fireStore.getPostsStream(),
@@ -64,7 +66,16 @@ Widget _buildForMobile(Size size) {
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}')); // Error
       } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return const Center(child: Text('No posts available')); // No Data
+        return Column(
+          children: [
+            const Center(child: Text('No posts available')),
+            Spacer(),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: BottomNavm(index: 0),
+            ), // No Data
+          ],
+        );
       } else {
         var posts = snapshot.data!.docs;
         return Stack(
@@ -109,24 +120,58 @@ Widget _buildForMobile(Size size) {
                               right: 70,
                               bottom: 10,
                               child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: IconButton(
-                                  onPressed: () {
-                                   
-                                    GroupFunctions().addMemberToGroup(
-                                      post['groupId'],
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                    );
-                                   Get.snackbar('Success', 'Joined Successfully', colorText: Colors.green);
-                                  },
-                                  icon: const Icon(Icons.ios_share),
-                                  color: KAppColors.kPrimary,
-                                ),
-                              ),
+                                  height: 40,
+                                  width: 40,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      
+                                      final groupId = post['groupId'];
+
+                                      final userDoc = await FirebaseFirestore
+                                          .instance
+                                          .collection('Users')
+                                          .doc(userIdentifier)
+                                          .get();
+                                      final userData = userDoc.data();
+
+                                      if (userData != null) {
+                                        List<dynamic> joinedGroups =
+                                            userData['joinedGroups'] ?? [];
+
+                                        if (!joinedGroups.contains(groupId)) {
+                                          // User has not joined the group yet, proceed to join
+                                          GroupFunctions().addMemberToGroup(
+                                            groupId,
+                                            userIdentifier.toString(),
+                                          );
+
+                                          // Update Firestore with the new group in joinedGroups
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .doc(userIdentifier)
+                                              .update({
+                                            'joinedGroups':
+                                                FieldValue.arrayUnion(
+                                                    [groupId]),
+                                          });
+
+                                          Get.snackbar(
+                                              'Success', 'Joined Successfully',
+                                              colorText: Colors.green);
+                                        } else {
+                                          // User already joined the group
+                                          Get.snackbar('Info',
+                                              'You are already a member of this group',
+                                              colorText: Colors.blue);
+                                        }
+                                      }
+                                    },
+                                    icon: const Icon(Icons.ios_share),
+                                    color: KAppColors.kPrimary,
+                                  )),
                             ),
                             Positioned(
                               right: 20,
@@ -202,7 +247,13 @@ Widget _buildForMobile(Size size) {
                             style: const TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w800),
                           ),
-                          const SizedBox(height: 30),
+                          
+                           Text(
+                            post['category'],
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400,color: KAppColors.kDarkerGrey),
+                          ),
+                          const SizedBox(height: 10),
                           SizedBox(
                             height: 3.48,
                             width: 358,
