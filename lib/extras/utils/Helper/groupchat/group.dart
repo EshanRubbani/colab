@@ -9,13 +9,14 @@ final currentUser = (auth.currentUser?.email?.isNotEmpty ?? false)
     : auth.currentUser!.phoneNumber;
 
 class GroupFunctions{
-Future<String> createGroup(String groupName, List<String> memberIds) async {
+Future<String> createGroup(String groupName, List<String> memberIds, String image) async {
   String groupId = firestore.collection('groups').doc().id;
   String userId = auth.currentUser!.uid;
 
 
   print(currentUser);
-
+  print(groupName);
+  print(image);
 
 
 // Create the group document in Firestore
@@ -24,6 +25,7 @@ Future<String> createGroup(String groupName, List<String> memberIds) async {
     'groupName': groupName,
     'admin': userId,
     'members': memberIds,
+    'image': image,
     'createdAt': FieldValue.serverTimestamp(),
   });
 
