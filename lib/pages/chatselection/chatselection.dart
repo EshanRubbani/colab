@@ -21,29 +21,7 @@ class _ChatSelectScreenState extends State<ChatSelectScreen> {
   Widget build(BuildContext context) {
    
     return Scaffold(
-        appBar: AppBar(
-          elevation: 5,
-          surfaceTintColor: Colors.white,
-          shadowColor: KAppColors.kLightGrey,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          primary: true,
-          title: const Text(
-            "Chat",
-            style: TextStyle(color: KAppColors.kPrimary),
-          ),
-          leading: IconButton(
-            onPressed: () {
-              Get.to(() => const HomeScreen());
-            },
-            icon: const Icon(
-              CupertinoIcons.back,
-              color: KAppColors.kPrimary,
-            ),
-          ),
-        ),
+        
         body: const ResponsiveNess(
           mobile: ChatSelectionMobile(),
           desktop: ChatSelectionDesk(),

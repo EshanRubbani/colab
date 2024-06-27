@@ -317,108 +317,114 @@ class _AddState extends State<Add> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor: Colors.white,
-        automaticallyImplyLeading: false,
-        actions: const [],
-      ),
+      
       body: ResponsiveNess(
         mobile: _buildForMobile(context),
         desktop: _buildForDesktop(context),
       ),
     );
-  }
+  }Widget _buildForDesktop(BuildContext context) {
+  final size = MediaQuery.of(context).size;
 
-  Widget _buildForDesktop(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Center(
-      child: Container(
-        width: size.width / 2,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(19.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(height: 30),
-                    TextFormField(
-                      controller: itemNameController,
-                      decoration: InputDecoration(
-                        hintText: "Enter Item Name",
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    TextFormField(
-                      controller: backedController,
-                      decoration: InputDecoration(
-                        hintText: "Backed",
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    TextFormField(
-                      controller: itemPercentController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "Item Percent",
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    GestureDetector(
-                      onTap: () async {
-                        await _pickImage();
-                      },
-                      child: TextFormField(
-                        controller: itemImgController,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          hintText: posturl,
-                          hintStyle: TextStyle(color: Colors.grey[400]),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    _buildRadioButtons(),
-                    _scope(),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: ButtonWidget(
-                        size: size,
-                        color: KAppColors.kButtonPrimary,
-                        onTap: postItem,
-                        text: "Post Item",
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavm(index: 2),
-              ),
-            ],
+  return Center(
+    child: Container(
+      // Use a SizedBox to control the width and make it responsive
+      constraints: BoxConstraints(maxWidth: size.width * 0.75), // Adjust the multiplier as needed
+      child: Column(
+        children: [
+          SizedBox(
+            height: 20,
           ),
-        ),
+          Container(
+            // Use a SizedBox to control the height and make it responsive
+            constraints: BoxConstraints(maxHeight: size.height * 0.75), // Adjust the multiplier as needed
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // const SizedBox(height: 10),
+                  TextFormField(
+                    controller: itemNameController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Item Name",
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: backedController,
+                    decoration: InputDecoration(
+                      hintText: "Backed",
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: itemPercentController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: "Item Percent",
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () async {
+                      await _pickImage();
+                    },
+                    child: TextFormField(
+                      controller: itemImgController,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: posturl,
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  _buildRadioButtons(),
+                  _scope(),
+                  _categories(), // Added _categories() here
+                  const SizedBox(height: 15),
+                  Center(
+                    child: ButtonWidget(
+                      size: size,
+                      color: KAppColors.kButtonPrimary,
+                      onTap: postItem,
+                      text: "Post Item",
+                    ),
+                  ),
+                  SizedBox(height: 20,), // Add some spacing
+                  // Position the BottomNavm at the bottom center
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      width: 400,
+                      child: BottomNavm(index: 2),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _buildForMobile(BuildContext context) {
     final size = MediaQuery.of(context).size;

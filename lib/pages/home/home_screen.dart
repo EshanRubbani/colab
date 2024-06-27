@@ -299,9 +299,10 @@ Widget _buildForMobile(Size size) {
     },
   );
 }
-
 _buildForDesktop(Size size) {
   final FirestoreService fireStore = FirestoreService();
+  final user = FirebaseAuth.instance.currentUser!;
+  final userIdentifier = user.email ?? user.phoneNumber;
 
   return Center(
     child: Container(
@@ -386,7 +387,51 @@ _buildForDesktop(Size size) {
                                         color: Colors.white,
                                       ),
                                       child: IconButton(
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          final groupId = post['groupId'];
+
+                                          final userDoc = await FirebaseFirestore
+                                              .instance
+                                              .collection('Users')
+                                              .doc(userIdentifier)
+                                              .get();
+                                          final userData = userDoc.data();
+
+                                          if (userData != null) {
+                                            List<dynamic> joinedGroups =
+                                                userData['joinedGroups'] ?? [];
+
+                                            if (!joinedGroups
+                                                .contains(groupId)) {
+                                              // User has not joined the group yet, proceed to join
+                                              GroupFunctions()
+                                                  .addMemberToGroup(
+                                                groupId,
+                                                userIdentifier.toString(),
+                                              );
+
+                                              // Update Firestore with the new group in joinedGroups
+                                              await FirebaseFirestore.instance
+                                                  .collection('Users')
+                                                  .doc(userIdentifier)
+                                                  .update({
+                                                'joinedGroups': FieldValue
+                                                    .arrayUnion([groupId]),
+                                              });
+
+                                              Get.snackbar(
+                                                  'Success',
+                                                  'Joined Successfully',
+                                                  colorText: Colors.green);
+                                            } else {
+                                              // User already joined the group
+                                              Get.snackbar(
+                                                  'Info',
+                                                  'You are already a member of this group',
+                                                  colorText: Colors.blue);
+                                            }
+                                          }
+                                        },
                                         icon: const Icon(Icons.ios_share),
                                         color: KAppColors.kPrimary,
                                       ),
@@ -447,6 +492,50 @@ _buildForDesktop(Size size) {
                                   "  ",
                                   style: TextStyle(fontSize: 22),
                                 ),
+                               
+                              ],
+                            ),
+                            // const SizedBox(height: 15),
+                            
+                             
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 60,
+                                    ),
+                                    Text(
+                                      post['itemName'],
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 60,
+                                    ),
+
+                                    Text(
+                                        post['category'],
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: KAppColors.kDarkerGrey
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                               
+                                    Row(
+                              children: [
+                                SizedBox(width: 60,),
                                 Text(
                                   post['selectedItemType'],
                                   style: const TextStyle(
@@ -462,51 +551,40 @@ _buildForDesktop(Size size) {
                                       fontSize: 10, color: Colors.grey),
                                 ),
                               ],
-                            ),
-                            const SizedBox(height: 15),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 60,
-                                    ),
-                                    Text(
-                                      post['itemName'],
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w800,
+                             ),
+                             
+                                 
+                                
+                                Center(
+                                  child: SizedBox(
+                                    height: 3.48,
+                                    width: 340,
+                                    child: Center(
+                                      child: LinearProgressIndicator(
+                                        color: Colors.deepPurple,
+                                        value: post['itemPercent'] / 100,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 30),
-                                SizedBox(
-                                  height: 3.48,
-                                  width: 340,
-                                  child: Center(
-                                    child: LinearProgressIndicator(
-                                      color: Colors.deepPurple,
-                                      value: post['itemPercent'] / 100,
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
-                                SizedBox(
-                                  height: 21,
-                                  width: 340,
-                                  child: Row(
-                                    children: [
-                                      const Icon(CupertinoIcons.gift),
-                                      const SizedBox(width: 5, height: 5),
-                                      Text("${post['backed']}\$ Backed"),
-                                      Expanded(
-                                        child: Text(
-                                          "${post['itemPercent']}%",
-                                          textAlign: TextAlign.end,
-                                        ),
-                                      )
-                                    ],
+                                const SizedBox(height: 15),
+                                Center(
+                                  child: SizedBox(
+                                    height: 21,
+                                    width: 340,
+                                    child: Row(
+                                      children: [
+                                        const Icon(CupertinoIcons.gift),
+                                        const SizedBox(width: 5, height: 5),
+                                        Text("${post['backed']}\$ Backed"),
+                                        Expanded(
+                                          child: Text(
+                                            "${post['itemPercent']}%",
+                                            textAlign: TextAlign.end,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
