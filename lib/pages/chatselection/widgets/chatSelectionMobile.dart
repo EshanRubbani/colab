@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/pages/chatpage/chatpage.dart';
 import 'package:collab/pages/chatpage/group_chat_page.dart';
 import 'package:collab/pages/chatselection/widgets/menu_item.dart';
@@ -14,6 +15,7 @@ class ChatSelectionMobile extends StatefulWidget {
   @override
   _ChatSelectionMobileState createState() => _ChatSelectionMobileState();
 }
+
 
 class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
   TextEditingController searchController = TextEditingController();
@@ -45,6 +47,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
     final userIdentifier = user.email ?? user.phoneNumber;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           // The scrollable content
@@ -54,15 +57,15 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                 // Search Bar
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.only(top: 40, bottom: 10),
+                    margin: const EdgeInsets.only(top: 100),
                     width: 400,
                     height: 56,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(left: 16, right: 16),
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(
-                          width: 1,
+                          width: 2,
                           color: Color(0xFFCBD5E1),
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -70,8 +73,6 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Builder(
@@ -103,7 +104,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                                     color: Color(0xFF64748B),
                                     fontSize: 16,
                                     fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                   enableInteractiveSelection: true,
                                 ),
@@ -116,87 +117,101 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                   ),
                 ),
                 // For Joined Groups chat
+
                 Container(
                   width: 400,
                   color: Colors.white,
-                  child: StreamBuilder<DocumentSnapshot>(
-                    stream: firestore
-                        .collection('Users')
-                        .doc(userIdentifier)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final data = snapshot.data?.data() as Map<String, dynamic>?;
-
-                        if (data == null) {
-                          return const Center(
-                              child: Text('No Group data found.'));
-                        }
-
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: data['joinedGroups']?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            final groupId = data['joinedGroups'][index];
-                            return FutureBuilder<Map<String, dynamic>?>(
-                              future: firestoreService.fetchGroupDetails(groupId),
-                              builder: (context, groupSnapshot) {
-                                if (groupSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const ListTile(
-                                    title: Text('Loading...'),
-                                  );
-                                } else if (groupSnapshot.hasError) {
-                                  return ListTile(
-                                    title: Text(
-                                        'Error: ${groupSnapshot.error}'),
-                                  );
-                                } else if (!groupSnapshot.hasData ||
-                                    groupSnapshot.data == null) {
-                                  return const ListTile(
-                                    title: Text('Group not found'),
-                                  );
-                                } else {
-                                  final groupDetails = groupSnapshot.data!;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => GroupChatpage(
-                                            chatID: groupId,
-                                            chatName: groupDetails['groupName'],
-                                            isGroupChat: true,
-            
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.zero,
+                  child: SingleChildScrollView(
+                    
+                    child: StreamBuilder<DocumentSnapshot>(
+                      stream: firestore
+                          .collection('Users')
+                          .doc(userIdentifier)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final data =
+                              snapshot.data?.data() as Map<String, dynamic>?;
+                    
+                          if (data == null) {
+                            return const Center(
+                                child: Text('No Group data found.'));
+                          }
+                    
+                          return ListView.builder(
+                            
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: data['joinedGroups']?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              final groupId = data['joinedGroups'][index];
+                              return FutureBuilder<Map<String, dynamic>?>(
+                                future:
+                                    firestoreService.fetchGroupDetails(groupId),
+                                builder: (context, groupSnapshot) {
+                                  if (groupSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const ListTile(
+                                      title: Text('Loading...'),
+                                    );
+                                  } else if (groupSnapshot.hasError) {
+                                    return ListTile(
+                                      title:
+                                          Text('Error: ${groupSnapshot.error}'),
+                                    );
+                                  } else if (!groupSnapshot.hasData ||
+                                      groupSnapshot.data == null) {
+                                    return const ListTile(
+                                      title: Text('Group not found'),
+                                    );
+                                  } else {
+                                    final groupDetails = groupSnapshot.data!;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => GroupChatpage(
+                                              chatID: groupId,
+                                              chatName: groupDetails['groupName'],
+                                              isGroupChat: true,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: _buildGroupList(groupDetails),
-                                  );
-                                
-                                }
-                              },
-                            );
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                            child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        return const Center(
-                            child: CircularProgressIndicator());
-                      }
-                    },
+                                        );
+                                      },
+                                      child: _buildGroupList(groupDetails),
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
                   ),
                 ),
+
                 // For Individual Chats
-                Center(
-                  child: SizedBox(
-                    width: 400,
-                    height: size.height / 1.75,
+
+                Container(
+                  padding:
+                      EdgeInsets.zero, // Ensure no padding around the container
+                  margin:
+                      EdgeInsets.zero, // Ensure no margin around the container
+                  width: 400,
+                  height: size.height / 2.26,
+                  // color: Colors.red,
+                  // child: Center(
+                  //   child: Text("data")
+                  // ),
+                  child: SingleChildScrollView(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: firestoreService.getUsersStream(),
                       builder: (context, snapshot) {
@@ -218,32 +233,40 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
                             var fullName =
                                 '${user['firstName'] ?? ''} ${user['lastName'] ?? ''}'
                                     .toLowerCase();
-                            return fullName
-                                .contains(searchQuery.toLowerCase());
+                            return fullName.contains(searchQuery.toLowerCase());
                           }).toList();
 
-                          return ListView.builder(
-                            itemCount: filteredUsers.length,
-                            itemBuilder: (context, index) {
-                              var user = filteredUsers[index].data()
-                                  as Map<String, dynamic>;
-                              bool isSelected = selectedUsers
-                                  .contains(filteredUsers[index]);
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Chatpage(
-                                          receiverEmail: user['email'],
-                                          receiverID: user['userUID'],
-                                        ),
-                                      ));
-                                },
-                                child: _buildUserList(
-                                    user, isSelected, filteredUsers[index]),
-                              );
-                            },
+                          return Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              padding: EdgeInsets
+                                  .zero, // Ensure no padding inside the ListView
+
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+
+                              itemCount: filteredUsers.length,
+                              itemBuilder: (context, index) {
+                                var user = filteredUsers[index].data()
+                                    as Map<String, dynamic>;
+                                bool isSelected = selectedUsers
+                                    .contains(filteredUsers[index]);
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Chatpage(
+                                            receiverEmail: user['email'],
+                                            receiverID: user['userUID'],
+                                          ),
+                                        ));
+                                  },
+                                  child: _buildUserList(
+                                      user, isSelected, filteredUsers[index]),
+                                );
+                              },
+                            ),
                           );
                         }
                       },
@@ -253,12 +276,11 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
               ],
             ),
           ),
-          
-         
+
           // The fixed button at the bottom
           Align(
             alignment: Alignment.bottomCenter,
-            child: MyButton(index: true),
+            child: BottomNavm(index: 3),
           ),
         ],
       ),
@@ -267,18 +289,19 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
 
   Widget _buildUserList(
       Map<String, dynamic> user, bool isSelected, DocumentSnapshot userDoc) {
-    if (user["email"] != FirebaseAuth.instance.currentUser!.email) {
+           final user1 = FirebaseAuth.instance.currentUser!;
+   final userIdentifier = user1.email ?? user1.phoneNumber!;
+    if (user["email"] != userIdentifier) {
       return Container(
         width: 400,
         height: 80,
-        margin: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 5),
+        margin: const EdgeInsets.only(bottom: 15),
         decoration: BoxDecoration(
           border: Border.all(
               color: isSelected ? KAppColors.kPrimary : Colors.grey.shade300,
               width: 2),
           borderRadius: BorderRadius.circular(10),
-          color:
-              isSelected ? KAppColors.kPrimary.withOpacity(0.1) : Colors.white,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
@@ -304,7 +327,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
               height: 60,
               width: 60,
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 25),
             SizedBox(
               width: 170,
               height: 60,
@@ -339,25 +362,25 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
               ),
             ),
             const Spacer(),
-            Container(
-              width: 50,
-              height: 50,
-              margin: const EdgeInsets.only(right: 20),
-              child: Checkbox(
-                activeColor: Colors.green,
-                shape: const CircleBorder(),
-                value: isSelected,
-                onChanged: (bool? newValue) {
-                  setState(() {
-                    if (newValue == true) {
-                      selectedUsers.add(userDoc);
-                    } else {
-                      selectedUsers.remove(userDoc);
-                    }
-                  });
-                },
-              ),
-            ),
+            // Container(
+            //   width: 50,
+            //   height: 50,
+            //   margin: const EdgeInsets.only(right: 20),
+            //   child: Checkbox(
+            //     activeColor: Colors.green,
+            //     shape: const CircleBorder(),
+            //     value: isSelected,
+            //     onChanged: (bool? newValue) {
+            //       setState(() {
+            //         if (newValue == true) {
+            //           selectedUsers.add(userDoc);
+            //         } else {
+            //           selectedUsers.remove(userDoc);
+            //         }
+            //       });
+            //     },
+            //   ),
+            // ),
           ],
         ),
       );
@@ -370,10 +393,12 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
     return Container(
       width: 400,
       height: 80,
-      margin: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 5),
+      margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(
           width: 2,
+          color: Color(0xFFCBD5E1),
         ),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
@@ -387,19 +412,19 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
       ),
       child: Row(
         children: [
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               image: DecorationImage(
-                image: const AssetImage('assets/logo/group.png'),
+                image: NetworkImage('${groupDetails['image']}'),
                 fit: BoxFit.cover,
               ),
             ),
             height: 60,
             width: 60,
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 20),
           SizedBox(
             width: 170,
             height: 60,

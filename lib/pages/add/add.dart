@@ -307,10 +307,10 @@ class _AddState extends State<Add> {
           posturl = "Select Item Image";
         });
       } on FirebaseException catch (e) {
-        Get.snackbar('Error', e.toString(), colorText: Colors.green);
+        Get.snackbar('Error', e.toString(), colorText: Colors.red);
       }
     } else {
-      Get.snackbar('Error', 'Please Fill all Fields', colorText: Colors.green);
+      Get.snackbar('Error', 'Please Fill all Fields', colorText: Colors.red);
     }
   }
 
@@ -433,79 +433,74 @@ class _AddState extends State<Add> {
       child: Column(
         children: [
           Container(
-            height: size.height - 235,
+           
+            width: size.width / 1.2,
+            height: size.height - 135,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(19.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(height: 30),
-                      TextFormField(
-                        controller: itemNameController,
-                        decoration: InputDecoration(
-                          hintText: "Enter Item Name",
-                          hintStyle: TextStyle(color: Colors.grey[400]),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
+                
+                TextFormField(
+                  controller: itemNameController,
+                  decoration: InputDecoration(
+                    hintText: "Enter Item Name",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: backedController,
+                  decoration: InputDecoration(
+                    hintText: "Backed",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: itemPercentController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: "Item Percent",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                GestureDetector(
+                  onTap: () async {
+                    await _pickImage();
+                  },
+                  child: TextFormField(
+                    controller: itemImgController,
+                    enabled: false,
+                    decoration: InputDecoration(
+                      hintText: posturl,
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      const SizedBox(height: 30),
-                      TextFormField(
-                        controller: backedController,
-                        decoration: InputDecoration(
-                          hintText: "Backed",
-                          hintStyle: TextStyle(color: Colors.grey[400]),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      TextFormField(
-                        controller: itemPercentController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: "Item Percent",
-                          hintStyle: TextStyle(color: Colors.grey[400]),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      GestureDetector(
-                        onTap: () async {
-                          await _pickImage();
-                        },
-                        child: TextFormField(
-                          controller: itemImgController,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            hintText: posturl,
-                            hintStyle: TextStyle(color: Colors.grey[400]),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      _buildRadioButtons(),
-                      _scope(),
-                      _categories(),
-                      const SizedBox(height: 30),
-                      Center(
-                        child: ButtonWidget(
-                          size: size,
-                          color: KAppColors.kButtonPrimary,
-                          onTap: postItem,
-                          text: "Post Item",
-                        ),
-                      ),
-                    ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                _buildRadioButtons(),
+                _scope(),
+                _categories(),
+                const SizedBox(height: 30),
+                Center(
+                  child: ButtonWidget(
+                    size: size,
+                    color: KAppColors.kButtonPrimary,
+                    onTap: postItem,
+                    text: "Post Item",
                   ),
                 ),
               ],

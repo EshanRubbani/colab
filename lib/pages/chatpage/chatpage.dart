@@ -55,6 +55,7 @@ class _ChatpageState extends State<Chatpage> {
       await _chatService.sendMessage(
         widget.receiverID,
         _messageController.text,
+        false
       );
     }
     _messageController.clear();
@@ -79,38 +80,42 @@ class _ChatpageState extends State<Chatpage> {
     );
   }
 
-  Widget _buildMessageList() {
-    String senderId = FirebaseAuth.instance.currentUser!.uid;
-    return StreamBuilder(
-      stream: _chatService.getMessages(senderId, widget.receiverID),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Text("Error");
-        }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          scrolldown();
-          return const CircularProgressIndicator(
-            color: KAppColors.kPrimary,
-          );
-        }
-        return ListView.builder(
-          controller: _scrollController,
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) {
-            return _buildMessageItem(
-              snapshot.data!.docs[index],
-              index > 0 ? snapshot.data!.docs[index - 1] : null,
-            );
-          },
+Widget _buildMessageList() {
+  String senderId = FirebaseAuth.instance.currentUser!.uid;
+  return StreamBuilder(
+    stream: _chatService.getMessages(senderId, widget.receiverID),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return const Text("Error");
+      }
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        scrolldown();
+        return const CircularProgressIndicator(
+          color: KAppColors.kPrimary,
         );
-      },
-    );
-  }
+      }
+
+      // Attach the ScrollController here
+      return ListView.builder(
+        controller: _scrollController, 
+        itemCount: snapshot.data!.docs.length,
+        itemBuilder: (context, index) {
+          return _buildMessageItem(
+            snapshot.data!.docs[index],
+            index > 0 ? snapshot.data!.docs[index - 1] : null,
+          );
+        },
+      );
+    },
+  );
+}
+
 
   Widget _buildMessageItem(DocumentSnapshot doc, DocumentSnapshot? previousDoc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     Map<String, dynamic>? prevData = previousDoc?.data() as Map<String, dynamic>?;
-
+    final user1 = FirebaseAuth.instance.currentUser!;
+    final userIdentifier = user1.email ?? user1.phoneNumber!;
     bool isCurrentUser = data["senderID"] == _firestore.user!.uid;
     bool showAvatar = previousDoc == null || prevData?["senderID"] != data["senderID"];
     var alignment = isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
@@ -123,7 +128,7 @@ class _ChatpageState extends State<Chatpage> {
           if (showAvatar)
             FutureBuilder<String?>(
               future: isCurrentUser
-                  ? _firestore.getUserProfileImage(_firestore.user!.email.toString())
+                  ? _firestore.getUserProfileImage(userIdentifier)
                   : _firestore.getUserProfileImage(data["senderEmail"]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

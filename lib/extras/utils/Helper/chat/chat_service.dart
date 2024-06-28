@@ -31,16 +31,17 @@ class ChatService {
   }
 
   // Send message
-  Future<void> sendMessage(String chatID, String message, {bool isGroup = false}) async {
+  Future<void> sendMessage(String chatID, String message,bool isGroup ) async {
     final String currentUserID = FirebaseAuth.instance.currentUser!.uid;
-    final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
+    final user = FirebaseAuth.instance.currentUser!;
+    final userIdentifier = user.email ?? user.phoneNumber!;
     final Timestamp timestamp = Timestamp.now();
 
     // Create new Message
     Message newMessage = Message(
       senderID: currentUserID,
       receiverID: chatID,
-      senderEmail: currentUserEmail,
+      senderEmail: userIdentifier,
       message: message,
       timestamp: timestamp,
     );

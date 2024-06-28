@@ -1,21 +1,16 @@
-import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
-import 'package:collab/pages/authentication/views/phone_signup/phone_signup.dart';
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
-import 'package:collab/pages/authentication/views/verify_account_view/signin_verification_screen.dart';
-import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
-import 'package:collab/pages/chatselection/widgets/chatSelectionDesk.dart';
 import 'package:collab/pages/home/home_screen.dart';
-import 'package:collab/pages/profile/profilepage.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'extras/firebase_options.dart';
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = 'pk_test_51PVutUDjz7PH5EWfIzGVIkLH8LJ3Yd8Gn27FjBqidpNt6mNgtynDv5FUIxN01UfQ9e4Up5paBzqqsK7elo1ABTjl00kSJkyGgb';
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

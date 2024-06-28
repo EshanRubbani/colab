@@ -17,7 +17,7 @@ class GroupChatpage extends StatefulWidget {
     super.key,
     required this.chatID,
     required this.chatName,
-    this.isGroupChat = false,
+    this.isGroupChat = true,
   });
 
   @override
@@ -62,7 +62,8 @@ class _GroupChatpageState extends State<GroupChatpage> {
       await _chatService.sendMessage(
         widget.chatID,
         _messageController.text,
-        isGroup: widget.isGroupChat,
+        true
+       
       );
     }
     _messageController.clear();
@@ -124,6 +125,8 @@ class _GroupChatpageState extends State<GroupChatpage> {
     bool isCurrentUser = data["senderID"] == _firestore.user!.uid;
     bool showAvatar = previousDoc == null || prevData?["senderID"] != data["senderID"];
     var alignment = isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+    final user = FirebaseAuth.instance.currentUser!;
+    final userIdentifier = user.email ?? user.phoneNumber!;
 
     return Container(
       alignment: alignment,
@@ -133,7 +136,7 @@ class _GroupChatpageState extends State<GroupChatpage> {
           if (showAvatar)
             FutureBuilder<String?>(
               future: isCurrentUser
-                  ? _firestore.getUserProfileImage(_firestore.user!.email.toString())
+                  ? _firestore.getUserProfileImage(userIdentifier)
                   : _firestore.getUserProfileImage(data["senderEmail"]),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
