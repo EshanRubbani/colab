@@ -52,6 +52,9 @@ dependencies:
   intl: ^0.17.0
   dropdown_button2: ^2.3.8
   firebase_app_check: ^0.2.2+7
+  flutter_stripe: ^10.2.0
+  http: ^1.2.1
+  flutter_stripe_web: ^5.2.0
 
 
 dev_dependencies:
