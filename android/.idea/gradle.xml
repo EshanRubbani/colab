@@ -19,15 +19,6 @@
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-4.17.3/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-8.0.3/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_app_check-0.2.2+7/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_auth-4.19.5/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-2.32.0/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_database-10.5.5/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_storage-11.7.5/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19/android" />
-            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+1/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="/usr/bin/flutter/packages/flutter_tools/gradle" />

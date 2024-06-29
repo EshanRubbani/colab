@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <div id="payment-element"></div>
+    <button id="pay-now-btn">PAY NOW</button>
+
+    <script>
+      async function getClientSecretFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('client_secret');
+      }
+
+      async function initializeStripe() {
+        const clientSecret = await getClientSecretFromUrl();
+        
+        if (!clientSecret) {
+          console.error('Client secret not found in URL');
+          return;
+        }
+
+        const stripe = Stripe("pk_test_51PVutUDjz7PH5EWfIzGVIkLH8LJ3Yd8Gn27FjBqidpNt6mNgtynDv5FUIxN01UfQ9e4Up5paBzqqsK7elo1ABTjl00kSJkyGgb");
+
+        const elements = stripe.elements({
+          clientSecret: clientSecret,
+        });
+
+        const paymentElement = elements.create("payment");
+        paymentElement.mount("#payment-element");
+
+        document
+          .getElementById("pay-now-btn")
+          .addEventListener("click", async () => {
+            await stripe
+              .confirmPayment({
+                elements,
+                confirmParams: {
+                  return_url: "https://www.google.com",
+                },
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          });
+
+        console.log(elements);
+      }
+
+      // Call the function to initialize Stripe
+      initializeStripe();
+    </script>
+  </body>
+</html>

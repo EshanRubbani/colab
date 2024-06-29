@@ -7,6 +7,7 @@ import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
 import 'package:collab/extras/utils/res.dart';
+import 'package:collab/pages/home/paymentButton.dart';
 import 'package:collab/pages/profile/profilepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:webview_all/webview_all.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -286,8 +289,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
-_buildForDesktop(Size size) {
+}// ... (rest of the code)
+
+Widget _buildForDesktop(Size size) {
   final FirestoreService fireStore = FirestoreService();
   final user = FirebaseAuth.instance.currentUser!;
   final userIdentifier = user.email ?? user.phoneNumber;
@@ -368,44 +372,11 @@ _buildForDesktop(Size size) {
                                   Positioned(
                                     right: 70,
                                     bottom: 10,
-                                    child: Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () async {
-                                          final groupId = post['groupId'];
+                                    child: PaymentButton(
+                                      userIdentifier: userIdentifier.toString(),
+                                      post: post,
 
-                                          final userDoc = await FirebaseFirestore
-                                              .instance
-                                              .collection('Users')
-                                              .doc(userIdentifier)
-                                              .get();
-                                          final userData = userDoc.data();
-
-                                          if (userData != null) {
-                                            List<dynamic> joinedGroups =
-                                                userData['joinedGroups'] ?? [];
-
-                                            if (!joinedGroups
-                                                .contains(groupId)) {
-                                              // User has not joined the group yet, proceed to join
-                                               initPaymentSheet(10,groupId, userIdentifier); 
-                                             
-                                            } else {
-                                              // User already joined the group
-                                              Get.snackbar(
-                                                  'Info',
-                                                  'You are already a member of this group',
-                                                  colorText: Colors.blue);
-                                            }
-                                          }
-                                        },
-                                        icon: const Icon(Icons.ios_share),
-                                        color: KAppColors.kPrimary,
-                                      ),
+                                      amount: 10.toString(),
                                     ),
                                   ),
                                   Positioned(
@@ -463,12 +434,9 @@ _buildForDesktop(Size size) {
                                   "  ",
                                   style: TextStyle(fontSize: 22),
                                 ),
-                               
                               ],
                             ),
                             // const SizedBox(height: 15),
-                            
-                             
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -484,7 +452,6 @@ _buildForDesktop(Size size) {
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
-                                    
                                   ],
                                 ),
                                 Row(
@@ -492,40 +459,34 @@ _buildForDesktop(Size size) {
                                     SizedBox(
                                       width: 60,
                                     ),
-
                                     Text(
-                                        post['category'],
-                                        style: const TextStyle(
+                                      post['category'],
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
-                                          color: KAppColors.kDarkerGrey
-                                        ),
-                                      ),
+                                          color: KAppColors.kDarkerGrey),
+                                    ),
                                   ],
                                 ),
-                               
-                                    Row(
-                              children: [
-                                SizedBox(width: 60,),
-                                Text(
-                                  post['selectedItemType'],
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Colors.grey),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 60,),
+                                    Text(
+                                      post['selectedItemType'],
+                                      style: const TextStyle(
+                                          fontSize: 10, color: Colors.grey),
+                                    ),
+                                    const Text(
+                                      "  ",
+                                      style: TextStyle(fontSize: 22),
+                                    ),
+                                    Text(
+                                      post['scope'],
+                                      style: const TextStyle(
+                                          fontSize: 10, color: Colors.grey),
+                                    ),
+                                  ],
                                 ),
-                                const Text(
-                                  "  ",
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                Text(
-                                  post['scope'],
-                                  style: const TextStyle(
-                                      fontSize: 10, color: Colors.grey),
-                                ),
-                              ],
-                             ),
-                             
-                                 
-                                
                                 Center(
                                   child: SizedBox(
                                     height: 3.48,
@@ -583,6 +544,8 @@ _buildForDesktop(Size size) {
     ),
   );
 }
+
+// ... (rest of the code)
 
 Future<void> joinGroup(groupId, String? userIdentifier) async {
    GroupFunctions()
@@ -676,4 +639,8 @@ void displayPaymentSheet(groupId, String? userIdentifier) async {
       print(e);
     }
   }
+
+
+  
 }
+
