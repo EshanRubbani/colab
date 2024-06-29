@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collab/extras/utils/Helper/groupchat/group.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:webview_all/webview_all.dart';
+// import 'package:webview_all/webview_all.dart';
 import 'dart:convert';
-import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'dart:html' as html;
+
+
 
 class PaymentButton extends StatelessWidget {
   final String userIdentifier;
@@ -57,10 +62,29 @@ class PaymentButton extends StatelessWidget {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text("STRIPE PAYMENT",),
-                  content: Webview(
-                    url: 'http://localhost:46655/web/stripe/stripe_webview.html?client_secret=$clientSecret',
+                  // content: Webview(
+                  //   url: 'http://localhost:46655/web/stripe/stripe_webview.html?client_secret=$clientSecret',
                     
 
+                  // ),
+                  content: InAppWebView(
+                    initialUrlRequest: URLRequest(
+                      url: WebUri('http://localhost:45897/web/stripe/stripe_webview.html?client_secret=$clientSecret')
+                      
+                    ),
+                      onWebViewCreated: (controller) {
+              // Listen for messages from the web view
+              html.window.onMessage.listen((event) async {
+                if (event.data == 'paymentSuccess') {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Get.snackbar('Success',
+                     'Payment Successful, You Have been Successfully Added to the Group',
+                  colorText: Colors.green);
+                    await joinGroup(groupId, userIdentifier);
+
+                }
+              });
+            },
                   ),
                 );
               },
@@ -79,4 +103,21 @@ class PaymentButton extends StatelessWidget {
       color: KAppColors.kPrimary,
     );
   }
+}
+
+Future<void> joinGroup(groupId, String? userIdentifier) async {
+  GroupFunctions().addMemberToGroup(
+    groupId,
+    userIdentifier.toString(),
+  );
+
+  // Update Firestore with the new group in joinedGroups
+  await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(userIdentifier)
+      .update({
+    'joinedGroups': FieldValue.arrayUnion([groupId]),
+  });
+
+  Get.snackbar('Success', 'Joined Successfully', colorText: Colors.green);
 }

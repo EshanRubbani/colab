@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:webview_all/webview_all.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,8 +25,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- 
-
   void signUserOut() {
     FirebaseAuth.instance.signOut();
     Get.to(() => const LoginOrSignupScreen());
@@ -140,21 +137,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onPressed: () async {
                                       final groupId = post['groupId'];
 
-                                      final userDoc = await FirebaseFirestore
-                                          .instance
-                                          .collection('Users')
-                                          .doc(userIdentifier)
-                                          .get();
-                                      final userData = userDoc.data();
+                                      try {
+                                        final userDoc = await FirebaseFirestore
+                                            .instance
+                                            .collection('Users')
+                                            .doc(userIdentifier)
+                                            .get();
+                                        final userData = userDoc.data();
 
-                                      if (userData != null) {
-                                        List<dynamic> joinedGroups =
-                                            userData['joinedGroups'] ?? [];
+                                        if (userData != null) {
+                                          List<dynamic> joinedGroups =
+                                              userData['joinedGroups'] ?? [];
 
-                                        if (!joinedGroups.contains(groupId)) {
-                                          initPaymentSheet(10,groupId, userIdentifier); // Pass the amount here
-                                          
+                                          if (!joinedGroups.contains(groupId)) {
+                                            initPaymentSheet(10, groupId,
+                                                userIdentifier); // Pass the amount here
+                                           
+                                          } else {
+                                            Get.snackbar(
+                                              'Already Joined',
+                                              'You have already joined this group.',
+                                              
+                                            );
+                                          }
+                                        } else {
+                                          Get.snackbar(
+                                            'User Data Error',
+                                            'User data not found.',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                            backgroundColor: Colors.red,
+                                            colorText: Colors.white,
+                                          );
                                         }
+                                      } catch (e) {
+                                        Get.snackbar(
+                                          'Error',
+                                          'Something went wrong: $e',
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
                                       }
                                     },
                                     icon: const Icon(Icons.ios_share),
@@ -289,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}// ... (rest of the code)
+} // ... (rest of the code)
 
 Widget _buildForDesktop(Size size) {
   final FirestoreService fireStore = FirestoreService();
@@ -375,7 +397,6 @@ Widget _buildForDesktop(Size size) {
                                     child: PaymentButton(
                                       userIdentifier: userIdentifier.toString(),
                                       post: post,
-
                                       amount: 10.toString(),
                                     ),
                                   ),
@@ -470,7 +491,9 @@ Widget _buildForDesktop(Size size) {
                                 ),
                                 Row(
                                   children: [
-                                    SizedBox(width: 60,),
+                                    SizedBox(
+                                      width: 60,
+                                    ),
                                     Text(
                                       post['selectedItemType'],
                                       style: const TextStyle(
@@ -548,29 +571,26 @@ Widget _buildForDesktop(Size size) {
 // ... (rest of the code)
 
 Future<void> joinGroup(groupId, String? userIdentifier) async {
-   GroupFunctions()
-      .addMemberToGroup(
+  GroupFunctions().addMemberToGroup(
     groupId,
     userIdentifier.toString(),
   );
-  
+
   // Update Firestore with the new group in joinedGroups
   await FirebaseFirestore.instance
       .collection('Users')
       .doc(userIdentifier)
       .update({
-    'joinedGroups': FieldValue
-        .arrayUnion([groupId]),
+    'joinedGroups': FieldValue.arrayUnion([groupId]),
   });
-  
-  Get.snackbar(
-      'Success',
-      'Joined Successfully',
-      colorText: Colors.green);
+
+  Get.snackbar('Success', 'Joined Successfully', colorText: Colors.green);
 }
+
 Map<String, dynamic>? paymentIntentData;
 
-Future<void> initPaymentSheet(int amount,groupId, String? userIdentifier) async {
+Future<void> initPaymentSheet(
+    int amount, groupId, String? userIdentifier) async {
   try {
     paymentIntentData = await createPaymentIntent(amount.toString(), 'USD');
 
@@ -582,7 +602,7 @@ Future<void> initPaymentSheet(int amount,groupId, String? userIdentifier) async 
         merchantDisplayName: 'Collab CrowdFunding',
       ),
     );
-    displayPaymentSheet(groupId,userIdentifier);  
+    displayPaymentSheet(groupId, userIdentifier);
   } catch (e, s) {
     if (kDebugMode) {
       print(e);
@@ -591,7 +611,8 @@ Future<void> initPaymentSheet(int amount,groupId, String? userIdentifier) async 
   }
 }
 
-Future<Map<String, dynamic>> createPaymentIntent(String amount, String currency) async {
+Future<Map<String, dynamic>> createPaymentIntent(
+    String amount, String currency) async {
   try {
     Map<String, dynamic> body = {
       'amount': (int.parse(amount) * 100).toString(), // Convert to String
@@ -600,13 +621,13 @@ Future<Map<String, dynamic>> createPaymentIntent(String amount, String currency)
     };
 
     var response = await http.post(
-      Uri.parse('https://api.stripe.com/v1/payment_intents'),
-      body: body,
-      headers: {
-        'Authorization': 'Bearer sk_test_51PVutUDjz7PH5EWf1cU6vWF8c0g2xIvYEXNwE4TdtIeVIOZRvbYJMXLNXMwfRHUWKaVDjiQrs0kuY9r5DYaASb0Y00rTgcQHZj',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    );
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        body: body,
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51PVutUDjz7PH5EWf1cU6vWF8c0g2xIvYEXNwE4TdtIeVIOZRvbYJMXLNXMwfRHUWKaVDjiQrs0kuY9r5DYaASb0Y00rTgcQHZj',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        });
 
     return jsonDecode(response.body);
   } catch (err) {
@@ -622,8 +643,10 @@ void displayPaymentSheet(groupId, String? userIdentifier) async {
     await Stripe.instance.presentPaymentSheet().then((value) async {
       paymentIntentData = null;
       // Display the payment successful snackbar here
-      Get.snackbar('Success', 'Payment Successful, You Have been Successfully Added to the Group', colorText: Colors.green);
-       await joinGroup(groupId, userIdentifier);
+      Get.snackbar('Success',
+          'Payment Successful, You Have been Successfully Added to the Group',
+          colorText: Colors.green);
+      await joinGroup(groupId, userIdentifier);
     }).onError((error, stackTrace) {
       if (kDebugMode) {
         print('$error $stackTrace');
@@ -639,8 +662,4 @@ void displayPaymentSheet(groupId, String? userIdentifier) async {
       print(e);
     }
   }
-
-
-  
 }
-
