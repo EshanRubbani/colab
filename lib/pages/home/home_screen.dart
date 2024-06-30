@@ -94,7 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   var post = posts[index].data() as Map<String, dynamic>;
                   return Container(
-                    height: size.height * 0.4,
+                    
+                    height: size.height * 0.4 + 30,
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -109,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     child: Column(
+                      
                       children: [
                         Container(
                           height: size.height * 0.2,
@@ -136,7 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: IconButton(
                                     onPressed: () async {
                                       final groupId = post['groupId'];
-
+                                      final postId = await getPostIdByGroupId(groupId);
+                                      print(postId);
+                                      print(userIdentifier);
+                                      
                                       try {
                                         final userDoc = await FirebaseFirestore
                                             .instance
@@ -150,14 +155,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                               userData['joinedGroups'] ?? [];
 
                                           if (!joinedGroups.contains(groupId)) {
-                                            initPaymentSheet(10, groupId,
-                                                userIdentifier); // Pass the amount here
-                                           
+                                            print(int.parse(post['charges']));
+                                            print(int.parse(post['backed']));
+                                      print(int.parse(post['currentbackers']));
+                                      print(int.parse(post['itemPercent']));
+                                            initPaymentSheet(int.parse(post['charges']), groupId,
+                                                userIdentifier,postId,int.parse(post['backed']),int.parse(post['currentbackers']), int.parse(post['itemPercent'])); // Pass the amount here
                                           } else {
                                             Get.snackbar(
                                               'Already Joined',
                                               'You have already joined this group.',
-                                              
                                             );
                                           }
                                         } else {
@@ -172,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       } catch (e) {
                                         Get.snackbar(
                                           'Error',
-                                          'Something went wrong: $e',
+                                          '$e',
                                           snackPosition: SnackPosition.BOTTOM,
                                           backgroundColor: Colors.red,
                                           colorText: Colors.white,
@@ -194,7 +201,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.white,
                                   ),
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      print(int.parse(post['itemPercent']));
+                                    },
                                     icon: const Icon(
                                         Icons.favorite_border_outlined),
                                     color: KAppColors.kPrimary,
@@ -249,49 +258,132 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              post['itemName'],
-                              style: const TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.w800),
+                            Row(
+                              children: [
+                                const SizedBox(width: 30),
+                                Text(
+                                  post['itemName'],
+                                  style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                                Text(
+                                  "    ",
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: KAppColors.kDarkerGrey),
+                                ),
+                                Text(
+                                  post['category'],
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: KAppColors.kDarkerGrey),
+                                ),
+                              ],
                             ),
-                            Text(
-                              post['category'],
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: KAppColors.kDarkerGrey),
+                            Row(
+                              children: [
+                                const SizedBox(width: 30),
+                                Text(
+                                  post['description'],
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: KAppColors.kDarkerGrey),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 10),
-                            SizedBox(
-                              height: 3.48,
-                              width: 358,
-                              child: Center(
+                            Row(children: [
+                              const SizedBox(width: 30),
+                              Container(
+                                width: 400,
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Raised',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 5.0),
+                                      child: Text('Backers',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                          )),
+                                    ),
+                                    Text('Goal',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                            Row(children: [
+                              const SizedBox(width: 30),
+                              Container(
+                                
+                                width: 400,
+                                height: 30,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(post['backed'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                        )),
+                                        
+                                    Text(
+                                      '${post['currentbackers'].toString()} out of ${post['totalbackers'].toString()}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                    Text('${post['cost']}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                            Center(
+                              child: SizedBox(
+                                height: 5,
+                                width: 400,
                                 child: LinearProgressIndicator(
                                   color: Colors.deepPurple,
-                                  value: post['itemPercent'] / 100,
+                                  value: double.parse(post['itemPercent']),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 20),
-                            SizedBox(
-                              height: 21,
-                              width: 358.18,
-                              child: Row(
-                                children: [
-                                  const Icon(CupertinoIcons.gift),
-                                  const SizedBox(width: 5, height: 5),
-                                  Text("${post['backed']}\$ Backed"),
-                                  Expanded(
-                                    child: Text(
-                                      "${post['itemPercent']}%",
-                                      textAlign: TextAlign.end,
+                            Center(
+                              child: SizedBox(
+                                height: 21,
+                                width: 400,
+                                child: Row(
+                                  children: [
+                                    const Icon(CupertinoIcons.gift),
+                                    const SizedBox(width: 5, height: 5),
+                                    Text("${post['backed']}\$ Backed"),
+                                    Expanded(
+                                      child: Text(
+                                        "${post['itemPercent']}%",
+                                        textAlign: TextAlign.end,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -391,15 +483,15 @@ Widget _buildForDesktop(Size size) {
                               child: Stack(
                                 alignment: Alignment.bottomRight,
                                 children: [
-                                  Positioned(
-                                    right: 70,
-                                    bottom: 10,
-                                    child: PaymentButton(
-                                      userIdentifier: userIdentifier.toString(),
-                                      post: post,
-                                      amount: 10.toString(),
-                                    ),
-                                  ),
+                                  // Positioned(
+                                  //   right: 70,
+                                  //   bottom: 10,
+                                  //   child: PaymentButton(
+                                  //     userIdentifier: userIdentifier.toString(),
+                                  //     post: post,
+                                  //     amount: 10.toString(),
+                                  //   ),
+                                  // ),
                                   Positioned(
                                     right: 20,
                                     bottom: 10,
@@ -517,7 +609,7 @@ Widget _buildForDesktop(Size size) {
                                     child: Center(
                                       child: LinearProgressIndicator(
                                         color: Colors.deepPurple,
-                                        value: post['itemPercent'] / 100,
+                                        value: post['itemPercent'] ,
                                       ),
                                     ),
                                   ),
@@ -587,10 +679,28 @@ Future<void> joinGroup(groupId, String? userIdentifier) async {
   Get.snackbar('Success', 'Joined Successfully', colorText: Colors.green);
 }
 
+
+Future<void> updateData(String? postId,int amount,int backed, int currentbackers,int itemPercent) async {
+ 
+int lastesbacked = backed + amount;
+  // Update Firestore post data 
+  await FirebaseFirestore.instance
+      .collection('Posts')
+      .doc(postId)
+      .update({
+    'backed': lastesbacked.toString(),
+    'currentbackers': (currentbackers +1).toString(),
+    'itemPercent': (lastesbacked / (currentbackers +1) * 100).toString(),
+  });
+
+  Get.snackbar('Success', 'Data Updated Successfully', colorText: Colors.green);
+}
+
 Map<String, dynamic>? paymentIntentData;
 
 Future<void> initPaymentSheet(
-    int amount, groupId, String? userIdentifier) async {
+    int amount, groupId, String? userIdentifier, String? postId,int backed, int currentbackers,int itemPercent) async {
+      print("inside initpaymentsheet");
   try {
     paymentIntentData = await createPaymentIntent(amount.toString(), 'USD');
 
@@ -602,7 +712,7 @@ Future<void> initPaymentSheet(
         merchantDisplayName: 'Collab CrowdFunding',
       ),
     );
-    displayPaymentSheet(groupId, userIdentifier);
+    displayPaymentSheet(groupId, userIdentifier,postId,amount,backed,currentbackers,itemPercent);
   } catch (e, s) {
     if (kDebugMode) {
       print(e);
@@ -638,7 +748,7 @@ Future<Map<String, dynamic>> createPaymentIntent(
   }
 }
 
-void displayPaymentSheet(groupId, String? userIdentifier) async {
+void displayPaymentSheet(groupId, String? userIdentifier,String? postId,int amount,int backed, int currentbackers,int itemPercent) async {
   try {
     await Stripe.instance.presentPaymentSheet().then((value) async {
       paymentIntentData = null;
@@ -647,6 +757,7 @@ void displayPaymentSheet(groupId, String? userIdentifier) async {
           'Payment Successful, You Have been Successfully Added to the Group',
           colorText: Colors.green);
       await joinGroup(groupId, userIdentifier);
+      await updateData(postId,amount,backed,currentbackers,itemPercent);
     }).onError((error, stackTrace) {
       if (kDebugMode) {
         print('$error $stackTrace');
@@ -663,3 +774,4 @@ void displayPaymentSheet(groupId, String? userIdentifier) async {
     }
   }
 }
+

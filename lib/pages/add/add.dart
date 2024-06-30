@@ -21,15 +21,20 @@ class Add extends StatefulWidget {
   @override
   State<Add> createState() => _AddState();
 }
+final user = FirebaseAuth.instance.currentUser!;
 
 class _AddState extends State<Add> {
-  final user = FirebaseAuth.instance.currentUser!;
+
   final FirestoreService fireStoreService = FirestoreService();
   final TextEditingController itemNameController = TextEditingController();
-  final TextEditingController backedController = TextEditingController();
-  final TextEditingController itemPercentController = TextEditingController();
+  final TextEditingController costController = TextEditingController();
+  final TextEditingController totalBackersController = TextEditingController();
   final TextEditingController itemImgController = TextEditingController();
   final UserImageHelper _userImageHelper = UserImageHelper();
+   final TextEditingController descriptionController = TextEditingController();
+  
+  
+  final userIdentifier = user.email ?? user.phoneNumber!;
   final List<String> items = [
     'Local Deal',
     'State-Wide Deal',
@@ -113,7 +118,7 @@ class _AddState extends State<Add> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             height: 40,
             width: 140,
-          ),
+          ), 
           menuItemStyleData: const MenuItemStyleData(
             height: 40,
           ),
@@ -248,15 +253,26 @@ class _AddState extends State<Add> {
 
   Future<void> postItem() async {
     String selectedItemType = itemType;
+    print(itemNameController.text);
+    print(costController.text);
+    print(itemImgController.text);
+    print(totalBackersController.text);
+    print(descriptionController.text);
+    print(selectedValue);
+    print(selectedCategory);
+    print(posturl);
+
     if (itemNameController.text.isNotEmpty &&
-        backedController.text.isNotEmpty &&
-        itemPercentController.text.isNotEmpty &&
+        costController.text.isNotEmpty &&
+        
+         totalBackersController.text.isNotEmpty &&
+          descriptionController.text.isNotEmpty &&
         selectedValue != null &&
         selectedCategory != null &&
         posturl != "Select Item Image") {
       String itemName = itemNameController.text;
-      int backed = int.parse(backedController.text);
-      int itemPercent = int.parse(itemPercentController.text);
+      int cost = int.parse(costController.text);
+      int totalbackers= int.parse(totalBackersController.text);
       String ownerName = FirebaseAuth.instance.currentUser?.email ?? 'Unknown';
       String itemImg = posturl;
       String owneremail = FirebaseAuth.instance.currentUser!.email!;
@@ -264,19 +280,15 @@ class _AddState extends State<Add> {
       Timestamp timestamp = Timestamp.now();
       String scope = selectedValue!;
       String category = selectedCategory!;
+      int itemPercent = (0/cost *100).toInt();
+      String description = descriptionController.text;
+      int charges = (cost/totalbackers).toInt();
+
 
       try {
         const Center(child: CircularProgressIndicator());
 
-        print(itemName);
-        print(backed);
-        print(itemPercent);
-        print(posturl);
-        print(ownerName);
-        print(ownerDp);
-        print(timestamp);
-        print(selectedItemType);
-        print(selectedCategory);
+        
 
         // Create group first and get the groupId
         String groupId = await GroupFunctions().createGroup(
@@ -286,24 +298,33 @@ class _AddState extends State<Add> {
 
         // Set post with groupId
         await fireStoreService.setPost(
-            backed,
-            itemPercent,
-            itemImg,
-            itemName,
-            ownerName,
-            ownerDp,
-            timestamp,
-            selectedItemType,
-            scope,
-            groupId,
-            category);
+          
+          itemImg,
+          itemName,
+          userIdentifier,
+          ownerDp,
+          Timestamp.now(),
+          0.toString(),
+          cost.toString(),
+          itemPercent.toString(),
+          charges.toString(),
+          selectedItemType,
+          scope,
+          groupId,
+          category,
+          description,
+          totalbackers.toString(),
+          0.toString(),
+          
+
+
+          );
         Navigator.pop(context);
         Get.snackbar('Success', 'Post Created Successfully',
             colorText: Colors.green);
         setState(() {
           itemNameController.clear();
-          backedController.clear();
-          itemPercentController.clear();
+         
           posturl = "Select Item Image";
         });
       } on FirebaseException catch (e) {
@@ -328,16 +349,18 @@ class _AddState extends State<Add> {
 
   return Center(
     child: Container(
+      // color: Colors.black,
       // Use a SizedBox to control the width and make it responsive
-      constraints: BoxConstraints(maxWidth: size.width * 0.75), // Adjust the multiplier as needed
+      // constraints: BoxConstraints(), // Adjust the multiplier as needed
       child: Column(
         children: [
           SizedBox(
             height: 20,
           ),
           Container(
+            // color: Colors.red,
             // Use a SizedBox to control the height and make it responsive
-            constraints: BoxConstraints(maxHeight: size.height * 0.75), // Adjust the multiplier as needed
+            constraints: BoxConstraints(minHeight: size.height -150 ,maxWidth: 350, minWidth: 350), // Adjust the multiplier as needed
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -355,9 +378,9 @@ class _AddState extends State<Add> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: backedController,
+                    controller: descriptionController,
                     decoration: InputDecoration(
-                      hintText: "Backed",
+                      hintText: "Description of Item",
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -366,10 +389,21 @@ class _AddState extends State<Add> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: itemPercentController,
+                    controller: costController,
+                    decoration: InputDecoration(
+                      hintText: "Total amount to be backed",
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: totalBackersController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Item Percent",
+                      hintText: "Total Backers Required",
                       hintStyle: TextStyle(color: Colors.grey[400]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -408,17 +442,18 @@ class _AddState extends State<Add> {
                   ),
                   SizedBox(height: 20,), // Add some spacing
                   // Position the BottomNavm at the bottom center
-                  Align(
+                  
+                ],
+              ),
+            ),
+          ),
+          Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       width: 400,
                       child: BottomNavm(index: 2),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     ),
@@ -452,9 +487,9 @@ class _AddState extends State<Add> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  controller: backedController,
+                  controller: descriptionController,
                   decoration: InputDecoration(
-                    hintText: "Backed",
+                    hintText: "Description of Item",
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -463,10 +498,21 @@ class _AddState extends State<Add> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  controller: itemPercentController,
+                  controller: costController,
+                  decoration: InputDecoration(
+                    hintText: "Total amount to be backed",
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: totalBackersController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: "Item Percent",
+                    hintText: "Total Backers Required",
                     hintStyle: TextStyle(color: Colors.grey[400]),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),

@@ -1,3 +1,4 @@
+import 'package:collab/pages/add/add.dart';
 import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
 import 'package:collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,12 +27,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CrowdFunding Group Chat v2',
+      title: 'CrowdFunding Stripe Integrated v2',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: HomeScreen(),
+      // home: Add(),
       home:  FirebaseAuth.instance.currentUser == null ? const SplashScreen() : const HomeScreen(),
       // initialRoute: '/',
       // routes: {
