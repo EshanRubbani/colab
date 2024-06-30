@@ -16,8 +16,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // Move variables inside the state
-  late User user;
+ 
   FirestoreService firestoreService = FirestoreService();
+   late User user;
   late String userIdentifier;
 
   @override

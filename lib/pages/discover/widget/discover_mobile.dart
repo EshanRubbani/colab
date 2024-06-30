@@ -29,9 +29,9 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
         selectedFilter = filter;
         filteredItems = allItems.where((item) {
           bool matchesFilter = filter == 'All' ||
-              (filter == 'Nearby' && item.backed > 0) ||
-              (filter == 'Trending' && item.itemPercent > 68) ||
-              (filter == '50\$+' && item.backed > 50);
+              (filter == 'Nearby' && int.parse(item.backed) > 0) ||
+              (filter == 'Trending' && int.parse(item.itemPercent) > 68) ||
+              (filter == '50\$+' && int.parse(item.backed) > 50);
           bool matchesSearch = item.itemName
               .toLowerCase()
               .contains(searchController.text.toLowerCase());
@@ -47,8 +47,8 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
           return Item(
             itemName: data['itemName'],
             ownerName: data['ownerName'],
-            backed: data['backed'],
-            itemPercent: data['itemPercent'],
+            backed: data['backed'].toString(),
+            itemPercent: data['itemPercent'].toString(),
             itemImg: data['itemImg'],
             ownerDp: data['ownerDp'],
             selectedItemType: data['selectedItemType'],
@@ -352,7 +352,7 @@ class _DiscoverMobileState extends State<DiscoverMobile> {
                 child: Center(
                   child: LinearProgressIndicator(
                     color: Colors.deepPurple,
-                    value: item.itemPercent / 100,
+                    value: int.parse(item.itemPercent) / 100,
                   ),
                 ),
               ),

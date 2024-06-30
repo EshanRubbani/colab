@@ -20,10 +20,16 @@ class Add extends StatefulWidget {
 
   @override
   State<Add> createState() => _AddState();
+  
 }
-final user = FirebaseAuth.instance.currentUser!;
+
+
 
 class _AddState extends State<Add> {
+ 
+
+
+    final userIdentifier = FirebaseAuth.instance.currentUser!.email ?? FirebaseAuth.instance.currentUser!.phoneNumber!;
 
   final FirestoreService fireStoreService = FirestoreService();
   final TextEditingController itemNameController = TextEditingController();
@@ -34,7 +40,7 @@ class _AddState extends State<Add> {
    final TextEditingController descriptionController = TextEditingController();
   
   
-  final userIdentifier = user.email ?? user.phoneNumber!;
+ 
   final List<String> items = [
     'Local Deal',
     'State-Wide Deal',
@@ -228,8 +234,8 @@ class _AddState extends State<Add> {
   }
 
   Future<String?> ownerimage() async {
-    String email = FirebaseAuth.instance.currentUser!.email!;
-    return await fireStoreService.getUserProfileImage(email);
+
+    return await fireStoreService.getUserProfileImage(userIdentifier);
   }
 
   void genericErrorMessage(String message) {
@@ -255,7 +261,7 @@ class _AddState extends State<Add> {
     String selectedItemType = itemType;
     print(itemNameController.text);
     print(costController.text);
-    print(itemImgController.text);
+   
     print(totalBackersController.text);
     print(descriptionController.text);
     print(selectedValue);
@@ -270,13 +276,13 @@ class _AddState extends State<Add> {
         selectedValue != null &&
         selectedCategory != null &&
         posturl != "Select Item Image") {
+          print("inside try catch");
       String itemName = itemNameController.text;
       int cost = int.parse(costController.text);
       int totalbackers= int.parse(totalBackersController.text);
-      String ownerName = FirebaseAuth.instance.currentUser?.email ?? 'Unknown';
+      
       String itemImg = posturl;
-      String owneremail = FirebaseAuth.instance.currentUser!.email!;
-      String ownerDp = await _userImageHelper.getUserImage(owneremail);
+      String ownerDp = await _userImageHelper.getUserImage(userIdentifier);
       Timestamp timestamp = Timestamp.now();
       String scope = selectedValue!;
       String category = selectedCategory!;
@@ -292,7 +298,7 @@ class _AddState extends State<Add> {
 
         // Create group first and get the groupId
         String groupId = await GroupFunctions().createGroup(
-            itemName, [FirebaseAuth.instance.currentUser!.uid], itemImg);
+            itemName, [userIdentifier], itemImg);
         print(groupId);
         print("Calling set post");
 

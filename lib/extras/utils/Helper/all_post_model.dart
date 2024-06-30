@@ -2,10 +2,10 @@ import 'package:firebase_database/firebase_database.dart';
 
 class Item {
   // String id; // To store the unique Firebase key (-NwWMdjhBQunuiqICdJ4, etc.)
-  int backed;
+  String backed;
   String itemImg;
   String itemName;
-  int itemPercent;
+  String itemPercent;
   String ownerDp;
   String ownerName;
   String selectedItemType;

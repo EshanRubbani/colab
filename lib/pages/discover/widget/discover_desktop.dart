@@ -26,9 +26,9 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
       selectedFilter = filter;
       filteredItems = allItems.where((item) {
         bool matchesFilter = filter == 'All' ||
-            (filter == 'Nearby' && item.backed > 0) ||
-            (filter == 'Trending' && item.itemPercent > 68) ||
-            (filter == '50\$+' && item.backed > 50);
+            (filter == 'Nearby' && int.parse(item.backed) > 0) ||
+            (filter == 'Trending' && int.parse(item.itemPercent) > 68) ||
+            (filter == '50\$+' && int.parse(item.backed) > 50);
         bool matchesSearch = item.itemName
             .toLowerCase()
             .contains(searchController.text.toLowerCase());
@@ -374,7 +374,7 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
                 width: 340,
                 child: LinearProgressIndicator(
                   color: Colors.deepPurple,
-                  value: item.itemPercent / 100,
+                  value: int.parse(item.itemPercent) / 100,
                 ),
               ),
               const SizedBox(height: 20),

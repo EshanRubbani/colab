@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collab/extras/utils/Helper/firestore.dart';
 import 'package:collab/extras/utils/Helper/groupchat/group.dart';
+import 'package:collab/extras/utils/Helper/voting/voting_service.dart';
 import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:collab/extras/utils/constant/colors.dart';
 import 'package:collab/extras/utils/constant/navbarm.dart';
@@ -93,6 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   var post = posts[index].data() as Map<String, dynamic>;
+                  int itempercent = ((int.parse(post['backed'])) / (int.parse(post['cost'])) * 100).toInt();
+                  
+            
                   return Container(
                     
                     height: size.height * 0.4 + 30,
@@ -139,8 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onPressed: () async {
                                       final groupId = post['groupId'];
                                       final postId = await getPostIdByGroupId(groupId);
-                                      print(postId);
-                                      print(userIdentifier);
+                                     
                                       
                                       try {
                                         final userDoc = await FirebaseFirestore
@@ -155,12 +158,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                               userData['joinedGroups'] ?? [];
 
                                           if (!joinedGroups.contains(groupId)) {
-                                            print(int.parse(post['charges']));
-                                            print(int.parse(post['backed']));
-                                      print(int.parse(post['currentbackers']));
-                                      print(int.parse(post['itemPercent']));
-                                            initPaymentSheet(int.parse(post['charges']), groupId,
-                                                userIdentifier,postId,int.parse(post['backed']),int.parse(post['currentbackers']), int.parse(post['itemPercent'])); // Pass the amount here
+                                             print("charges: ${post['charges']}");
+                                             print("groupId: ${post['groupId']}");
+                                             print("backed: ${post['backed']}");
+                                             print("current backers: ${post['currentbackers']}");
+                                             print("item percent: ${post['itemPercent']}");
+                                             print("cost: ${post['cost']}");
+                                             
+                                           
+                                            initPaymentSheet(int.parse(post['cost']),int.parse(post['charges']), groupId,
+                                                userIdentifier,postId,int.parse(post['backed']),int.parse(post['currentbackers'])); // Pass the amount here
                                           } else {
                                             Get.snackbar(
                                               'Already Joined',
@@ -202,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: IconButton(
                                     onPressed: () {
-                                      print(int.parse(post['itemPercent']));
                                     },
                                     icon: const Icon(
                                         Icons.favorite_border_outlined),
@@ -362,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 400,
                                 child: LinearProgressIndicator(
                                   color: Colors.deepPurple,
-                                  value: double.parse(post['itemPercent']),
+                                  value: itempercent.toDouble(),
                                 ),
                               ),
                             ),
@@ -378,8 +384,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text("${post['backed']}\$ Backed"),
                                     Expanded(
                                       child: Text(
-                                        "${post['itemPercent']}%",
+                                        "${itempercent.toString()} \%",
                                         textAlign: TextAlign.end,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -663,6 +672,7 @@ Widget _buildForDesktop(Size size) {
 // ... (rest of the code)
 
 Future<void> joinGroup(groupId, String? userIdentifier) async {
+  print('inside joinGroup');
   GroupFunctions().addMemberToGroup(
     groupId,
     userIdentifier.toString(),
@@ -680,26 +690,45 @@ Future<void> joinGroup(groupId, String? userIdentifier) async {
 }
 
 
-Future<void> updateData(String? postId,int amount,int backed, int currentbackers,int itemPercent) async {
- 
+Future<void> updateData(int cost,String groupId, String? postId,int amount,int backed, int currentbackers) async {
+  print("inside updateData");
+print("backed: $backed");
+print("charges: $amount");
 int lastesbacked = backed + amount;
+print("charges: $lastesbacked");
+
+print("cost: $cost");
+
+double lastestpercent = lastesbacked / (cost)  * 100;
+  print("percent: $lastestpercent");
+
+
   // Update Firestore post data 
+  print('now updating data');
   await FirebaseFirestore.instance
       .collection('Posts')
       .doc(postId)
       .update({
     'backed': lastesbacked.toString(),
     'currentbackers': (currentbackers +1).toString(),
-    'itemPercent': (lastesbacked / (currentbackers +1) * 100).toString(),
+    'itemPercent': lastestpercent.toString(),
+    
   });
+
+  if(lastestpercent >= 100.0){
+    VotingService().initiateVoting(groupId);
+    
+    
+  }
+
 
   Get.snackbar('Success', 'Data Updated Successfully', colorText: Colors.green);
 }
 
 Map<String, dynamic>? paymentIntentData;
 
-Future<void> initPaymentSheet(
-    int amount, groupId, String? userIdentifier, String? postId,int backed, int currentbackers,int itemPercent) async {
+Future<void> initPaymentSheet(int cost,
+    int amount, groupId, String? userIdentifier, String? postId,int backed, int currentbackers) async {
       print("inside initpaymentsheet");
   try {
     paymentIntentData = await createPaymentIntent(amount.toString(), 'USD');
@@ -712,7 +741,7 @@ Future<void> initPaymentSheet(
         merchantDisplayName: 'Collab CrowdFunding',
       ),
     );
-    displayPaymentSheet(groupId, userIdentifier,postId,amount,backed,currentbackers,itemPercent);
+    displayPaymentSheet(cost,groupId, userIdentifier,postId,amount,backed,currentbackers);
   } catch (e, s) {
     if (kDebugMode) {
       print(e);
@@ -748,7 +777,8 @@ Future<Map<String, dynamic>> createPaymentIntent(
   }
 }
 
-void displayPaymentSheet(groupId, String? userIdentifier,String? postId,int amount,int backed, int currentbackers,int itemPercent) async {
+void displayPaymentSheet(int cost,groupId, String? userIdentifier,String? postId,int amount,int backed, int currentbackers) async {
+  print("inside displaypaymentsheet");
   try {
     await Stripe.instance.presentPaymentSheet().then((value) async {
       paymentIntentData = null;
@@ -756,8 +786,10 @@ void displayPaymentSheet(groupId, String? userIdentifier,String? postId,int amou
       Get.snackbar('Success',
           'Payment Successful, You Have been Successfully Added to the Group',
           colorText: Colors.green);
+          print("payment successful");
       await joinGroup(groupId, userIdentifier);
-      await updateData(postId,amount,backed,currentbackers,itemPercent);
+      await updateData(cost,groupId,postId,amount,backed,currentbackers);
+     
     }).onError((error, stackTrace) {
       if (kDebugMode) {
         print('$error $stackTrace');
