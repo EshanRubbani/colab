@@ -288,8 +288,11 @@ class _AddState extends State<Add> {
       String category = selectedCategory!;
       int itemPercent = (0/cost *100).toInt();
       String description = descriptionController.text;
-      int charges = (cost/totalbackers).toInt();
+      String charges = (cost/totalbackers).toString();
 
+      print('Cost: $cost');
+      print('Charges: $charges');
+      print('Item Percent: $itemPercent');
 
       try {
         const Center(child: CircularProgressIndicator());

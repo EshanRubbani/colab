@@ -24,6 +24,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1+1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker-1.1.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-8.0.3" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_stripe_web-5.2.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_stripe-10.2.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stripe_android-10.2.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/stripe_ios-10.2.0" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
