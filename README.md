@@ -1,16 +1,25 @@
-# collab
+# Collab Crowdfunding App
 
-A new Flutter project.
+Welcome to the Collab Crowdfunding App! This platform blends crowdfunding with social media for a unique experience.
 
-## Getting Started
+## Key Features
 
-This project is a starting point for a Flutter application.
+### Reward Posting
+- **Create Rewards:** Post items with pictures or videos.
+- **Set Values:** Backing amounts from $1.00 to $1,000.00.
+- **Multiple Items:** Post up to 10 items per campaign.
 
-A few resources to get you started if this is your first Flutter project:
+### Voting and Interaction
+- **Voting Period:** 24-hour voting process.
+- **Live Chat:** Text and chat during voting.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Verification and Reporting
+- **Approval Process:** All posts are approved before going live.
+- **Issue Reporting:** Report non-received rewards.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Categories
+- Food, Electronics, Hobby, Crafts, Art, Technology, Jewelry, and more.
+- No guns, weapons, drugs, alcohol, or adult content.
+
+Join us today and share your innovative rewards with the world!
+![Pasted image](https://github.com/EshanRubbani/colab/assets/138296790/140bd2fe-bd83-44cf-aef5-4a6cda6dac9b)
