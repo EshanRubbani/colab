@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -51,43 +51,38 @@ class _ProfileImageMState extends State<ProfileImageM> {
       print('Image uploaded: $url');
 
       try {
-        print("inside looop");
+        print("inside loop");
         await FirebaseFirestore.instance
             .collection("Users")
             .doc(FirebaseAuth.instance.currentUser!.email.toString())
             .update({
           'userIMG': url,
         });
-        print("Firestore doone");
-     navigator!.pop(context);
-      Get.to(() => const LoginScreen());
-        // AlertDialog(
-        //   content: const Text("Image Uploaded Successfully"),
-          
-        //   actions: [
-        //     TextButton(
-        //       onPressed: () {
+        print("Firestore done");
 
-        //         Navigator.pop(context);
-        //         Get.to(() => const LoginScreen());
-        //       },
-        //       child: const Text('OK'),
-        //     ),
-        //   ],
-        // );
+        Navigator.of(context).pop(); 
+        // Dismiss the loading dialog
+        Get.snackbar("Succss", "Image Uploaded Successfully. Please Login Now.");
+        Get.to(() => const LoginScreen());
       } catch (e) {
-        navigator!.pop(context);
-        AlertDialog(
-          content: Text(e.toString()),
+        Navigator.of(context).pop(); // Dismiss the loading dialog
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.toString()),
+            );
+          },
         );
       }
     } catch (e) {
+      Navigator.of(context).pop(); // Dismiss the loading dialog
       print('Error uploading image: $e');
     }
   }
 
   Future<void> skip() async {
-    return Get.to(const LoginScreen());
+    Get.to(const LoginScreen());
   }
 
   @override
@@ -106,9 +101,7 @@ class _ProfileImageMState extends State<ProfileImageM> {
                 child: const Text("Please Select Profile Image"),
               ),
             ),
-          
             const SizedBox(height: 20),
-            
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: KAppColors.kButtonPrimary,
@@ -123,8 +116,7 @@ class _ProfileImageMState extends State<ProfileImageM> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-               const SizedBox(height: 20),
-            
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: KAppColors.kButtonPrimary,
