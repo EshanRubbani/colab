@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:collab/extras/utils/Helper/groupchat/group.dart';
-import 'package:collab/extras/utils/Helper/voting/voting_service.dart';
-import 'package:collab/pages/home/item_detail.dart';
+import 'package:Collab/extras/utils/Helper/groupchat/group.dart';
+import 'package:Collab/extras/utils/Helper/voting/voting_service.dart';
+import 'package:Collab/pages/home/item_detail.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/navbarm.dart';
+import 'package:Collab/extras/utils/Helper/firestore.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/navbarm.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
