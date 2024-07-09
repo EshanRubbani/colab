@@ -1,4 +1,4 @@
-name: collab
+name: Collab
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -43,7 +43,7 @@ dependencies:
   firebase_database: ^10.5.5
   cloud_firestore_web: ^3.12.3
   cloud_firestore: ^4.17.3
-  image_picker: ^1.1.1
+  image_picker: ^1.1.2
   firebase_storage: ^11.7.5
   firebase_storage_web: ^3.9.6
   file_picker: ^8.0.3
@@ -56,6 +56,7 @@ dependencies:
   http: ^1.2.1
   flutter_stripe_web: ^5.2.0
   flutter_timer_countdown: ^1.0.7
+  
   # flutter_inappwebview: ^6.0.0
   # flutter_inappwebview_web: ^1.0.8
 
@@ -64,7 +65,18 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo/collab_logo.png"
+ 
+  web:
+    generate: true
+    image_path: "assets/logo/collab_logo.png"
+    background_color: "#FFFFFF"
+    theme_color: "#0000FF"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
