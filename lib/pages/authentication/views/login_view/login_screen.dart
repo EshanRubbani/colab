@@ -1,9 +1,9 @@
-import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
-import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
-import 'package:collab/pages/home/home_screen.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/device_size.dart';
+import 'package:Collab/extras/common/common_button.dart';
+import 'package:Collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:Collab/pages/authentication/views/signup_view/signup_screen.dart';
+import 'package:Collab/pages/home/home_screen.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/device_size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
