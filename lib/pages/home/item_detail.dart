@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/Helper/groupchat/group.dart';
-import 'package:collab/extras/utils/Helper/voting/voting_service.dart';
+import 'package:Collab/extras/utils/Helper/firestore.dart';
+import 'package:Collab/extras/utils/Helper/groupchat/group.dart';
+import 'package:Collab/extras/utils/Helper/voting/voting_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/pages/chatpage/group_chat_page.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/pages/chatpage/group_chat_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
