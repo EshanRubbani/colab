@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/navbarm.dart';
-import 'package:collab/pages/chatpage/chatpage.dart';
-import 'package:collab/pages/chatpage/group_chat_page.dart';
-import 'package:collab/pages/chatselection/widgets/menu_item.dart';
+import 'package:Collab/extras/utils/Helper/firestore.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/navbarm.dart';
+import 'package:Collab/pages/chatpage/chatpage.dart';
+import 'package:Collab/pages/chatpage/group_chat_page.dart';
+import 'package:Collab/pages/chatselection/widgets/menu_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
