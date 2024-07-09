@@ -1,8 +1,8 @@
-import 'package:collab/pages/add/add.dart';
-import 'package:collab/pages/chatselection/chatselection.dart';
-import 'package:collab/pages/discover/discover_screen.dart';
-import 'package:collab/pages/home/home_screen.dart';
-import 'package:collab/pages/profile/profilepage.dart';
+import 'package:Collab/pages/add/add.dart';
+import 'package:Collab/pages/chatselection/chatselection.dart';
+import 'package:Collab/pages/discover/discover_screen.dart';
+import 'package:Collab/pages/home/home_screen.dart';
+import 'package:Collab/pages/profile/profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
