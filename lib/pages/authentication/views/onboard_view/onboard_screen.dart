@@ -1,9 +1,9 @@
 
-import 'package:collab/pages/authentication/controllers/controller.onboarding/onboarding_controller.dart';
-import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_dots.dart';
-import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_elevated_button.dart';
-import 'package:collab/pages/authentication/views/onboard_view/widgets/onboard_skip_button_widget.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:Collab/pages/authentication/controllers/controller.onboarding/onboarding_controller.dart';
+import 'package:Collab/pages/authentication/views/onboard_view/widgets/onboard_dots.dart';
+import 'package:Collab/pages/authentication/views/onboard_view/widgets/onboard_elevated_button.dart';
+import 'package:Collab/pages/authentication/views/onboard_view/widgets/onboard_skip_button_widget.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
