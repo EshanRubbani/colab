@@ -1,4 +1,4 @@
-import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../controllers/controller.onboarding/onboarding_controller.dart';
