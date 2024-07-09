@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
-import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:Collab/pages/authentication/views/phone_login/phone_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
