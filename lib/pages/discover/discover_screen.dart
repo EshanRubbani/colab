@@ -1,8 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace, unused_local_variable
 
-import 'package:collab/extras/utils/res.dart';
-import 'package:collab/pages/discover/widget/discover_desktop.dart';
-import 'package:collab/pages/discover/widget/discover_mobile.dart';
+import 'package:Collab/extras/utils/res.dart';
+import 'package:Collab/pages/discover/widget/discover_desktop.dart';
+import 'package:Collab/pages/discover/widget/discover_mobile.dart';
 import 'package:flutter/material.dart';
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
