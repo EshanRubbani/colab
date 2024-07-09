@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:collab/extras/utils/Helper/voting/voting_service.dart';
+import 'package:Collab/extras/utils/Helper/voting/voting_service.dart';
 
 class VotingScreen extends StatefulWidget {
   final String groupName;
