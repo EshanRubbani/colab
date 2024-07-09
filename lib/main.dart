@@ -1,6 +1,6 @@
-import 'package:collab/pages/add/add.dart';
-import 'package:collab/pages/authentication/views/splash_view/splash_screen.dart';
-import 'package:collab/pages/home/home_screen.dart';
+import 'package:Collab/pages/add/add.dart';
+import 'package:Collab/pages/authentication/views/splash_view/splash_screen.dart';
+import 'package:Collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter/material.dart';
