@@ -1,9 +1,10 @@
-import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/pages/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
-import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/device_size.dart';
-import 'package:collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:Collab/extras/common/common_button.dart';
+import 'package:Collab/pages/authentication/views/login_or_signup_view/widgets/social_login_widget.dart';
+import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/device_size.dart';
+import 'package:Collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:Collab/pages/home/guest/guest.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,27 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+     appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        forceMaterialTransparency: true,
+        elevation: 0,
+        actions: [
+         GestureDetector(
+          onTap: () => Get.to(Guest()),
+           child: Text("Skip for now",style: TextStyle(
+            color: KAppColors.kPrimary,
+            fontFamily: "Popins",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+
+           ),),
+         ),
+         SizedBox(width: 20,)
+          
+        ],
+      ),
       body: Responsive(
         mobile: _buildForMobile(size),
         desktop: _buildForDesktop(size),
