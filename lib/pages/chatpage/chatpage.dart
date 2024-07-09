@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/chat/bubble.dart';
-import 'package:collab/extras/utils/Helper/chat/chat_service.dart';
-import 'package:collab/extras/utils/Helper/chat/profileavator.dart';
-import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/Helper/chat/bubble.dart';
+import 'package:Collab/extras/utils/Helper/chat/chat_service.dart';
+import 'package:Collab/extras/utils/Helper/chat/profileavator.dart';
+import 'package:Collab/extras/utils/Helper/firestore.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
