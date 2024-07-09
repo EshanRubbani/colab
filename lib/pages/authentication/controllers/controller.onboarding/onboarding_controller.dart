@@ -1,6 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'package:collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
+import 'package:Collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
