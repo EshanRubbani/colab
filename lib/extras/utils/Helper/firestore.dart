@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/post_model.dart';
-import 'package:collab/extras/utils/Helper/user_model.dart';
+import 'package:Collab/extras/utils/Helper/post_model.dart';
+import 'package:Collab/extras/utils/Helper/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth_user;
 
 class FirestoreService {
@@ -93,6 +93,21 @@ class FirestoreService {
   Future<void> setUser(User user) async {
     await _usersCollection.doc(user.id).set(user.toDocument());
   }
+ // Get UserName
+   Future<String> getUsername(String userIdentifier) async {
+  try {
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('Users').doc(userIdentifier).get();
+    if (doc.exists) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      return data?['userName'] ?? 'No username found';
+    } else {
+      return 'No such document!';
+    }
+  } catch (e) {
+    return 'Error fetching document: $e';
+  }
+}
+
 
   // Get User by ID
   Future<User?> getUser(String id) async {
