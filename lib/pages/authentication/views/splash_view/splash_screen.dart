@@ -1,4 +1,4 @@
-import 'package:collab/pages/authentication/views/onboard_view/onboard_screen.dart';
+import 'package:Collab/pages/authentication/views/onboard_view/onboard_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
