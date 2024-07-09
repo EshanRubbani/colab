@@ -1,8 +1,8 @@
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/res.dart';
-import 'package:collab/pages/authentication/views/login_view/login_screen.dart';
-import 'package:collab/pages/authentication/views/signup_view/signup_screen.dart';
-import 'package:collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/res.dart';
+import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:Collab/pages/authentication/views/signup_view/signup_screen.dart';
+import 'package:Collab/pages/authentication/views/verify_account_view/signup_verification_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
