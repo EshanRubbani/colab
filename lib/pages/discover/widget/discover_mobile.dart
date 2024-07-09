@@ -1,7 +1,7 @@
-import 'package:collab/extras/utils/Helper/all_post_model.dart';
-import 'package:collab/extras/utils/Helper/firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/navbarm.dart';
+import 'package:Collab/extras/utils/Helper/all_post_model.dart';
+import 'package:Collab/extras/utils/Helper/firestore.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/navbarm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
