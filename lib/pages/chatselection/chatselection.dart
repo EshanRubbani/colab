@@ -1,10 +1,10 @@
 // ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
 
-import 'package:collab/pages/chatselection/widgets/chatSelectionDesk.dart';
-import 'package:collab/pages/chatselection/widgets/chatSelectionMobile.dart';
-import 'package:collab/pages/home/home_screen.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/res.dart';
+import 'package:Collab/pages/chatselection/widgets/chatSelectionDesk.dart';
+import 'package:Collab/pages/chatselection/widgets/chatSelectionMobile.dart';
+import 'package:Collab/pages/home/home_screen.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
