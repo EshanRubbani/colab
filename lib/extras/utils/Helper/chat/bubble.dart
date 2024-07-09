@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
