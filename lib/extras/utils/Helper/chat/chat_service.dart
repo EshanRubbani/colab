@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/chat/message.dart';
+import 'package:Collab/extras/utils/Helper/chat/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatService {
