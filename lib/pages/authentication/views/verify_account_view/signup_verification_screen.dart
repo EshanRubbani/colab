@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/common/common_button.dart';
-import 'package:collab/extras/utils/constant/colors.dart';
-import 'package:collab/extras/utils/constant/device_size.dart';
-import 'package:collab/extras/utils/res.dart';
-import 'package:collab/pages/authentication/views/profile_image/phone/phone_profile_imageD.dart';
-import 'package:collab/pages/authentication/views/profile_image/phone/phone_profile_imageM.dart';
+import 'package:Collab/extras/common/common_button.dart';
+import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/device_size.dart';
+import 'package:Collab/extras/utils/res.dart';
+import 'package:Collab/pages/authentication/views/profile_image/phone/phone_profile_imageD.dart';
+import 'package:Collab/pages/authentication/views/profile_image/phone/phone_profile_imageM.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,7 +135,7 @@ class _SignupVerificationScreenState extends State<SignupVerificationScreen> {
             children: [
               SizedBox(height: size.height * 0.06),
               Image.asset(
-                'assets/logo/collab_logo.png',
+                'assets/logo/Collab_logo.png',
                 width: size.width * 0.4,
                 height: 200,
               ),
@@ -249,7 +249,7 @@ class _SignupVerificationScreenState extends State<SignupVerificationScreen> {
             children: [
               SizedBox(height: size.height * 0.06),
               Image.asset(
-                'assets/logo/collab_logo.png',
+                'assets/logo/Collab_logo.png',
                 width: size.width * 0.4,
                 height: 200,
               ),
