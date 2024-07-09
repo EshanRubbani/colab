@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collab/extras/utils/Helper/voting/group_model.dart';
+import 'package:Collab/extras/utils/Helper/voting/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
