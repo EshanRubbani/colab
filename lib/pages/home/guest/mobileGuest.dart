@@ -1,4 +1,6 @@
 import 'package:Collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
+import 'package:Collab/pages/home/item_detail.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,10 +50,32 @@ Stream<QuerySnapshot> getPostsStream() {
                           (int.parse(post['cost'])) *
                           100)
                       .toInt();
-
+ List<dynamic> imageList = post['itemImg'];
                   return GestureDetector(
                     onTap: () {
-                      Get.to(LoginOrSignupScreen());
+                                               Get.to(()=> ItemDetail(
+                                image: post["itemImg"],
+                                ownerName: post['ownerName'],
+                                ownerImage: post['ownerDp'],
+                                timestamp: post['timestamp'],
+                                itemName: post['itemName'],
+                                itemDescription: post["description"],
+                                itemPrice: post['charges'],
+                                backed: post['backed'],
+                                cost: post['cost'],
+                                currentbackers: post['currentbackers'],
+                                itempercent: itempercent.toString(),
+                                totalbackers: post['totalbackers'],
+                                category: post['category'],
+                                scope: post['scope'],
+                                selectedItemType: post['selectedItemType'],
+                                charges: post["charges"],
+                                isJoined: false,
+                                id: post['groupId'],
+                                userIdentifier: ""
+                                ,
+                              ),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+
                     },
                     child: Container(
                       height: size.height * 0.4 + 55,
@@ -70,41 +94,25 @@ Stream<QuerySnapshot> getPostsStream() {
                       ),
                       child: Column(
                         children: [
-                          Container(
-                            height: size.height * 0.2,
-                            width: size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.grey,
-                              image: DecorationImage(
-                                image: NetworkImage(post['itemImg']),
-                                fit: BoxFit.cover,
+                         Container(
+                                height: size.height * 0.2,
+                                width: size.width,
+                                child: CarouselSlider(
+                                  options: CarouselOptions(
+                                    autoPlay: true,
+                                    aspectRatio: 2.0,
+                                    enlargeCenterPage: true,
+                                  ),
+                                  items: (post['itemImg'] as List<dynamic>)
+                                      .map((item) => Container(
+                                            child: Center(
+                                                child: Image.network(item,
+                                                    fit: BoxFit.cover,
+                                                    width: 1000)),
+                                          ))
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                            child: Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                Positioned(
-                                  right: 70,
-                                  bottom: 10,
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.ios_share),
-                                    color: KAppColors.kPrimary,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 20,
-                                  bottom: 10,
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.favorite_border_outlined),
-                                    color: KAppColors.kPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           const SizedBox(height: 15),
                           Row(
                                 children: [
