@@ -390,6 +390,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
   }
 
   Widget _buildGroupList(Map<String, dynamic> groupDetails) {
+  String firstImage = groupDetails[''];
     return Container(
       width: 400,
       height: 80,
@@ -417,7 +418,7 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
               image: DecorationImage(
-                image: NetworkImage('${groupDetails['image']}'),
+                image: NetworkImage('${groupDetails['image'][0]}'),
                 fit: BoxFit.cover,
               ),
             ),
