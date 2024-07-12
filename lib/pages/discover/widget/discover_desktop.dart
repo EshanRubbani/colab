@@ -66,6 +66,15 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
           itemImg: data['itemImg'],
           ownerDp: data['ownerDp'],
           selectedItemType: data['selectedItemType'],
+          category: data['category'],
+          charges:  data['charges'],
+          description: data['description'],
+          cost: data['cost'],
+         currentBackers: data['currentBackers'],
+          groupId: data['groupId'],
+          timestamp: data['timestamp'],
+          totalBackers: data['totalBackers'],
+          scope: data['scope'],
         );
       }).toList();
 
@@ -276,10 +285,10 @@ class _DiscoverDesktopState extends State<DiscoverDesktop> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Colors.grey,
-              image: DecorationImage(
-                image: NetworkImage(item.itemImg),
-                fit: BoxFit.cover,
-              ),
+              // image: DecorationImage(
+              //   image: NetworkImage(item.itemImg),
+              //   fit: BoxFit.cover,
+              // ),
             ),
             child: Stack(
               alignment: Alignment.bottomRight,
