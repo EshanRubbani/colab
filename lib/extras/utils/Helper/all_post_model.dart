@@ -1,17 +1,24 @@
 import 'package:firebase_database/firebase_database.dart';
 
 class Item {
-  // String id; // To store the unique Firebase key (-NwWMdjhBQunuiqICdJ4, etc.)
   String backed;
-  String itemImg;
+  List<String> itemImg;
   String itemName;
   String itemPercent;
   String ownerDp;
   String ownerName;
   String selectedItemType;
+  String category;
+  String charges;
+  String cost;
+  String currentBackers;
+  String description;
+  String groupId;
+  String scope;
+  String timestamp;
+  String totalBackers;
 
   Item({
-    //  required this.id,
     required this.backed,
     required this.itemImg,
     required this.itemName,
@@ -19,41 +26,60 @@ class Item {
     required this.ownerDp,
     required this.ownerName,
     required this.selectedItemType,
+    required this.category,
+    required this.charges,
+    required this.cost,
+    required this.currentBackers,
+    required this.description,
+    required this.groupId,
+    required this.scope,
+    required this.timestamp,
+    required this.totalBackers,
   });
 
-  // Factory constructor to create an Item from a Firebase snapshot
   factory Item.fromSnapshot(DataSnapshot snapshot) {
-    Map<String, dynamic>? data;
+    Map<dynamic, dynamic>? data = snapshot.value as Map<dynamic, dynamic>?;
 
-    if (snapshot.value is Map) {
-      data = {};
-      (snapshot.value as Map).forEach((key, value) {
-        if (key is String) {
-          data![key] = value;
-        }
-      });
-    }
     return Item(
-      // id: snapshot.key!,
-      backed: data!['backed'] ?? 0,
-      itemImg: data['item_img'] ?? '',
-      itemName: data['item_name'] ?? '',
-      itemPercent: data['item_percent'] ?? 0,
-      ownerDp: data['owner_dp'] ?? '',
-      ownerName: data['owner_name'] ?? '',
-      selectedItemType: data['selected_item_type'] ?? '',
+      backed: data?['backed'] ?? '',
+      itemImg: (data?['itemImg'] as List<dynamic>?)
+                 ?.map((e) => e.toString())
+                 .toList() ?? [],
+      itemName: data?['itemName'] ?? '',
+      itemPercent: data?['itemPercent'] ?? '',
+      ownerDp: data?['ownerDp'] ?? '',
+      ownerName: data?['ownerName'] ?? '',
+      selectedItemType: data?['selectedItemType'] ?? '',
+      category: data?['category'] ?? '',
+      charges: data?['charges'] ?? '',
+      cost: data?['cost'] ?? '',
+      currentBackers: data?['currentbackers'] ?? '',
+      description: data?['description'] ?? '',
+      groupId: data?['groupId'] ?? '',
+      scope: data?['scope'] ?? '',
+      timestamp: data?['timestamp'] ?? '',
+      totalBackers: data?['totalbackers'] ?? '',
     );
   }
 
-  // Method to convert Item back to a Map (for saving to Firebase)
   Map<String, dynamic> toMap() {
     return {
       'backed': backed,
-      'item_img': itemImg,
-      'item_name': itemName,
-      'item_percent': itemPercent,
-      'owner_dp': ownerDp,
-      'owner_name': ownerName,
+      'itemImg': itemImg,
+      'itemName': itemName,
+      'itemPercent': itemPercent,
+      'ownerDp': ownerDp,
+      'ownerName': ownerName,
+      'selectedItemType': selectedItemType,
+      'category': category,
+      'charges': charges,
+      'cost': cost,
+      'currentbackers': currentBackers,
+      'description': description,
+      'groupId': groupId,
+      'scope': scope,
+      'timestamp': timestamp,
+      'totalbackers': totalBackers,
     };
   }
 }
