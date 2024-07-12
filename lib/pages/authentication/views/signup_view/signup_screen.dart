@@ -6,6 +6,7 @@ import 'package:Collab/pages/authentication/views/profile_image/profile_imageD.d
 import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:Collab/pages/authentication/views/profile_image/profile_imageM.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../extras/utils/constant/device_size.dart';
@@ -35,8 +36,11 @@ void signUserUp() async {
       context: context,
       builder: (context) {
         return const Center(
-          child: CircularProgressIndicator(),
-        );
+            child: SpinKitChasingDots(
+              color: KAppColors.kPrimary,
+              size: 80,
+            ),
+          );
       });
   
   try {
@@ -116,7 +120,7 @@ Future<bool> checkIfUsernameTaken(String username) async {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Get.to(() => const ResponsiveNess(desktop: ProfileImageD(),mobile: ProfileImageM(),));
+                                         Get.to(()=> const ResponsiveNess(desktop: ProfileImageD(),mobile: ProfileImageM(),));
               },
               child: const Text('OK'),
             ),
