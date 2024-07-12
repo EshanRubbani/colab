@@ -5,6 +5,7 @@ import 'package:Collab/pages/home/home_screen.dart';
 import 'package:Collab/pages/profile/profilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class BottomNavm extends StatefulWidget {
@@ -64,70 +65,35 @@ class _BottomNavmState extends State<BottomNavm> {
                       icon: CupertinoIcons.home,
                       text: 'Home',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const HomeScreen();
-                            },
-                          ),
-                        );
+                       Get.to(()=>const HomeScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                       },
                     ),
                     GButton(
                       icon: CupertinoIcons.compass,
                       text: 'Discover',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const DiscoverScreen();
-                            },
-                          ),
-                        );
+                         Get.to(()=>const DiscoverScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                       },
                     ),
                     GButton(
                       icon: CupertinoIcons.add,
                       text: 'New',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const Add();
-                            },
-                          ),
-                        );
+                                                Get.to(()=>const Add(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                       },
                     ),
                     GButton(
                       icon: CupertinoIcons.chat_bubble,
                       text: 'Chat',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const ChatSelectScreen();
-                            },
-                          ),
-                        );
+                                                Get.to(()=>const ChatSelectScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                       },
                     ),
                     GButton(
                       icon: CupertinoIcons.profile_circled,
                       text: 'Profile',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const ProfilePage();
-                            },
-                          ),
-                        );
+                                                 Get.to(()=>const ProfilePage(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                       },
                     )
                   ],
