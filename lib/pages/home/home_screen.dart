@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   
   void signUserOut() {
     FirebaseAuth.instance.signOut();
-    Get.to(() => const LoginOrSignupScreen());
+                          Get.to(()=>const LoginOrSignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
   }
 
  
