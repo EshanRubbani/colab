@@ -314,7 +314,7 @@ class _SigninVerificationScreenState extends State<SigninVerificationScreen> {
       Get.snackbar('Success', 'Logged In Successfully', colorText: Colors.green);
 
 
-      Get.to(HomeScreen());
+                               Get.to(()=>const HomeScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
     } catch (e) {
       Get.snackbar(e.toString(), 'Error', colorText: Colors.red);
     }
