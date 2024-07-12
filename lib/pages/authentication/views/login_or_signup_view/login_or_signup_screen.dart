@@ -30,7 +30,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
         elevation: 0,
         actions: [
          GestureDetector(
-          onTap: () => Get.to(Guest()),
+          onTap: () =>                          Get.to(()=>const Guest(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1)),
            child: Text("Skip for now",style: TextStyle(
             color: KAppColors.kPrimary,
             fontFamily: "Popins",
@@ -82,7 +82,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
                   size: size,
                   color: KAppColors.kPrimary,
                   onTap: () {
-                    Get.to(() => const SignupScreen());
+                                            Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                   },
                   text: 'Sign up'),
               SizedBox(
@@ -92,7 +92,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
                 size: size,
                 color: KAppColors.kSecondary,
                 onTap: () {
-                  Get.to(() => const LoginScreen());
+                                          Get.to(()=>const LoginScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                 },
                 text: 'Sign in',
                 textColor: KAppColors.kPrimary,
@@ -143,7 +143,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
                 size: size,
                 path: 'phone.png',
                 onTap: () {
-                 Get.to(const PhoneLogin());
+                                         Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                 },
               ),
             ],
