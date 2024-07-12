@@ -14,7 +14,7 @@ class FirestoreService {
   // Create or Update Post
   Future<void> setPost(
 
-      String itemImg,//item image...
+      List<String> imagesUrls,
       String itemName,//item name.....
       String ownerName,//owner name
       String ownerDp, //owner dp
@@ -40,7 +40,7 @@ class FirestoreService {
         'itemName': itemName,
         'backed': backed,
         'itemPercent': itemPercent,
-        'itemImg': itemImg,
+        'itemImg': imagesUrls,
         'ownerName': ownerName,
         'ownerDp': ownerDp,
         'selectedItemType': selectedItemType,
