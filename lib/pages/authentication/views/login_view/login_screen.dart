@@ -7,7 +7,7 @@ import 'package:Collab/extras/utils/constant/device_size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../forgot_password_view/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,10 +29,14 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
         context: context,
         builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
+           return const Center(
+            child: SpinKitChasingDots(
+              color: KAppColors.kPrimary,
+              size: 80,
+            ),
           );
         });
+      
 
     try {
       //sign in the user
@@ -42,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       //pop the loading circle
       Navigator.pop(context);
-      Get.to(() => const HomeScreen());
+                              Get.to(()=>const HomeScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
     } on FirebaseAuthException catch (e) {
       //pop the loading circle
       Navigator.pop(context);
@@ -174,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => const ForgotPasswordScreen());
+                                             Get.to(()=>const ForgotPasswordScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                   },
                   child: const Text(
                     'Forgot Password?',
@@ -211,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const SignupScreen());
+                                               Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                     },
                     child: Text(
                       'Sign up',
@@ -238,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const PhoneLogin());
+                                              Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                     },
                     child: Text(
                       'Phone No.',
