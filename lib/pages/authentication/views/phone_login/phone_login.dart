@@ -94,7 +94,8 @@ Widget buildFormobile(context) {
                         },
                         codeSent: (String verificationId, int? resendToken) {
                            navigator!.pop(context);
-                          Get.to(SigninVerificationScreen(verificationId: verificationId, phoneNumber: phoneController.text));
+                                                    Get.to(()=> SigninVerificationScreen(verificationId: verificationId, phoneNumber: phoneController.text),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                                                 
                         },
                         codeAutoRetrievalTimeout: (String verificationId) {
                           // Auto retrieval timeout
@@ -120,7 +121,7 @@ Widget buildFormobile(context) {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => const LoginScreen());
+                                                 Get.to(()=>const LoginScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
                         },
                         child: Text(
                           'Sign in Using Email....',
