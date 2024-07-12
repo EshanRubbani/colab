@@ -17,7 +17,7 @@ class OnboardingController extends GetxController {
 
   void nextPage() {
     if (currentPage == 2) {
-      Get.offAll(() => const LoginOrSignupScreen());
+                             Get.to(()=>const LoginOrSignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
     } else {
       int page = currentPage.value + 1;
       pageController.jumpToPage(page);
@@ -25,6 +25,6 @@ class OnboardingController extends GetxController {
   }
 
   void skipPage() {
-    Get.offAll(() => const LoginOrSignupScreen());
+                            Get.to(()=>const LoginOrSignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
   }
 }
