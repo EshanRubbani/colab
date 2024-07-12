@@ -63,7 +63,7 @@ class _ProfileImageMState extends State<ProfileImageM> {
         Navigator.of(context).pop(); 
         // Dismiss the loading dialog
         Get.snackbar("Succss", "Image Uploaded Successfully. Please Login Now.");
-        Get.to(() => const LoginScreen());
+                                Get.to(()=>const LoginScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
       } catch (e) {
         Navigator.of(context).pop(); // Dismiss the loading dialog
         showDialog(
@@ -79,10 +79,6 @@ class _ProfileImageMState extends State<ProfileImageM> {
       Navigator.of(context).pop(); // Dismiss the loading dialog
       print('Error uploading image: $e');
     }
-  }
-
-  Future<void> skip() async {
-    Get.to(const LoginScreen());
   }
 
   @override
@@ -117,20 +113,7 @@ class _ProfileImageMState extends State<ProfileImageM> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: KAppColors.kButtonPrimary,
-                minimumSize: Size(size.width / 2.9, 55),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              onPressed: skip,
-              child: const Text(
-                "Skip",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
+           
           ],
         ),
       ),
