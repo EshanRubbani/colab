@@ -6,9 +6,13 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
+
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -17,18 +21,11 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode', '1')
+def flutterVersionName = localProperties.getProperty('flutter.versionName', '1.0')
 
 android {
-    namespace "com.example.collab" // This line is already present, but it's important!
+    namespace "com.colab.android" // This line is already present, but it's important!
     compileSdk flutter.compileSdkVersion
     ndkVersion "25.1.8937393"
 
@@ -45,37 +42,27 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    defaultConfig {
+        applicationId "com.colab.android"
+        versionCode 3
+        versionName "3.1.0"
+        minSdkVersion 24
+        targetSdkVersion 34
+        multiDexEnabled true
+    }
+
     signingConfigs {
         release {
-            storeFile file('/home/eshanrubbani/Documents/GitHub/colab/my-release-key.keystore')
-            storePassword '123456'
-            keyAlias 'my-key-alias'
-            keyPassword '123456'
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
-    }
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.collab"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        
-       
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        minSdkVersion 24
-        targetSdkVersion 33
-        multiDexEnabled true
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
-            
-        }
-        debug {
-            signingConfig signingConfigs.debug
         }
     }
 }
@@ -87,15 +74,8 @@ flutter {
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "com.stripe:stripe-android:17.1.1"
-     // Import the BoM for the Firebase platform
+    // Uncomment and configure Firebase dependencies as needed
     // implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
-    //   // Add the dependency for the Firebase Authentication library
-    //  // When using the BoM, you don't specify versions in Firebase library dependencies
-   
-    // // implementation("com.google.firebase:firebase-auth")
-   
-    // // Add the dependencies for the App Check libraries
-    // // When using the BoM, you don't specify versions in Firebase library dependencies
+    // implementation("com.google.firebase:firebase-auth")
     // implementation("com.google.firebase:firebase-appcheck-debug")
-
 }

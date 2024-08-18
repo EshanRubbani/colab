@@ -8,9 +8,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1009362295284:android:0b43f12c5ae8ceabe501a1",
+        "mobilesdk_app_id": "1:1009362295284:android:467812bdc20e8d7fe501a1",
         "android_client_info": {
-          "package_name": "com.example.collab"
+          "package_name": "com.colab.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmfeiC3-tXKzzp1VrrjLrLOAP3M0S3-Ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009362295284:android:8f3d84968d0d3a26e501a1",
+        "android_client_info": {
+          "package_name": "com.collab.android"
         }
       },
       "oauth_client": [],

@@ -48,11 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         forceMaterialTransparency: true,
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_outlined),
-            color: KAppColors.kPrimary,
-          ),
+         
           IconButton(
             onPressed: () {
               signUserOut();

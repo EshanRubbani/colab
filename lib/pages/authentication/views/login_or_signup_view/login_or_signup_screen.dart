@@ -128,17 +128,7 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-              SocailLoginWidget(
-                size: size,
-                path: 'google.png',
-                onTap: () {
-                  Get.snackbar(
-                      'Google Login', 'Google login is not implemented yet');
-                },
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
+             
               SocailLoginWidget(
                 size: size,
                 path: 'phone.png',

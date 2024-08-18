@@ -1,4 +1,4 @@
-package com.example.collab
+package com.colab.android
 
 import io.flutter.embedding.android.FlutterActivity
 

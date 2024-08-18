@@ -390,68 +390,75 @@ class _ChatSelectionMobileState extends State<ChatSelectionMobile> {
   }
 
   Widget _buildGroupList(Map<String, dynamic> groupDetails) {
-  String firstImage = groupDetails[''];
-    return Container(
-      width: 400,
-      height: 80,
-      margin: const EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          width: 2,
-          color: Color(0xFFCBD5E1),
-        ),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 0.2,
-            offset: const Offset(0, 2),
-          ),
-        ],
+  String? firstImage;
+  if (groupDetails['image'] is List && (groupDetails['image'] as List).isNotEmpty) {
+    firstImage = groupDetails['image'][0];
+    print(firstImage);
+  }
+  return Container(
+    width: 400,
+    height: 80,
+    margin: const EdgeInsets.only(bottom: 15),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
+        width: 2,
+        color: Color(0xFFCBD5E1),
       ),
-      child: Row(
-        children: [
-          SizedBox(width: 10),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              image: DecorationImage(
-                image: NetworkImage('${groupDetails['image'][0]}'),
-                fit: BoxFit.cover,
-              ),
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 2,
+          blurRadius: 0.2,
+          offset: const Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Row(
+      children: [
+        SizedBox(width: 10),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            image: DecorationImage(
+              // image: firstImage != null
+              //     ? NetworkImage(firstImage)
+              //     : AssetImage('assets/logo/group.png') as ImageProvider,
+              image: NetworkImage(groupDetails['image']),
+              fit: BoxFit.cover,
             ),
-            height: 60,
-            width: 60,
           ),
-          const SizedBox(width: 20),
-          SizedBox(
-            width: 170,
-            height: 60,
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                SizedBox(
-                  width: 170,
-                  height: 25,
-                  child: Text(
-                    '${groupDetails['groupName']}',
-                    style: const TextStyle(
-                      fontFamily: "Inter",
-                      fontSize: 16,
-                      color: KAppColors.kPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
+          height: 60,
+          width: 60,
+        ),
+        const SizedBox(width: 20),
+        SizedBox(
+          width: 170,
+          height: 60,
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              SizedBox(
+                width: 170,
+                height: 25,
+                child: Text(
+                  '${groupDetails['groupName']}',
+                  style: const TextStyle(
+                    fontFamily: "Inter",
+                    fontSize: 16,
+                    color: KAppColors.kPrimary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }
 
 class MyButton extends StatefulWidget {

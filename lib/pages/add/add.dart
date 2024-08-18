@@ -254,91 +254,89 @@ class _AddState extends State<Add> {
       
   /* -----------------------------------------------------Multiple Media Extension----------------------------------------------- */
 
-  Future<void> postItem() async {
-    String selectedItemType = itemType;
-    print(itemNameController.text);
-    print(costController.text);
+Future<void> postItem() async {
+  String selectedItemType = itemType;
+  print(itemNameController.text);
+  print(costController.text);
+  print(totalBackersController.text);
+  print(descriptionController.text);
+  print(selectedValue);
+  print(selectedCategory);
+  print(posturl);
 
-    print(totalBackersController.text);
-    print(descriptionController.text);
-    print(selectedValue);
-    print(selectedCategory);
-    print(posturl);
+  if (itemNameController.text.isNotEmpty &&
+      costController.text.isNotEmpty &&
+      totalBackersController.text.isNotEmpty &&
+      descriptionController.text.isNotEmpty &&
+      selectedValue != null &&
+      selectedCategory != null
+     ) {
+    print("inside try catch");
+    String itemName = itemNameController.text;
+    int cost = int.parse(costController.text);
+    int totalbackers = int.parse(totalBackersController.text);
 
-    if (itemNameController.text.isNotEmpty &&
-        costController.text.isNotEmpty &&
-        totalBackersController.text.isNotEmpty &&
-        descriptionController.text.isNotEmpty &&
-        selectedValue != null &&
-        selectedCategory != null
-       ) {
-      print("inside try catch");
-      String itemName = itemNameController.text;
-      int cost = int.parse(costController.text);
-      int totalbackers = int.parse(totalBackersController.text);
+    String itemImg = posturl;
+    String ownerDp = await _userImageHelper.getUserImage(userIdentifier);
+    Timestamp timestamp = Timestamp.now();
+    String scope = selectedValue!;
+    String category = selectedCategory!;
+    int itemPercent = (0 / cost * 100).toInt();
+    String description = descriptionController.text;
+    int charges = (cost / totalbackers).ceil(); // Round up to the nearest integer
 
-      String itemImg = posturl;
-      String ownerDp = await _userImageHelper.getUserImage(userIdentifier);
-      Timestamp timestamp = Timestamp.now();
-      String scope = selectedValue!;
-      String category = selectedCategory!;
-      int itemPercent = (0 / cost * 100).toInt();
-      String description = descriptionController.text;
-      String charges = (cost / totalbackers).toString();
+    print('Cost: $cost');
+    print('Charges: $charges');
+    print('Item Percent: $itemPercent');
 
-      print('Cost: $cost');
-      print('Charges: $charges');
-      print('Item Percent: $itemPercent');
+    try {
+      const Center(child: SpinKitChasingDots(
+        color: KAppColors.kPrimary,
+        size: 80,
+      ));
 
-      try {
-        const Center(child: SpinKitChasingDots(
-          color: KAppColors.kPrimary,
-          size: 80,
-        ));
+      // Create group first and get the groupId
+      String groupId = await GroupFunctions()
+          .createGroup(itemName, [userIdentifier], imageUrls[0]);
+      String username = await fireStoreService.getUsername(userIdentifier);
+      print(groupId);
+      print(username);
+      print("Calling set post");
 
-        // Create group first and get the groupId
-        String groupId = await GroupFunctions()
-            .createGroup(itemName, [userIdentifier], imageUrls[0]);
-        String username = await fireStoreService.getUsername(userIdentifier);
-        print(groupId);
-        print(username);
-        print("Calling set post");
+      // Set post with groupId
+      await fireStoreService.setPost(
+        imageUrls,
+        itemName,
+        username,
+        ownerDp,
+        Timestamp.now(),
+        0.toString(),
+        cost.toString(),
+        itemPercent.toString(),
+        charges.toString(),
+        selectedItemType,
+        scope,
+        groupId,
+        category,
+        description,
+        totalbackers.toString(),
+        0.toString(),
+      );
+      Navigator.pop(context);
+      Get.snackbar('Success', 'Post Created Successfully',
+          colorText: Colors.green);
+      setState(() {
+        itemNameController.clear();
 
-        // Set post with groupId
-        await fireStoreService.setPost(
-          imageUrls,
-          itemName,
-          username,
-          ownerDp,
-          Timestamp.now(),
-          0.toString(),
-          cost.toString(),
-          itemPercent.toString(),
-          charges.toString(),
-          selectedItemType,
-          scope,
-          groupId,
-          category,
-          description,
-          totalbackers.toString(),
-          0.toString(),
-        );
-        Navigator.pop(context);
-        Get.snackbar('Success', 'Post Created Successfully',
-            colorText: Colors.green);
-        setState(() {
-          itemNameController.clear();
-
-          posturl = "Select Item Image";
-        });
-      } on FirebaseException catch (e) {
-        Get.snackbar('Error', e.toString(), colorText: Colors.red);
-      }
-    } else {
-      Get.snackbar('Error', 'Please Fill all Fields', colorText: Colors.red);
+        posturl = "Select Item Image";
+      });
+    } on FirebaseException catch (e) {
+      Get.snackbar('Error', e.toString(), colorText: Colors.red);
     }
+  } else {
+    Get.snackbar('Error', 'Please Fill all Fields', colorText: Colors.red);
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
