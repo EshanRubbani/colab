@@ -51,94 +51,92 @@ class _LoginOrSignupScreenState extends State<LoginOrSignupScreen> {
   }
 
   _buildForMobile(Size size) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Container(
+      // margin: EdgeInsets.only(top: size.height * 0.01),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          
+          Image.asset(
+            'assets/logo/collab_logo.png',
+            width: size.width * 0.45,
+            height: 200,
+          ),
+          SizedBox(
+            height: size.height * 0.009,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
+              'Welcome. Let\'s start by creating your account or sign in if you already have one',
+              
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: size.height * 0.02,
+          ),
+          ButtonWidget(
+              size: size,
+              color: KAppColors.kPrimary,
+              onTap: () {
+                                        Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+              },
+              text: 'Sign up'),
+          SizedBox(
+            height: size.height * 0.03,
+          ),
+          ButtonWidget(
+            size: size,
+            color: KAppColors.kSecondary,
+            onTap: () {
+                                      Get.to(()=>const LoginScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+            },
+            text: 'Sign in',
+            textColor: KAppColors.kPrimary,
+          ),
+          SizedBox(
+            height: size.height * 0.05,
+          ),
+          Row(
             children: [
-              SizedBox(
-                height: size.height * 0.2,
+              Expanded(
+                child: Container(
+                  //margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                  height: 1.0,
+                  color: Colors.grey[300],
+                ),
               ),
-              Image.asset(
-                'assets/logo/collab_logo.png',
-                width: size.width * 0.45,
-                height: 200,
+              Text(
+                ' Or continue with ',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .apply(color: Colors.grey[800], fontSizeDelta: 1.2),
               ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              const Text(
-                'Welcome. Let\'s start by creating your account or sign in if you already have one',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              ButtonWidget(
-                  size: size,
-                  color: KAppColors.kPrimary,
-                  onTap: () {
-                                            Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                  },
-                  text: 'Sign up'),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              ButtonWidget(
-                size: size,
-                color: KAppColors.kSecondary,
-                onTap: () {
-                                          Get.to(()=>const LoginScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                },
-                text: 'Sign in',
-                textColor: KAppColors.kPrimary,
-              ),
-              SizedBox(
-                height: size.height * 0.1,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      //margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                      height: 1.0,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                  Text(
-                    ' Or continue with ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .apply(color: Colors.grey[800], fontSizeDelta: 1.2),
-                  ),
-                  Expanded(
-                    child: Container(
-                      //margin: const EdgeInsets.only(left: 10.0),
-                      height: 1.0,
-                      color: Colors.grey[300],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-             
-              SocailLoginWidget(
-                size: size,
-                path: 'phone.png',
-                onTap: () {
-                                         Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                },
+              Expanded(
+                child: Container(
+                  //margin: const EdgeInsets.only(left: 10.0),
+                  height: 1.0,
+                  color: Colors.grey[300],
+                ),
               ),
             ],
           ),
-        ),
+          SizedBox(
+            height: size.height * 0.03,
+          ),
+         
+          SocailLoginWidget(
+            size: size,
+            path: 'phone.png',
+            onTap: () {
+                                     Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+            },
+          ),
+        ],
       ),
     );
   }

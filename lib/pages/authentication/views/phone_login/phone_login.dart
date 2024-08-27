@@ -1,4 +1,5 @@
 import 'package:Collab/extras/utils/constant/colors.dart';
+import 'package:Collab/extras/utils/constant/device_size.dart';
 import 'package:Collab/extras/utils/res.dart';
 import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
 import 'package:Collab/pages/authentication/views/verify_account_view/signin_verification_screen.dart';
@@ -22,7 +23,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ResponsiveNess(mobile: buildFormobile(context), desktop: buildForDesktop(context))    );
+      body: Responsive(mobile: buildFormobile(context), desktop: buildForDesktop(context))    );
   }
 }
 
@@ -31,13 +32,13 @@ Widget buildFormobile(context) {
   return Container(
         color: Colors.white,
         child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20,),
-            SizedBox(
-          
-              child: Center(
-                child: Image.asset("assets/logo/collab_logo.png"),
-              ),
+           
+            Image.asset("assets/logo/collab_logo.png",
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: 200,
             ),
             SizedBox(
               height: 300,
@@ -80,6 +81,7 @@ Widget buildFormobile(context) {
                           );
                         });
                       await FirebaseAuth.instance.verifyPhoneNumber(
+                        
                         
                         phoneNumber: phoneController.text.trim(),
                         timeout: const Duration(seconds: 60),

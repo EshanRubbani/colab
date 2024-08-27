@@ -1,4 +1,9 @@
 import 'package:Collab/pages/add/add.dart';
+import 'package:Collab/pages/authentication/views/login_or_signup_view/login_or_signup_screen.dart';
+import 'package:Collab/pages/authentication/views/login_view/login_screen.dart';
+import 'package:Collab/pages/authentication/views/phone_login/phone_login.dart';
+import 'package:Collab/pages/authentication/views/phone_signup/phone_signup.dart';
+import 'package:Collab/pages/authentication/views/signup_view/signup_screen.dart';
 import 'package:Collab/pages/authentication/views/splash_view/splash_screen.dart';
 import 'package:Collab/pages/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,12 +32,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'CrowdFunding Stripe Integrated v2',
+      title: 'Collab Crowd Funding',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: Add(),
+      // home: PhoneLogin(),
       home:  FirebaseAuth.instance.currentUser == null ? const SplashScreen() : const HomeScreen(),
       // initialRoute: '/',
       // routes: {

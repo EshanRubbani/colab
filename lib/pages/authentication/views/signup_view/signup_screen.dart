@@ -154,256 +154,217 @@ Future<bool> checkIfUsernameTaken(String username) async {
     final size = MediaQuery.of(context).size;
     bool isDesktop = Responsive.isDesktop(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Center(
-          child: Container(
-            constraints: isDesktop ? const BoxConstraints(maxWidth: 400) : null,
-            margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-            child: Column(
+      body: Container(
+        constraints: isDesktop ? const BoxConstraints(maxWidth: 400) : null,
+        margin: isDesktop ? EdgeInsets.symmetric(horizontal: size.width * 0.06): null,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+           
+            Image.asset(
+              'assets/logo/collab_logo.png',
+              width: size.width * 0.4,
+              height: 200,
+            ),
+           
+            const Text(
+              'Register',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10,),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: size.height * 0.06,
-                ),
-                Image.asset(
-                  'assets/logo/collab_logo.png',
-                  width: size.width * 0.4,
-                  height: 200,
-                ),
-                SizedBox(
-                  height: size.height * 0.002,
-                ),
-                const Text(
-                  'Register',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const FieldText(
-                          text: 'First Name',
+                    width: isDesktop
+                        ? size.width * 0.13
+                        : size.width * 0.40 +5,
+                    child: TextFormField(
+                      controller: firstNameController,
+                      textInputAction: TextInputAction.next,
+                      onSaved: (firstname) {},
+                      decoration: InputDecoration(
+                        labelText: "First Name",
+                        labelStyle: TextStyle(color: Colors.grey[400]),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                        SizedBox(
-                          height: size.height * 0.004,
-                        ),
-                        SizedBox(
-                            width: isDesktop
-                                ? size.width * 0.13
-                                : size.width / 2 - 40,
-                            child: TextFormField(
-                              controller: firstNameController,
-                              textInputAction: TextInputAction.next,
-                              onSaved: (firstname) {},
-                              decoration: InputDecoration(
-                                hintText: "First Name",
-                                hintStyle: TextStyle(color: Colors.grey[400]),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      width: size.width * 0.032,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const FieldText(
-                          text: 'Last Name',
-                        ),
-                        SizedBox(
-                          height: size.height * 0.004,
-                        ),
-                        SizedBox(
-                            width: isDesktop
-                                ? size.width * 0.13
-                                : size.width / 2 - 50,
-                            child: TextFormField(
-                              controller: lastNameController,
-                              textInputAction: TextInputAction.next,
-                              onSaved: (lastname) {},
-                              decoration: InputDecoration(
-                                hintText: "Last Name",
-                                hintStyle: TextStyle(color: Colors.grey[400]),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                const FieldText(
-                  text: 'Username',
-                ),
-                SizedBox(
-                  height: size.height * 0.004,
-                ),
-                TextFormField(
-                  controller: usernameController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  onSaved: (username) {},
-                  decoration: InputDecoration(
-                    hintText: "Username",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                const FieldText(
-                  text: 'Email',
-                ),
-                SizedBox(
-                  height: size.height * 0.004,
-                ),
-                TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  onSaved: (email) {},
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                const FieldText(
-                  text: 'Password',
-                ),
-                SizedBox(
-                  height: size.height * 0.004,
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  textInputAction: TextInputAction.next,
-                  obscureText: isObscure,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        isObscure
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: Colors.grey[500],
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                    ),
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                    )),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                    width: isDesktop
+                        ? size.width * 0.13
+                        : size.width * 0.40 +5,
+                    child: TextFormField(
+                      controller: lastNameController,
+                      textInputAction: TextInputAction.next,
+                      onSaved: (lastname) {},
+                      decoration: InputDecoration(
+                        labelText: "Last Name",
+                        labelStyle: TextStyle(color: Colors.grey[400]),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            
+            Container(
+              width: size.width * 0.9,
+              child: TextFormField(
+                controller: usernameController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                onSaved: (username) {},
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.grey[400]),
+                  labelText: "Username",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                
-                SizedBox(
-                  height: size.height * 0.03,
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            
+            Container(
+               width: size.width * 0.9,
+              child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                onSaved: (email) {},
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  labelStyle: TextStyle(color: Colors.grey[400]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
-                ButtonWidget(
-                    size: size,
-                    color: KAppColors.kPrimary,
-                    onTap: () {
-                      const snackBar = SnackBar(
-                        content: Text('Please Enter Valid Email and Password!'),
-                      );
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            
+            Container(
+               width: size.width * 0.9,
+              child: TextFormField(
+                controller: passwordController,
+                textInputAction: TextInputAction.next,
+                obscureText: isObscure,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      isObscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Colors.grey[500],
+                    ),
+                    onPressed: () {
                       setState(() {
-                        if (emailController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        } else {
-                          signUserUp();
-                        }
+                        isObscure = !isObscure;
                       });
-
-                      //Get.to(() => const SignupVerificationScreen());
                     },
-                    text: 'Register'),
-                SizedBox(
-                  height: size.height * 0.07,
+                  ),
+                  labelStyle: TextStyle(color: Colors.grey[400]),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account? ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .apply(color: Colors.grey[800]),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const LoginScreen());
-                      },
-                      child: Text(
-                        'Sign in',
-                        style: Theme.of(context).textTheme.titleSmall!.apply(
-                            fontSizeDelta: 3, color: KAppColors.kPrimary),
-                      ),
-                    ),
-                  ],
+              ),
+            ),
+            
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            ButtonWidget(
+                size: size,
+                color: KAppColors.kPrimary,
+                onTap: () {
+                  const snackBar = SnackBar(
+                    content: Text('Please Enter Valid Email and Password!'),
+                  );
+                  setState(() {
+                    if (emailController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      signUserUp();
+                    }
+                  });
+            
+                 
+                },
+                text: 'Register'),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Already have an account? ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .apply(color: Colors.grey[800]),
                 ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Sign Up Using....',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .apply(color: Colors.grey[800]),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const PhoneSignup());
-                      },
-                      child: Text(
-                        'Phone no.',
-                        style: Theme.of(context).textTheme.titleSmall!.apply(
-                            fontSizeDelta: 3, color: KAppColors.kPrimary),
-                      ),
-                    ),
-                  ],
-                ),
-                 SizedBox(
-                  height: size.height * 0.02,
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const LoginScreen());
+                  },
+                  child: Text(
+                    'Sign in',
+                    style: Theme.of(context).textTheme.titleSmall!.apply(
+                        fontSizeDelta: 3, color: KAppColors.kPrimary),
+                  ),
                 ),
               ],
             ),
-          ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Sign Up Using....',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .apply(color: Colors.grey[800]),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const PhoneSignup());
+                  },
+                  child: Text(
+                    'Phone no.',
+                    style: Theme.of(context).textTheme.titleSmall!.apply(
+                        fontSizeDelta: 3, color: KAppColors.kPrimary),
+                  ),
+                ),
+              ],
+            ),
+             
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, unused_local_variable
 
+import 'package:Collab/extras/utils/constant/device_size.dart';
 import 'package:Collab/extras/utils/res.dart';
 import 'package:Collab/pages/discover/widget/discover_desktop.dart';
 import 'package:Collab/pages/discover/widget/discover_mobile.dart';
@@ -26,17 +27,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
    
 
     return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shadowColor: Colors.white,
-        foregroundColor: Colors.white,
-        forceMaterialTransparency: true,
-        automaticallyImplyLeading: false,
-        actions: const [],
-      ),
-      body: const ResponsiveNess(
+     
+      body: const Responsive(
         mobile: DiscoverMobile(),
         desktop: DiscoverDesktop(),
       ),

@@ -448,64 +448,63 @@ Future<void> postItem() async {
     final size = MediaQuery.of(context).size;
 
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              
-              width: size.width,
-              height: size.height -180,
-              child: Column(
-                children: [
-                   SizedBox(height: 10), 
-                  Text("Create a New Post",style: TextStyle(color: KAppColors.kPrimary,fontFamily: "Poppins",fontSize: 20,fontWeight: FontWeight.w600),),
-                   SizedBox(height: 10),   
-                  Container(
-                  
-                    width: size.width / 1.2,
-                    height: size.height - 650,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        buildformfields(),
-                        const SizedBox(height: 10),
-                        _buildRadioButtons(),
-                        _scope(),
-                        _categories(),
-                       
-                        
-                      ],
-                    ),
-                    
+      child: Column(
+        
+        children: [
+          Container(
+            
+            width: size.width,
+            height: size.height - 145,
+            child: Column(
+     
+              children: [
+                 SizedBox(height: 20), 
+                Text("Create a New Post",style: TextStyle(color: KAppColors.kPrimary,fontFamily: "Poppins",fontSize: 20,fontWeight: FontWeight.w600),),
+                 SizedBox(height: 50),   
+                Container(
+                
+                  width: size.width / 1.2,
+                  height: size.height - 650,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      buildformfields(),
+                      const SizedBox(height: 10),
+                      _buildRadioButtons(),
+                      _scope(),
+                      _categories(),
+                     
+                      
+                    ],
                   ),
-                   buildMedia(size),
-                   SizedBox(height: 10),
-                    Center(
-                              child: ButtonWidget(
-                                size: size /2,
-                                color: KAppColors.kButtonPrimary,
-                                onTap: postItem,
-                                text: "Post Item",
-                              ),
-                            ),
                   
-                ],
-              ),
+                ),
+                 buildMedia(size),
+                 SizedBox(height: 10),
+                  Center(
+                            child: ButtonWidget(
+                              size: size /2,
+                              color: KAppColors.kButtonPrimary,
+                              onTap: postItem,
+                              text: "Post Item",
+                            ),
+                          ),
+                
+              ],
             ),
-            const Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavm(index: 2),
-              ),
-          ],
-        ),
+          ),
+          const Align(
+              alignment: Alignment.bottomCenter,
+              child: BottomNavm(index: 2),
+            ),
+        ],
       ),
     );
   }
 
   Container buildMedia(Size size) {
      return Container(
-      width: size.width / 1.2,
-      height: 295,
+     
       // color: Colors.red,
       child: Column(
         children: [
@@ -518,7 +517,8 @@ Future<void> postItem() async {
           _selectedFiles != null
               ? Container(
                   color: Colors.grey.shade500.withOpacity(0.5),
-                  height: 200,
+                 width: size.width / 1.2,
+      height: 250,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: _selectedFiles!.length,

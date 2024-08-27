@@ -1,3 +1,4 @@
+import 'package:Collab/extras/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 class SocailLoginWidget extends StatelessWidget {
   const SocailLoginWidget({
@@ -16,14 +17,11 @@ class SocailLoginWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: double.infinity,
-        height: size.height * 0.057,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey,
-            width: 0.5,
-          ),
+        width: size.width * 0.9,
+        height: 50,
+        decoration: BoxDecoration(  
+          color:  KAppColors.kSecondary,
+         
           borderRadius: BorderRadius.circular(10.0),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),

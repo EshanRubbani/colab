@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class Item {
@@ -15,7 +16,7 @@ class Item {
   String description;
   String groupId;
   String scope;
-  String timestamp;
+  Timestamp timestamp;
   String totalBackers;
 
   Item({

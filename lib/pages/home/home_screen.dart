@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Collab/extras/utils/constant/device_size.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Collab/extras/utils/Helper/firestore.dart';
 import 'package:Collab/extras/utils/Helper/groupchat/group.dart';
@@ -44,8 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        forceMaterialTransparency: true,
+        backgroundColor:Colors.white,
+        shadowColor: Colors.white,
+     
         elevation: 0,
         actions: [
          
@@ -58,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: const ResponsiveNess(
+      body:  Responsive(
         mobile: MobileHome(),
         desktop: DesktopHome(),
       ),

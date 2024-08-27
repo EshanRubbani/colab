@@ -29,10 +29,10 @@ class _BottomNavmState extends State<BottomNavm> {
       fit: StackFit.passthrough,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Container(
             //width: 380,
-            constraints: const BoxConstraints(minWidth: 200.0),
+            constraints:  BoxConstraints(minWidth: MediaQuery.of(context).size.width * 0.8,maxWidth: MediaQuery.of(context).size.width * 0.9,minHeight: 75,maxHeight: 75,),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(75),
               color: Colors.white,
@@ -46,64 +46,60 @@ class _BottomNavmState extends State<BottomNavm> {
               ],
             ),
             child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 15.0, vertical: 15.0),
-                child: GNav(
-                  tabActiveBorder:
-                      Border.all(color: Colors.deepPurple, width: 2.5),
-                  style: GnavStyle.google,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width *
-                        0.005, // Example: 4% of width
-                    vertical: MediaQuery.of(context).size.height *
-                        0.02, // Example: 2% of height
+              padding: const EdgeInsets.all(8.0),
+              child: GNav(
+                tabActiveBorder:
+                // Border.all()
+                    Border.all(color: Colors.deepPurple, width: 1.8,style: BorderStyle.solid),
+                style: GnavStyle.google,
+                padding: EdgeInsets.all(8),
+                gap: 15,
+                activeColor: Colors.deepPurple,
+                tabs: [
+                  GButton(
+                    icon: CupertinoIcons.home,
+                    text: '  Home',
+                    onPressed: () {
+                     Get.to(()=>const HomeScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                    },
                   ),
-                  gap: 15,
-                  activeColor: Colors.deepPurple,
-                  tabs: [
-                    GButton(
-                      icon: CupertinoIcons.home,
-                      text: 'Home',
-                      onPressed: () {
-                       Get.to(()=>const HomeScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                      },
-                    ),
-                    GButton(
-                      icon: CupertinoIcons.compass,
-                      text: 'Discover',
-                      onPressed: () {
-                         Get.to(()=>const DiscoverScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                      },
-                    ),
-                    GButton(
-                      icon: CupertinoIcons.add,
-                      text: 'New',
-                      onPressed: () {
-                                                Get.to(()=>const Add(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                      },
-                    ),
-                    GButton(
-                      icon: CupertinoIcons.chat_bubble,
-                      text: 'Chat',
-                      onPressed: () {
-                                                Get.to(()=>const ChatSelectScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                      },
-                    ),
-                    GButton(
-                      icon: CupertinoIcons.profile_circled,
-                      text: 'Profile',
-                      onPressed: () {
-                                                 Get.to(()=>const ProfilePage(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                      },
-                    )
-                  ],
-                  selectedIndex: widget.index,
-                  // onTabChange: (index) {
-                  //   setState(() {
-                  //     _selectedIndex = index;
-                  //   });
-                  // },
-                )),
+                  GButton(
+                    icon: CupertinoIcons.compass,
+                    text: 'Discover',
+                    onPressed: () {
+                       Get.to(()=>const DiscoverScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                    },
+                  ),
+                  GButton(
+                    icon: CupertinoIcons.add,
+                    text: 'New',
+                    onPressed: () {
+                                              Get.to(()=>const Add(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                    },
+                  ),
+                  GButton(
+                    icon: CupertinoIcons.chat_bubble,
+                    text: 'Chat',
+                    onPressed: () {
+                                              Get.to(()=>const ChatSelectScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                    },
+                  ),
+                  GButton(
+                    icon: CupertinoIcons.profile_circled,
+                    text: 'Profile',
+                    onPressed: () {
+                                               Get.to(()=>const ProfilePage(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                    },
+                  )
+                ],
+                selectedIndex: widget.index,
+                // onTabChange: (index) {
+                //   setState(() {
+                //     _selectedIndex = index;
+                //   });
+                // },
+              ),
+            ),
           ),
         )
       ],

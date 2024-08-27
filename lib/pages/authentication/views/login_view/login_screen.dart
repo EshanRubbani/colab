@@ -86,177 +86,168 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _buildForMobile(Size size) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-          child: Column(
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          
+          Image.asset(
+            'assets/logo/collab_logo.png',
+            width: size.width * 0.4,
+            height: 200,
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
+              'Welcome. Let\'s start by creating your account or sign in if you already have one.',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+         
+         
+          Container(
+            width: size.width * 0.9,
+            child: TextFormField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              onSaved: (email) {},
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyle(color: Colors.grey[400]),
+               
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: size.height * 0.02,
+          ),
+         
+          Container(
+             width: size.width * 0.9,
+            child: TextFormField(
+              controller: passwordController,
+              textInputAction: TextInputAction.next,
+              obscureText: isObscure,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isObscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.grey[500],
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isObscure = !isObscure;
+                    });
+                  },
+                ),
+                labelStyle: TextStyle(color: Colors.grey[400]),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: size.height * 0.01,
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {
+                                         Get.to(()=>const ForgotPasswordScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: const Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    color: KAppColors.kAccent,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: size.height * 0.01,
+          ),
+          ButtonWidget(
+              size: size,
+              color: KAppColors.kPrimary,
+              onTap: () {
+                signUserIn();
+              },
+              text: 'Sign in'),
+          SizedBox(
+            height: size.height * 0.02,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: size.height * 0.06,
+              Text(
+                'Already have an account? ',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .apply(color: Colors.grey[800]),
               ),
-              Image.asset(
-                'assets/logo/collab_logo.png',
-                width: size.width * 0.4,
-                height: 200,
-              ),
-              SizedBox(
-                height: size.height * 0.002,
-              ),
-              const Text(
-                'Welcome. Let\'s start by creating your account or sign in if you already have one.',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
+              GestureDetector(
+                onTap: () {
+                                           Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                },
+                child: Text(
+                  'Sign up',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
                 ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              const FieldText(
-                text: 'Email',
-              ),
-              SizedBox(
-                height: size.height * 0.004,
-              ),
-              TextFormField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                onSaved: (email) {},
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              const FieldText(
-                text: 'Password',
-              ),
-              TextFormField(
-                controller: passwordController,
-                textInputAction: TextInputAction.next,
-                obscureText: isObscure,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      isObscure
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: Colors.grey[500],
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isObscure = !isObscure;
-                      });
-                    },
-                  ),
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: () {
-                                             Get.to(()=>const ForgotPasswordScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                  },
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: KAppColors.kAccent,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              ButtonWidget(
-                  size: size,
-                  color: KAppColors.kPrimary,
-                  onTap: () {
-                    signUserIn();
-                  },
-                  text: 'Sign in'),
-              SizedBox(
-                height: size.height * 0.07,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account? ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .apply(color: Colors.grey[800]),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                                               Get.to(()=>const SignupScreen(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                    },
-                    child: Text(
-                      'Sign up',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'SignIn Using',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .apply(color: Colors.grey[800]),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                                              Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
-                    },
-                    child: Text(
-                      'Phone No.',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall!
-                          .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
-        ),
+          SizedBox(
+            height: size.height * 0.01,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'SignIn Using ',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .apply(color: Colors.grey[800]),
+              ),
+              GestureDetector(
+                onTap: () {
+                                          Get.to(()=>const PhoneLogin(),transition: Transition.cupertinoDialog,  duration: Duration(seconds: 1));
+                },
+                child: Text(
+                  'Phone No.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .apply(fontSizeDelta: 3, color: KAppColors.kPrimary),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
